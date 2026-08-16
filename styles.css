@@ -1319,10 +1319,19 @@ body.cursor-on .cursor-ring, body.cursor-on .cursor-dot { opacity: 1; }
 }
 
 /* Buttons — high contrast against saffron */
-.hero-cine .btn-primary { background: #fff; color: var(--saffron-deep); box-shadow: 0 10px 24px rgba(0,0,0,0.20); }
-.hero-cine .btn-primary:hover { background: var(--saffron-deep); color: #fff; }
-.hero-cine .btn-ghost { background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.85); color: #fff; }
-.hero-cine .btn-ghost:hover { background: #fff; color: var(--saffron-deep); }
+.hero-cine .btn-primary,
+.hero-cine .btn-ghost {
+  background: transparent;
+  border: 2px solid rgba(255,255,255,0.85);
+  color: #fff;
+  box-shadow: none;
+}
+.hero-cine .btn-primary:hover,
+.hero-cine .btn-ghost:hover {
+  background: var(--saffron-deep);
+  border-color: var(--saffron-deep);
+  color: #fff;
+}
 
 /* Photo card accents + scroll cue in a light tone */
 .hero-cine .photo-frame::before { border-top-color: #ffd27f; border-left-color: #ffd27f; }
