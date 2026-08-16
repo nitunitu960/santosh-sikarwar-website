@@ -10,7 +10,7 @@ backend:
   name: github
   repo: nitunitu960/santosh-sikarwar-website
   branch: main
-  base_url: https://YOUR-OAUTH-URL               # <-- बदलें (Cloudflare Worker URL)
+  base_url: https://dark-cell-cca5santosh-cms-login.nitins3051.workers.dev
 
 # फ़ोटो कहाँ सेव हों
 media_folder: "images"
