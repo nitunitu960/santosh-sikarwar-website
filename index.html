@@ -27,6 +27,8 @@
         <li><a href="#home">मुख्य पृष्ठ</a></li>
         <li><a href="#about">परिचय</a></li>
         <li><a href="#journey">राजनीतिक यात्रा</a></li>
+        <li><a href="#feed">समाचार</a></li>
+        <li><a href="#gallery">गैलरी</a></li>
         <li><a href="#positions">दायित्व</a></li>
         <li><a href="#contact">संपर्क</a></li>
       </ul>
@@ -134,6 +136,28 @@
       </div>
     </section>
 
+    <!-- DAILY FEED / NEWS -->
+    <section id="feed" class="section">
+      <div class="container">
+        <h2 class="section-title">समाचार एवं गतिविधियाँ</h2>
+        <p class="section-sub">नवीनतम अपडेट</p>
+        <div id="feed-grid" class="feed-grid">
+          <!-- पोस्ट यहाँ अपने आप जुड़ जाएँगी (data/feed.js से) -->
+        </div>
+      </div>
+    </section>
+
+    <!-- PHOTO GALLERY -->
+    <section id="gallery" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title">फोटो गैलरी</h2>
+        <p class="section-sub">कार्यक्रमों एवं गतिविधियों की झलकियाँ</p>
+        <div id="gallery-grid" class="gallery-grid">
+          <!-- फ़ोटो यहाँ अपने आप जुड़ जाएँगी (data/gallery.js से) -->
+        </div>
+      </div>
+    </section>
+
     <!-- POSITIONS -->
     <section id="positions" class="section">
       <div class="container">
@@ -163,6 +187,13 @@
     </section>
   </main>
 
+  <!-- Lightbox for gallery -->
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <button class="lightbox-close" aria-label="बंद करें">&times;</button>
+    <img src="" alt="" id="lightbox-img" />
+    <p id="lightbox-caption"></p>
+  </div>
+
   <footer class="site-footer">
     <div class="tricolor-strip"></div>
     <div class="container">
@@ -171,6 +202,8 @@
     </div>
   </footer>
 
+  <script src="data/feed.js"></script>
+  <script src="data/gallery.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
