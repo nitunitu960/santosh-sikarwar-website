@@ -35,6 +35,7 @@ collections:
             summary: "{{fields.date}} — {{fields.title}}"
             fields:
               - { label: "शीर्षक", name: "title", widget: "string", hint: "गतिविधि/कार्यक्रम का वास्तविक शीर्षक" }
+              - { label: "स्लग / Slug (URL)", name: "slug", widget: "string", hint: "साफ़ URL व सर्च के लिए ज़रूरी। छोटा अंग्रेज़ी स्लग — सिर्फ़ lowercase अक्षर, अंक और हाइफ़न (जैसे: har-ghar-tiranga-agra)। हर समाचार का अलग एवं स्थायी स्लग रखें; एक बार बनाने के बाद न बदलें।" }
               - { label: "तारीख", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", hint: "कार्यक्रम की वास्तविक तिथि" }
               - { label: "स्थान", name: "location", widget: "string", required: false, hint: "जैसे: आगरा, उत्तर प्रदेश (यदि लागू हो)" }
               - label: "श्रेणी"
