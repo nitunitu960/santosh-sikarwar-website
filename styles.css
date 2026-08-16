@@ -263,7 +263,11 @@ a:hover { color: var(--green); }
   top: -2px;
   width: 24px;
   height: 24px;
-  background: var(--paper) url("images/bjp-lotus.svg") center / 78% no-repeat;
+  background-color: var(--paper);
+  background-image: var(--tl-marker, url("images/bjp-lotus.svg"));
+  background-position: center;
+  background-size: 78%;
+  background-repeat: no-repeat;
   border-radius: 50%;
 }
 .section-alt .tl-item::before { background-color: #fff; }

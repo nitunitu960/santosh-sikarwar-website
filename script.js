@@ -204,6 +204,10 @@ async function renderSettings() {
   if (s.party_logo) {
     const pl = document.getElementById("party-logo"); if (pl) pl.src = imgSrc(s.party_logo);
   }
+  // Timeline marker icon (CSS variable used by .tl-item::before)
+  if (s.timeline_icon) {
+    document.documentElement.style.setProperty("--tl-marker", "url('" + imgSrc(s.timeline_icon) + "')");
+  }
 
   if (s.photo) {
     const frame = document.getElementById("hero-photo-frame");
