@@ -26,8 +26,7 @@ const PLACEHOLDER =
       '<stop offset="0" stop-color="#ff9933"/><stop offset="1" stop-color="#138808"/>' +
       "</linearGradient></defs>" +
       '<rect width="400" height="400" fill="url(#g)"/>' +
-      '<text x="50%" y="46%" font-size="90" text-anchor="middle">\uD83E\uDEB7</text>' +
-      '<text x="50%" y="64%" font-size="26" fill="#fff" text-anchor="middle" font-family="sans-serif">फ़ोटो जोड़ें</text>' +
+      '<text x="50%" y="54%" font-size="30" fill="#fff" text-anchor="middle" font-family="sans-serif">फ़ोटो जोड़ें</text>' +
       "</svg>"
   );
 

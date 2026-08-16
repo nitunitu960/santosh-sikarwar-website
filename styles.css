@@ -58,7 +58,7 @@ a:hover { color: var(--green); }
   height: 70px;
 }
 .logo { display: flex; align-items: center; gap: 10px; color: var(--ink); }
-.logo .lotus { font-size: 1.5rem; }
+.logo .lotus-logo { width: 36px; height: 36px; display: block; }
 .logo-text { font-weight: 800; font-size: 1.2rem; }
 .nav-links { display: flex; gap: 26px; list-style: none; }
 .nav-links a { color: var(--ink); font-weight: 600; font-size: 0.98rem; }
@@ -165,7 +165,7 @@ a:hover { color: var(--green); }
   font-weight: 600;
 }
 .photo-placeholder small { color: var(--saffron-deep); }
-.lotus-big { font-size: 3rem; }
+.lotus-big { width: 64px; height: 64px; display: block; }
 .hero-img {
   width: 300px;
   max-width: 70vw;
@@ -230,16 +230,16 @@ a:hover { color: var(--green); }
 }
 .tl-item { position: relative; padding: 0 0 34px 24px; }
 .tl-item::before {
-  content: "🪷";
+  content: "";
   position: absolute;
-  left: -40px;
+  left: -42px;
   top: -2px;
-  font-size: 1.1rem;
-  background: var(--paper);
+  width: 24px;
+  height: 24px;
+  background: var(--paper) url("images/bjp-lotus.svg") center / 78% no-repeat;
   border-radius: 50%;
-  line-height: 1;
 }
-.section-alt .tl-item::before { background: #fff; }
+.section-alt .tl-item::before { background-color: #fff; }
 .tl-year {
   display: inline-block;
   background: var(--saffron);

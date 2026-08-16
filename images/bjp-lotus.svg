@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- green base leaves -->
+  <path d="M12,96 Q40,80 60,90 Q40,98 14,99 Z" fill="#138808"/>
+  <path d="M108,96 Q80,80 60,90 Q80,98 106,99 Z" fill="#138808"/>
+  <ellipse cx="60" cy="97" rx="34" ry="7" fill="#0e6606"/>
+
+  <!-- outer petals (deep saffron) -->
+  <g fill="#f47216">
+    <path d="M60,94 C38,72 40,46 60,22 C80,46 82,72 60,94 Z" transform="rotate(-42 60 94)"/>
+    <path d="M60,94 C38,72 40,46 60,22 C80,46 82,72 60,94 Z" transform="rotate(42 60 94)"/>
+  </g>
+
+  <!-- middle petals (saffron) -->
+  <g fill="#ff9933">
+    <path d="M60,94 C42,74 44,50 60,26 C76,50 78,74 60,94 Z" transform="rotate(-21 60 94)"/>
+    <path d="M60,94 C42,74 44,50 60,26 C76,50 78,74 60,94 Z" transform="rotate(21 60 94)"/>
+  </g>
+
+  <!-- center petal -->
+  <path d="M60,95 C45,75 47,50 60,26 C73,50 75,75 60,95 Z" fill="#ff8c1a"/>
+</svg>
