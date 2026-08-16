@@ -132,12 +132,22 @@
   </header>
 
   <main>
-    <!-- HERO -->
-    <section id="home" class="hero">
+    <!-- HERO (cinematic) -->
+    <section id="home" class="hero hero-cine">
+      <div class="hero-fx" aria-hidden="true">
+        <div class="fx-grid"></div>
+        <div class="fx-fields" data-depth="2"></div>
+        <span class="fx-trail fx-trail-1"></span>
+        <span class="fx-trail fx-trail-2"></span>
+        <span class="fx-trail fx-trail-3"></span>
+        <canvas id="fx-particles" class="fx-particles"></canvas>
+        <div class="fx-mouselight" id="fx-mouselight"></div>
+      </div>
+
       <div class="container hero-inner">
-        <div class="hero-text">
-          <p class="eyebrow">राष्ट्र प्रथम · संगठन सर्वोपरि</p>
-          <h1>संतोष सिकरवार</h1>
+        <div class="hero-text" data-depth="6">
+          <p class="eyebrow"><span class="eb-dot" aria-hidden="true"></span> OFFICIAL WEBSITE · राष्ट्र प्रथम</p>
+          <h1 class="hero-name">संतोष सिकरवार</h1>
           <p class="hero-role">जिला उपाध्यक्ष, भारतीय जनता पार्टी, आगरा</p>
           <p class="slogan">"सेवा ही संकल्प, संगठन ही शक्ति"</p>
           <div class="chips">
@@ -150,7 +160,7 @@
             <a href="#feed" class="btn btn-ghost">गतिविधियाँ देखें</a>
           </div>
         </div>
-        <div class="hero-photo">
+        <div class="hero-photo" data-depth="10">
           <div class="photo-frame" id="hero-photo-frame">
             <div class="photo-placeholder">
               <img class="lotus-big" id="hero-lotus" src="images/bjp-lotus.svg" alt="भाजपा कमल" />
@@ -159,6 +169,11 @@
           </div>
         </div>
       </div>
+
+      <a class="scroll-indicator" href="#about" aria-label="नीचे स्क्रॉल करें">
+        <span class="si-text">SCROLL</span>
+        <span class="si-line"></span>
+      </a>
     </section>
 
     <!-- LIVE LATEST ACTIVITY STRIP (filled from feed.json; hidden if none) -->
@@ -179,7 +194,7 @@
     <!-- ABOUT -->
     <section id="about" class="section">
       <div class="container">
-        <h2 class="section-title">परिचय</h2>
+        <h2 class="section-title" data-num="01">परिचय</h2>
         <div class="about-box">
           <p>
             संतोष सिकरवार भारतीय जनता पार्टी के समर्पित कार्यकर्ता एवं वर्तमान में
@@ -203,7 +218,7 @@
     <!-- JOURNEY / TIMELINE -->
     <section id="journey" class="section section-alt">
       <div class="container">
-        <h2 class="section-title">राजनीतिक यात्रा</h2>
+        <h2 class="section-title" data-num="02">राजनीतिक यात्रा</h2>
         <p class="section-sub">संगठन से समर्पण तक</p>
         <div class="timeline">
           <div class="tl-item">
@@ -255,7 +270,7 @@
     <!-- DAILY FEED / NEWS -->
     <section id="feed" class="section">
       <div class="container">
-        <h2 class="section-title">समाचार एवं गतिविधियाँ</h2>
+        <h2 class="section-title" data-num="03">समाचार एवं गतिविधियाँ</h2>
         <p class="section-sub">नवीनतम अपडेट</p>
         <div id="feed-grid" class="feed-grid">
           <!-- पोस्ट यहाँ अपने आप जुड़ जाएँगी (data/feed.json से) -->
@@ -269,7 +284,7 @@
     <!-- PHOTO GALLERY -->
     <section id="gallery" class="section section-alt">
       <div class="container">
-        <h2 class="section-title">फोटो गैलरी</h2>
+        <h2 class="section-title" data-num="04">फोटो गैलरी</h2>
         <p class="section-sub">कार्यक्रमों एवं गतिविधियों की झलकियाँ</p>
         <div id="gallery-grid" class="gallery-grid">
           <!-- फ़ोटो यहाँ अपने आप जुड़ जाएँगी (data/gallery.js से) -->
@@ -280,7 +295,7 @@
     <!-- POSITIONS -->
     <section id="positions" class="section">
       <div class="container">
-        <h2 class="section-title">प्रमुख दायित्व</h2>
+        <h2 class="section-title" data-num="05">प्रमुख दायित्व</h2>
         <ul class="positions-list">
           <li>सह चुनाव कार्यालय प्रभारी, लोकसभा फतेहपुर सीकरी</li>
           <li>पूर्व जिला उपाध्यक्ष, भाजपा किसान मोर्चा, आगरा</li>
@@ -295,7 +310,7 @@
     <!-- CONTACT -->
     <section id="contact" class="section section-alt">
       <div class="container">
-        <h2 class="section-title">संपर्क करें</h2>
+        <h2 class="section-title" data-num="06">संपर्क करें</h2>
         <p class="section-sub">आपके सुझाव एवं सहयोग का स्वागत है</p>
         <ul class="contact-list" id="contact-list">
           <li><strong>ई-मेल:</strong> <a href="mailto:info@santoshsikarwar.in" id="c-email">info@santoshsikarwar.in</a></li>
@@ -308,6 +323,10 @@
       </div>
     </section>
   </main>
+
+  <!-- Desktop custom cursor -->
+  <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
 
   <!-- Back to top -->
   <button class="to-top" id="to-top" aria-label="ऊपर जाएँ" hidden>↑</button>

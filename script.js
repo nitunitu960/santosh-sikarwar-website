@@ -452,3 +452,122 @@ async function renderGallery() {
   lightbox.addEventListener("click", (e) => { if (e.target === lightbox) close(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
 }
+
+
+// ============================================================
+// Cinematic hero FX: parallax, mouse-light, exit, particle field
+// ============================================================
+(function heroFX() {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fine = window.matchMedia("(pointer: fine)").matches;
+  const hero = document.querySelector(".hero-cine");
+  if (!hero) return;
+
+  // Parallax + mouse light (desktop, motion-safe)
+  if (fine && !reduce) {
+    const light = document.getElementById("fx-mouselight");
+    const layers = hero.querySelectorAll("[data-depth]");
+    hero.addEventListener("pointermove", (e) => {
+      const r = hero.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top) / r.height;
+      if (light) { light.style.setProperty("--mx", (x * 100) + "%"); light.style.setProperty("--my", (y * 100) + "%"); }
+      const dx = x - 0.5, dy = y - 0.5;
+      layers.forEach((l) => {
+        const d = parseFloat(l.getAttribute("data-depth")) || 0;
+        l.style.transform = "translate(" + (dx * -d).toFixed(2) + "px," + (dy * -d).toFixed(2) + "px)";
+      });
+    });
+    hero.addEventListener("pointerleave", () => { layers.forEach((l) => (l.style.transform = "")); });
+  }
+
+  // Hero exit on scroll (scale/opacity)
+  if (!reduce) {
+    const inner = hero.querySelector(".hero-inner");
+    let t = false;
+    window.addEventListener("scroll", () => {
+      if (t) return; t = true;
+      requestAnimationFrame(() => {
+        t = false;
+        const st = window.pageYOffset || document.documentElement.scrollTop;
+        const p = Math.min(1, st / (window.innerHeight * 0.85));
+        if (inner) { inner.style.transform = "scale(" + (1 - p * 0.05).toFixed(3) + ")"; inner.style.opacity = (1 - p * 0.55).toFixed(2); }
+      });
+    }, { passive: true });
+  }
+
+  // Particle field
+  const canvas = document.getElementById("fx-particles");
+  if (!canvas || reduce) return;
+  const ctx = canvas.getContext("2d");
+  const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+  const isMobile = window.innerWidth < 820;
+  let W = 0, H = 0, parts = [], raf = null;
+  let COUNT = isMobile ? 22 : 55;
+
+  function resize() {
+    W = hero.clientWidth; H = hero.clientHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + "px"; canvas.style.height = H + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function make() {
+    parts = [];
+    for (let i = 0; i < COUNT; i++) parts.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.8 + 0.6, vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25, a: Math.random() * 0.4 + 0.2 });
+  }
+  function step() {
+    ctx.clearRect(0, 0, W, H);
+    for (const p of parts) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W; else if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; else if (p.y > H) p.y = 0;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fillStyle = "rgba(255,180,110," + p.a + ")"; ctx.fill();
+    }
+    if (!isMobile) {
+      for (let i = 0; i < parts.length; i++) {
+        for (let j = i + 1; j < parts.length; j++) {
+          const a = parts[i], b = parts[j], ddx = a.x - b.x, ddy = a.y - b.y, d2 = ddx * ddx + ddy * ddy;
+          if (d2 < 9000) { ctx.strokeStyle = "rgba(255,153,51," + (0.12 * (1 - d2 / 9000)).toFixed(3) + ")"; ctx.lineWidth = 0.5; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+        }
+      }
+    }
+    raf = requestAnimationFrame(step);
+  }
+  function start() { if (!raf) step(); }
+  function stop() { if (raf) { cancelAnimationFrame(raf); raf = null; } }
+
+  resize(); make(); start();
+  window.addEventListener("resize", () => { resize(); make(); }, { passive: true });
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver((es) => { es.forEach((e) => { e.isIntersecting ? start() : stop(); }); }, { threshold: 0 }).observe(hero);
+  }
+})();
+
+// ============================================================
+// Desktop custom cursor (accent ring + dot; native cursor kept)
+// ============================================================
+(function customCursor() {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fine = window.matchMedia("(pointer: fine)").matches;
+  if (reduce || !fine) return;
+  const ring = document.getElementById("cursor-ring");
+  const dot = document.getElementById("cursor-dot");
+  if (!ring || !dot) return;
+  document.body.classList.add("cursor-on");
+  let rx = 0, ry = 0, tx = 0, ty = 0;
+  window.addEventListener("pointermove", (e) => {
+    tx = e.clientX; ty = e.clientY;
+    dot.style.transform = "translate(" + tx + "px," + ty + "px) translate(-50%,-50%)";
+  }, { passive: true });
+  (function loop() {
+    rx += (tx - rx) * 0.18; ry += (ty - ry) * 0.18;
+    ring.style.transform = "translate(" + rx.toFixed(1) + "px," + ry.toFixed(1) + "px) translate(-50%,-50%)";
+    requestAnimationFrame(loop);
+  })();
+  document.addEventListener("pointerover", (e) => {
+    if (e.target.closest("a, button, .chip, .feed-card, .gallery-item, input")) ring.classList.add("hovering");
+  });
+  document.addEventListener("pointerout", (e) => {
+    if (e.target.closest("a, button, .chip, .feed-card, .gallery-item, input")) ring.classList.remove("hovering");
+  });
+})();
