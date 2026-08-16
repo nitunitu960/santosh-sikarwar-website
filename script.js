@@ -35,49 +35,106 @@ function withFallback(alt) {
   return `onerror="this.onerror=null;this.src='${PLACEHOLDER}';" alt="${alt}"`;
 }
 
-// ===== Render Daily Feed (from data/feed.js) =====
-(function renderFeed() {
-  const grid = document.getElementById("feed-grid");
-  if (!grid || typeof FEED_DATA === "undefined") return;
+// Normalize an image path (handles "/images/x.jpg", "images/x.jpg" or "x.jpg")
+function imgSrc(v) {
+  if (!v) return "";
+  let s = v.replace(/^\//, ""); // strip leading slash
+  if (!s.startsWith("images/")) s = "images/" + s;
+  return s;
+}
 
-  if (!FEED_DATA.length) {
+// Load a JSON file; returns null if it can't be loaded (e.g. local file:// preview)
+async function loadJSON(path) {
+  try {
+    const res = await fetch(path, { cache: "no-store" });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (e) {
+    return null;
+  }
+}
+
+// ===== Render everything =====
+(async function init() {
+  await renderSettings();
+  await renderFeed();
+  await renderGallery();
+})();
+
+// ---- Settings: hero photo + contact details ----
+async function renderSettings() {
+  const s = await loadJSON("data/settings.json");
+  if (!s) return;
+
+  if (s.photo) {
+    const frame = document.getElementById("hero-photo-frame");
+    if (frame) {
+      frame.innerHTML =
+        `<img class="hero-img" src="${imgSrc(s.photo)}" ${withFallback(s.name || "फ़ोटो")} />`;
+    }
+  }
+  const email = document.getElementById("c-email");
+  const phone = document.getElementById("c-phone");
+  const area = document.getElementById("c-area");
+  if (email && s.email) { email.textContent = s.email; email.href = "mailto:" + s.email; }
+  if (phone && s.phone) { phone.textContent = s.phone; phone.href = "tel:" + s.phone.replace(/\s/g, ""); }
+  if (area && s.area) { area.textContent = s.area; }
+}
+
+// ---- Daily feed ----
+async function renderFeed() {
+  const grid = document.getElementById("feed-grid");
+  if (!grid) return;
+  const data = await loadJSON("data/feed.json");
+  const posts = data && data.posts ? data.posts : null;
+
+  if (!posts) {
+    grid.innerHTML = '<p class="empty-note">समाचार लोड करने के लिए वेबसाइट को ऑनलाइन (लाइव) देखें।</p>';
+    return;
+  }
+  if (!posts.length) {
     grid.innerHTML = '<p class="empty-note">अभी कोई अपडेट नहीं है।</p>';
     return;
   }
 
-  grid.innerHTML = FEED_DATA.map((post) => {
+  grid.innerHTML = posts.map((post) => {
     const img = post.image
-      ? `<div class="feed-img"><img src="images/${post.image}" ${withFallback(post.title)} loading="lazy" /></div>`
+      ? `<div class="feed-img"><img src="${imgSrc(post.image)}" ${withFallback(post.title)} loading="lazy" /></div>`
       : "";
     return `
       <article class="feed-card">
         ${img}
         <div class="feed-body">
-          <span class="feed-date">${post.date}</span>
-          <h3>${post.title}</h3>
-          <p>${post.text}</p>
+          <span class="feed-date">${post.date || ""}</span>
+          <h3>${post.title || ""}</h3>
+          <p>${post.text || ""}</p>
         </div>
       </article>`;
   }).join("");
-})();
+}
 
-// ===== Render Photo Gallery (from data/gallery.js) =====
-(function renderGallery() {
+// ---- Gallery + lightbox ----
+async function renderGallery() {
   const grid = document.getElementById("gallery-grid");
-  if (!grid || typeof GALLERY_DATA === "undefined") return;
+  if (!grid) return;
+  const data = await loadJSON("data/gallery.json");
+  const photos = data && data.photos ? data.photos : null;
 
-  if (!GALLERY_DATA.length) {
+  if (!photos) {
+    grid.innerHTML = '<p class="empty-note">गैलरी देखने के लिए वेबसाइट को ऑनलाइन (लाइव) देखें।</p>';
+    return;
+  }
+  if (!photos.length) {
     grid.innerHTML = '<p class="empty-note">अभी कोई फ़ोटो नहीं है।</p>';
     return;
   }
 
-  grid.innerHTML = GALLERY_DATA.map((item) => `
-    <figure class="gallery-item" data-src="images/${item.src}" data-caption="${item.caption || ""}">
-      <img src="images/${item.src}" ${withFallback(item.caption || "फ़ोटो")} loading="lazy" />
+  grid.innerHTML = photos.map((item) => `
+    <figure class="gallery-item" data-src="${imgSrc(item.src)}" data-caption="${item.caption || ""}">
+      <img src="${imgSrc(item.src)}" ${withFallback(item.caption || "फ़ोटो")} loading="lazy" />
       ${item.caption ? `<figcaption>${item.caption}</figcaption>` : ""}
     </figure>`).join("");
 
-  // Lightbox
   const lightbox = document.getElementById("lightbox");
   const lbImg = document.getElementById("lightbox-img");
   const lbCap = document.getElementById("lightbox-caption");
@@ -96,10 +153,6 @@ function withFallback(alt) {
     lightbox.setAttribute("aria-hidden", "true");
   };
   lightbox.querySelector(".lightbox-close").addEventListener("click", close);
-  lightbox.addEventListener("click", (e) => {
-    if (e.target === lightbox) close();
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") close();
-  });
-})();
+  lightbox.addEventListener("click", (e) => { if (e.target === lightbox) close(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+}

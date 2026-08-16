@@ -166,6 +166,14 @@ a:hover { color: var(--green); }
 }
 .photo-placeholder small { color: var(--saffron-deep); }
 .lotus-big { font-size: 3rem; }
+.hero-img {
+  width: 300px;
+  max-width: 70vw;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 18px;
+  display: block;
+}
 
 /* Sections */
 .section { padding: 80px 0; }

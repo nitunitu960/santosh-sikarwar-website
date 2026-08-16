@@ -1,0 +1,73 @@
+# ============================================================
+# प्रबंधन पैनल कॉन्फ़िगरेशन / Admin Panel Configuration
+# ============================================================
+# नीचे YOUR-USERNAME को अपने GitHub यूज़रनेम से बदलें।
+# base_url को अपने OAuth (लॉगिन) सर्वर के पते से बदलें।
+# विवरण के लिए CMS-SETUP.md पढ़ें।
+# ============================================================
+
+backend:
+  name: github
+  repo: YOUR-USERNAME/santosh-sikarwar-website   # <-- बदलें
+  branch: main
+  base_url: https://YOUR-OAUTH-URL               # <-- बदलें (Cloudflare Worker URL)
+
+# फ़ोटो कहाँ सेव हों
+media_folder: "images"
+public_folder: "/images"
+
+# पैनल की भाषा
+locale: "hi"
+
+collections:
+  # ---------- समाचार / गतिविधियाँ ----------
+  - name: "feed"
+    label: "समाचार / गतिविधियाँ"
+    files:
+      - name: "feed"
+        label: "समाचार सूची"
+        file: "data/feed.json"
+        fields:
+          - label: "पोस्ट"
+            name: "posts"
+            widget: "list"
+            label_singular: "पोस्ट"
+            summary: "{{fields.date}} — {{fields.title}}"
+            fields:
+              - { label: "तारीख", name: "date", widget: "string", hint: "जैसे: 16 अगस्त 2026" }
+              - { label: "शीर्षक", name: "title", widget: "string" }
+              - { label: "विवरण", name: "text", widget: "text" }
+              - { label: "फ़ोटो (वैकल्पिक)", name: "image", widget: "image", required: false }
+
+  # ---------- फोटो गैलरी ----------
+  - name: "gallery"
+    label: "फोटो गैलरी"
+    files:
+      - name: "gallery"
+        label: "गैलरी फ़ोटो"
+        file: "data/gallery.json"
+        fields:
+          - label: "फ़ोटो"
+            name: "photos"
+            widget: "list"
+            label_singular: "फ़ोटो"
+            summary: "{{fields.caption}}"
+            fields:
+              - { label: "फ़ोटो", name: "src", widget: "image" }
+              - { label: "शीर्षक", name: "caption", widget: "string", required: false }
+
+  # ---------- प्रोफ़ाइल / संपर्क सेटिंग ----------
+  - name: "settings"
+    label: "प्रोफ़ाइल एवं संपर्क"
+    files:
+      - name: "profile"
+        label: "प्रोफ़ाइल जानकारी"
+        file: "data/settings.json"
+        fields:
+          - { label: "नाम", name: "name", widget: "string" }
+          - { label: "पद", name: "role", widget: "string" }
+          - { label: "नारा", name: "slogan", widget: "string" }
+          - { label: "मुख्य फ़ोटो", name: "photo", widget: "image", required: false }
+          - { label: "ई-मेल", name: "email", widget: "string", required: false }
+          - { label: "फ़ोन", name: "phone", widget: "string", required: false }
+          - { label: "क्षेत्र", name: "area", widget: "string", required: false }
