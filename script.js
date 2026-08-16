@@ -85,6 +85,103 @@ async function loadJSON(path) {
   await renderSettings();
   await renderFeed();
   await renderGallery();
+  renderLatestStrip();
+  setupVCard();
+})();
+
+// ---- Live "नवीनतम गतिविधि" strip (most recent published, by date) ----
+async function renderLatestStrip() {
+  const strip = document.getElementById("latest-strip");
+  if (!strip) return;
+  const data = await loadJSON("data/feed.json");
+  const pub = data && data.posts
+    ? data.posts.map((post, idx) => ({ post, idx })).filter((x) => x.post.published !== false)
+    : [];
+  if (!pub.length) { strip.hidden = true; return; }
+  pub.sort((a, b) => String(b.post.date || "").localeCompare(String(a.post.date || "")));
+  const { post, idx } = pub[0];
+  const meta = [formatHindiDate(post.date), post.location].filter(Boolean).join(" · ");
+  const txt = document.getElementById("latest-text");
+  if (txt) txt.textContent = (meta ? meta + " — " : "") + post.title;
+  strip.setAttribute("href", articleUrl(post, idx));
+  strip.hidden = false;
+}
+
+// ---- Digital profile: vCard "Add to Contacts" (real data only) ----
+async function setupVCard() {
+  const btn = document.getElementById("vcard-btn");
+  if (!btn) return;
+  const s = (await loadJSON("data/settings.json")) || {};
+  const isPlaceholder = (v) => !v || /0{4,}|example|info@santoshsikarwar\.in/i.test(v);
+  btn.addEventListener("click", () => {
+    const lines = ["BEGIN:VCARD", "VERSION:3.0", "N:Sikarwar;Santosh;;;", "FN:" + (s.name || "संतोष सिकरवार")];
+    if (s.role) lines.push("TITLE:" + s.role);
+    lines.push("ORG:Bharatiya Janata Party, Agra");
+    lines.push("URL:https://santoshsikarwar.in/");
+    if (!isPlaceholder(s.phone)) lines.push("TEL;TYPE=CELL:" + s.phone.replace(/\s/g, ""));
+    if (!isPlaceholder(s.email)) lines.push("EMAIL:" + s.email);
+    if (s.area) lines.push("ADR;TYPE=WORK:;;;" + s.area + ";;;India");
+    [s.facebook, s.instagram, s.twitter].filter(Boolean).forEach((u) => lines.push("X-SOCIALPROFILE:" + u));
+    lines.push("END:VCARD");
+    const blob = new Blob([lines.join("\r\n")], { type: "text/vcard;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "santosh-sikarwar.vcf";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    trackEvent("contact_click", { method: "vcard" });
+  });
+}
+
+// ===== Scroll progress + back-to-top =====
+(function scrollUX() {
+  const bar = document.getElementById("scroll-progress");
+  const toTop = document.getElementById("to-top");
+  function onScroll() {
+    const st = document.documentElement.scrollTop || document.body.scrollTop;
+    const h = (document.documentElement.scrollHeight - document.documentElement.clientHeight) || 1;
+    if (bar) bar.style.width = Math.min(100, (st / h) * 100) + "%";
+    if (toTop) toTop.hidden = st < 500;
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+  if (toTop) toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+})();
+
+// ===== Active nav highlighting + reveal-on-scroll =====
+(function navAndReveal() {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const supportsIO = "IntersectionObserver" in window;
+
+  if (!reduce && supportsIO) {
+    const blocks = document.querySelectorAll("main .section, .banner, .tl-item");
+    blocks.forEach((b) => b.classList.add("reveal"));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    blocks.forEach((b) => io.observe(b));
+  }
+
+  const navLinks = Array.prototype.slice.call(document.querySelectorAll(".nav-links a"));
+  const map = {};
+  navLinks.forEach((a) => {
+    const href = a.getAttribute("href");
+    if (href && href.charAt(0) === "#") map[href.slice(1)] = a;
+  });
+  const ids = Object.keys(map);
+  if (ids.length && supportsIO) {
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          navLinks.forEach((a) => a.classList.remove("active"));
+          if (map[e.target.id]) map[e.target.id].classList.add("active");
+        }
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    ids.forEach((id) => { const el = document.getElementById(id); if (el) spy.observe(el); });
+  }
 })();
 
 // ---- Settings: hero photo + contact details ----

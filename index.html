@@ -104,6 +104,9 @@
 <body>
   <a class="skip-link" href="#home">मुख्य सामग्री पर जाएँ</a>
 
+  <!-- Reading/scroll progress -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
   <!-- Top tricolor strip -->
   <div class="tricolor-strip"></div>
 
@@ -143,8 +146,8 @@
             <span class="chip">संगठन</span>
           </div>
           <div class="hero-actions">
-            <a href="#journey" class="btn btn-primary">राजनीतिक यात्रा</a>
-            <a href="#contact" class="btn btn-ghost">संपर्क करें</a>
+            <a href="#about" class="btn btn-primary">परिचय देखें</a>
+            <a href="#feed" class="btn btn-ghost">गतिविधियाँ देखें</a>
           </div>
         </div>
         <div class="hero-photo">
@@ -157,6 +160,14 @@
         </div>
       </div>
     </section>
+
+    <!-- LIVE LATEST ACTIVITY STRIP (filled from feed.json; hidden if none) -->
+    <a class="latest-strip" id="latest-strip" href="/samachar/" hidden>
+      <span class="latest-dot" aria-hidden="true"></span>
+      <span class="latest-label">नवीनतम गतिविधि</span>
+      <span class="latest-text" id="latest-text"></span>
+      <span class="latest-arrow" aria-hidden="true">→</span>
+    </a>
 
     <!-- PATRIOTIC BANNER -->
     <section id="banner" class="banner" hidden>
@@ -291,9 +302,15 @@
           <li><strong>फ़ोन:</strong> <a href="tel:+910000000000" id="c-phone">+91 00000 00000</a></li>
           <li><strong>क्षेत्र:</strong> <span id="c-area">आगरा, उत्तर प्रदेश</span></li>
         </ul>
+        <div class="vcard-actions">
+          <button type="button" id="vcard-btn" class="btn btn-ghost">संपर्क कार्ड सहेजें (vCard)</button>
+        </div>
       </div>
     </section>
   </main>
+
+  <!-- Back to top -->
+  <button class="to-top" id="to-top" aria-label="ऊपर जाएँ" hidden>↑</button>
 
   <!-- Lightbox for gallery -->
   <div id="lightbox" class="lightbox" aria-hidden="true">

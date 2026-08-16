@@ -36,6 +36,7 @@
 </head>
 <body>
   <a class="skip-link" href="#samachar-main">मुख्य सामग्री पर जाएँ</a>
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
   <div class="tricolor-strip"></div>
 
   <header class="site-header">
@@ -81,11 +82,16 @@
     </div>
   </footer>
 
-  <!-- Lightbox for article gallery -->
+  <button class="to-top" id="to-top" aria-label="ऊपर जाएँ" hidden>↑</button>
+
+  <!-- Photo-story lightbox with prev/next + counter -->
   <div id="lightbox" class="lightbox" aria-hidden="true">
     <button class="lightbox-close" aria-label="बंद करें">&times;</button>
+    <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="पिछली फ़ोटो" hidden>‹</button>
     <img src="" alt="" id="lightbox-img" />
+    <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="अगली फ़ोटो" hidden>›</button>
     <p id="lightbox-caption"></p>
+    <span class="lightbox-counter" id="lightbox-counter" hidden></span>
   </div>
 
   <script src="/samachar/samachar.js"></script>

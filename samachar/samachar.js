@@ -88,20 +88,64 @@ function renderArchive(list) {
     return;
   }
 
-  // Group by year
-  const groups = {};
-  list.forEach((x) => {
-    const y = (/(\d{4})/.exec(x.post.date || "") || [])[1] || "अन्य";
-    (groups[y] = groups[y] || []).push(x);
-  });
-  const years = Object.keys(groups).sort((a, b) => b.localeCompare(a));
+  const cats = Array.from(new Set(list.map((x) => x.post.category).filter(Boolean)));
+  const years = Array.from(new Set(list.map((x) => (/(\d{4})/.exec(x.post.date || "") || [])[1]).filter(Boolean)))
+    .sort((a, b) => b.localeCompare(a));
 
-  let html = '<h1 class="section-title" style="text-align:left">समाचार एवं गतिविधियाँ</h1>';
-  years.forEach((y) => {
-    html += `<h2 class="archive-year">${escapeHtml(y)}</h2>`;
-    html += '<div class="feed-grid">' + groups[y].map(renderCard).join("") + "</div>";
-  });
-  c.innerHTML = html;
+  c.innerHTML = `
+    <h1 class="section-title" style="text-align:left">समाचार एवं गतिविधियाँ</h1>
+    <div class="news-controls">
+      <input type="search" id="news-search" class="news-search" placeholder="खोजें… (शीर्षक, स्थान, श्रेणी)" aria-label="समाचार खोजें" />
+      <div class="filter-row" id="cat-filters" role="group" aria-label="श्रेणी फ़िल्टर">
+        <button type="button" class="chip-btn active" data-cat="all">सभी</button>
+        ${cats.map((cat) => `<button type="button" class="chip-btn" data-cat="${escapeHtml(cat)}">${escapeHtml(cat)}</button>`).join("")}
+      </div>
+      ${years.length > 1 ? `<div class="filter-row" id="year-filters" role="group" aria-label="वर्ष फ़िल्टर">
+        <button type="button" class="chip-btn active" data-year="all">सभी वर्ष</button>
+        ${years.map((y) => `<button type="button" class="chip-btn" data-year="${y}">${y}</button>`).join("")}
+      </div>` : ""}
+    </div>
+    <div id="news-results" class="feed-grid"></div>
+    <p class="empty-note" id="news-empty" hidden>कोई परिणाम नहीं मिला</p>`;
+
+  const results = document.getElementById("news-results");
+  const empty = document.getElementById("news-empty");
+  let curCat = "all", curYear = "all", curQ = "";
+
+  function apply() {
+    const q = curQ.trim().toLowerCase();
+    const filtered = list.filter(({ post }) => {
+      if (curCat !== "all" && post.category !== curCat) return false;
+      const y = (/(\d{4})/.exec(post.date || "") || [])[1] || "";
+      if (curYear !== "all" && y !== curYear) return false;
+      if (q) {
+        const hay = [post.title, post.excerpt, post.text, post.location, post.category]
+          .filter(Boolean).join(" ").toLowerCase();
+        if (hay.indexOf(q) === -1) return false;
+      }
+      return true;
+    });
+    results.innerHTML = filtered.map(renderCard).join("");
+    empty.hidden = filtered.length > 0;
+  }
+  apply();
+
+  c.querySelectorAll("#cat-filters .chip-btn").forEach((b) =>
+    b.addEventListener("click", () => {
+      c.querySelectorAll("#cat-filters .chip-btn").forEach((x) => x.classList.remove("active"));
+      b.classList.add("active"); curCat = b.dataset.cat; apply();
+    })
+  );
+  const yf = document.getElementById("year-filters");
+  if (yf) yf.querySelectorAll(".chip-btn").forEach((b) =>
+    b.addEventListener("click", () => {
+      yf.querySelectorAll(".chip-btn").forEach((x) => x.classList.remove("active"));
+      b.classList.add("active"); curYear = b.dataset.year; apply();
+    })
+  );
+  const search = document.getElementById("news-search");
+  let t;
+  search.addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => { curQ = search.value; apply(); }, 200); });
 }
 
 function renderArticle(entry, list) {
@@ -153,12 +197,29 @@ function renderArticle(entry, list) {
   };
   document.getElementById("article-jsonld").textContent = JSON.stringify(ld);
 
+  // Reading time (from actual words)
+  const words = (post.text || "").trim().split(/\s+/).filter(Boolean).length;
+  const readMin = Math.max(1, Math.round(words / 200));
+
   // Article body
-  const metaLine = [formatHindiDate(post.date), post.location, post.category]
+  const metaLine = [formatHindiDate(post.date), post.location, post.category, readMin + " मिनट पढ़ने का समय"]
     .filter(Boolean).map(escapeHtml).join(" · ");
   const feature = post.image
     ? `<img class="article-hero" src="${absImg(post.image)}" alt="${escapeHtml(post.title)}" fetchpriority="high" decoding="async" />`
     : "";
+
+  // Share bar
+  const enc = encodeURIComponent(url);
+  const encT = encodeURIComponent(post.title);
+  const shareHtml = `
+    <div class="share-bar" aria-label="साझा करें">
+      <span class="share-label">साझा करें:</span>
+      <a class="share-btn wa" href="https://wa.me/?text=${encT}%20${enc}" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="share-btn fb" href="https://www.facebook.com/sharer/sharer.php?u=${enc}" target="_blank" rel="noopener">Facebook</a>
+      <a class="share-btn xx" href="https://twitter.com/intent/tweet?text=${encT}&url=${enc}" target="_blank" rel="noopener">X</a>
+      <button type="button" class="share-btn copy" id="share-copy">लिंक कॉपी</button>
+      <button type="button" class="share-btn native" id="share-native" hidden>Share</button>
+    </div>`;
   const gallery = Array.isArray(post.gallery) && post.gallery.length
     ? `<div class="gallery-grid article-gallery">` +
       post.gallery.map((g) =>
@@ -188,6 +249,7 @@ function renderArticle(entry, list) {
     <article class="article">
       <h1>${escapeHtml(post.title)}</h1>
       <p class="article-meta">${metaLine}${post.author ? " · " + escapeHtml(post.author) : ""}</p>
+      ${shareHtml}
       ${feature}
       <div class="article-body">${bodyToHtml(post.text)}</div>
       ${gallery}
@@ -195,30 +257,103 @@ function renderArticle(entry, list) {
     </article>
     ${relatedHtml}`;
 
-  setupLightbox();
+  setupShare(url, post.title);
+  setupPhotoStory(Array.isArray(post.gallery) ? post.gallery : []);
 }
 
-function setupLightbox() {
+// ---- Share controls (Web Share API + copy link) ----
+function setupShare(url, title) {
+  const copyBtn = document.getElementById("share-copy");
+  if (copyBtn) {
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(url);
+      } catch (e) {
+        const ta = document.createElement("textarea");
+        ta.value = url; document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); } catch (_) {}
+        ta.remove();
+      }
+      const old = copyBtn.textContent;
+      copyBtn.textContent = "लिंक कॉपी हो गया";
+      copyBtn.classList.add("copied");
+      setTimeout(() => { copyBtn.textContent = old; copyBtn.classList.remove("copied"); }, 1800);
+    });
+  }
+  const nativeBtn = document.getElementById("share-native");
+  if (nativeBtn && navigator.share) {
+    nativeBtn.hidden = false;
+    nativeBtn.addEventListener("click", () => {
+      navigator.share({ title: title, url: url }).catch(() => {});
+    });
+  }
+}
+
+// ---- Photo-story lightbox: prev/next, counter, keyboard, swipe ----
+function setupPhotoStory(items) {
   const lightbox = document.getElementById("lightbox");
   if (!lightbox) return;
   const lbImg = document.getElementById("lightbox-img");
   const lbCap = document.getElementById("lightbox-caption");
-  const open = (el) => {
-    lbImg.src = el.dataset.src;
-    lbImg.alt = el.dataset.caption || "संतोष सिकरवार - फ़ोटो";
-    lbCap.textContent = el.dataset.caption || "";
-    lightbox.classList.add("open");
-    lightbox.setAttribute("aria-hidden", "false");
-  };
-  document.querySelectorAll(".gallery-item").forEach((fig) => {
-    fig.addEventListener("click", () => open(fig));
-    fig.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(fig); } });
+  const counter = document.getElementById("lightbox-counter");
+  const prevBtn = document.getElementById("lightbox-prev");
+  const nextBtn = document.getElementById("lightbox-next");
+  const closeBtn = lightbox.querySelector(".lightbox-close");
+  const many = items.length > 1;
+  let idx = 0;
+
+  function show(i) {
+    idx = (i + items.length) % items.length;
+    const it = items[idx];
+    lbImg.src = absImg(it.src);
+    lbImg.alt = it.caption ? "संतोष सिकरवार - " + it.caption : "संतोष सिकरवार - कार्यक्रम फ़ोटो";
+    lbCap.textContent = it.caption || "";
+    if (counter) { counter.hidden = !many; counter.textContent = (idx + 1) + " / " + items.length; }
+    if (prevBtn) prevBtn.hidden = !many;
+    if (nextBtn) nextBtn.hidden = !many;
+  }
+  function open(i) { show(i); lightbox.classList.add("open"); lightbox.setAttribute("aria-hidden", "false"); }
+  function close() { lightbox.classList.remove("open"); lightbox.setAttribute("aria-hidden", "true"); }
+
+  document.querySelectorAll(".gallery-item").forEach((fig, i) => {
+    fig.addEventListener("click", () => open(i));
+    fig.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(i); } });
   });
-  const close = () => { lightbox.classList.remove("open"); lightbox.setAttribute("aria-hidden", "true"); };
-  lightbox.querySelector(".lightbox-close").addEventListener("click", close);
+
+  if (prevBtn) prevBtn.addEventListener("click", (e) => { e.stopPropagation(); show(idx - 1); });
+  if (nextBtn) nextBtn.addEventListener("click", (e) => { e.stopPropagation(); show(idx + 1); });
+  if (closeBtn) closeBtn.addEventListener("click", close);
   lightbox.addEventListener("click", (e) => { if (e.target === lightbox) close(); });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+  document.addEventListener("keydown", (e) => {
+    if (!lightbox.classList.contains("open")) return;
+    if (e.key === "Escape") close();
+    else if (many && e.key === "ArrowLeft") show(idx - 1);
+    else if (many && e.key === "ArrowRight") show(idx + 1);
+  });
+
+  // Touch swipe
+  let sx = 0;
+  lightbox.addEventListener("touchstart", (e) => { sx = e.changedTouches[0].clientX; }, { passive: true });
+  lightbox.addEventListener("touchend", (e) => {
+    const dx = e.changedTouches[0].clientX - sx;
+    if (many && Math.abs(dx) > 45) show(idx + (dx < 0 ? 1 : -1));
+  }, { passive: true });
 }
+
+// ---- Scroll progress + back-to-top (samachar pages) ----
+(function scrollUX() {
+  const bar = document.getElementById("scroll-progress");
+  const toTop = document.getElementById("to-top");
+  function onScroll() {
+    const st = document.documentElement.scrollTop || document.body.scrollTop;
+    const h = (document.documentElement.scrollHeight - document.documentElement.clientHeight) || 1;
+    if (bar) bar.style.width = Math.min(100, (st / h) * 100) + "%";
+    if (toTop) toTop.hidden = st < 500;
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+  if (toTop) toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+})();
 
 (async function init() {
   const y = document.getElementById("year");
