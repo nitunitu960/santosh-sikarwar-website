@@ -48,7 +48,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <link rel="stylesheet" href="styles.css?v=4" />
 
   <!-- Structured data: Person + PoliticalParty + WebSite -->
   <script type="application/ld+json">
@@ -120,14 +120,15 @@
         <span></span><span></span><span></span>
       </button>
       <ul class="nav-links">
-        <li><a href="#home">मुख्य पृष्ठ</a></li>
-        <li><a href="#about">परिचय</a></li>
-        <li><a href="#journey">राजनीतिक यात्रा</a></li>
-        <li><a href="#feed">समाचार</a></li>
-        <li><a href="#gallery">गैलरी</a></li>
-        <li><a href="#positions">दायित्व</a></li>
-        <li><a href="#contact">संपर्क</a></li>
+        <li><a href="#home" data-en="Home">मुख्य पृष्ठ</a></li>
+        <li><a href="#about" data-en="About">परिचय</a></li>
+        <li><a href="#journey" data-en="Journey">राजनीतिक यात्रा</a></li>
+        <li><a href="#feed" data-en="News">समाचार</a></li>
+        <li><a href="#gallery" data-en="Gallery">गैलरी</a></li>
+        <li><a href="#positions" data-en="Responsibilities">दायित्व</a></li>
+        <li><a href="#contact" data-en="Contact">संपर्क</a></li>
       </ul>
+      <button class="lang-toggle" id="lang-toggle" type="button" aria-label="Switch language">EN</button>
     </nav>
   </header>
 
@@ -146,18 +147,18 @@
 
       <div class="container hero-inner">
         <div class="hero-text" data-depth="6">
-          <p class="eyebrow"><span class="eb-dot" aria-hidden="true"></span> OFFICIAL WEBSITE · राष्ट्र प्रथम</p>
-          <h1 class="hero-name">संतोष सिकरवार</h1>
-          <p class="hero-role">जिला उपाध्यक्ष, भारतीय जनता पार्टी, आगरा</p>
-          <p class="slogan">"सेवा ही संकल्प, संगठन ही शक्ति"</p>
+          <p class="eyebrow"><span class="eb-dot" aria-hidden="true"></span> <span data-en="OFFICIAL WEBSITE">OFFICIAL WEBSITE · राष्ट्र प्रथम</span></p>
+          <h1 class="hero-name" data-en="Santosh Sikarwar">संतोष सिकरवार</h1>
+          <p class="hero-role" data-en="District Vice President, Bharatiya Janata Party, Agra">जिला उपाध्यक्ष, भारतीय जनता पार्टी, आगरा</p>
+          <p class="slogan" data-en="&quot;Service is our resolve, organisation is our strength&quot;">"सेवा ही संकल्प, संगठन ही शक्ति"</p>
           <div class="chips">
-            <span class="chip">सेवा</span>
-            <span class="chip">समर्पण</span>
-            <span class="chip">संगठन</span>
+            <span class="chip" data-en="Service">सेवा</span>
+            <span class="chip" data-en="Dedication">समर्पण</span>
+            <span class="chip" data-en="Organisation">संगठन</span>
           </div>
           <div class="hero-actions">
-            <a href="#about" class="btn btn-primary">परिचय देखें</a>
-            <a href="#feed" class="btn btn-ghost">गतिविधियाँ देखें</a>
+            <a href="#about" class="btn btn-primary" data-en="View Profile">परिचय देखें</a>
+            <a href="#feed" class="btn btn-ghost" data-en="View Activities">गतिविधियाँ देखें</a>
           </div>
         </div>
         <div class="hero-photo" data-depth="10">
@@ -171,15 +172,16 @@
       </div>
 
       <a class="scroll-indicator" href="#about" aria-label="नीचे स्क्रॉल करें">
-        <span class="si-text">SCROLL</span>
+        <span class="si-text" data-en="SCROLL">नीचे देखें</span>
         <span class="si-line"></span>
       </a>
+      <div class="hero-tricolor" aria-hidden="true"></div>
     </section>
 
     <!-- LIVE LATEST ACTIVITY STRIP (filled from feed.json; hidden if none) -->
     <a class="latest-strip" id="latest-strip" href="/samachar/" hidden>
       <span class="latest-dot" aria-hidden="true"></span>
-      <span class="latest-label">नवीनतम गतिविधि</span>
+      <span class="latest-label" data-en="Latest activity">नवीनतम गतिविधि</span>
       <span class="latest-text" id="latest-text"></span>
       <span class="latest-arrow" aria-hidden="true">→</span>
     </a>
@@ -194,7 +196,7 @@
     <!-- ABOUT -->
     <section id="about" class="section">
       <div class="container">
-        <h2 class="section-title" data-num="01">परिचय</h2>
+        <h2 class="section-title" data-num="01" data-en="About">परिचय</h2>
         <div class="about-box">
           <p>
             संतोष सिकरवार भारतीय जनता पार्टी के समर्पित कार्यकर्ता एवं वर्तमान में
@@ -218,8 +220,8 @@
     <!-- JOURNEY / TIMELINE -->
     <section id="journey" class="section section-alt">
       <div class="container">
-        <h2 class="section-title" data-num="02">राजनीतिक यात्रा</h2>
-        <p class="section-sub">संगठन से समर्पण तक</p>
+        <h2 class="section-title" data-num="02" data-en="Political Journey">राजनीतिक यात्रा</h2>
+        <p class="section-sub" data-en="From organisation to dedication">संगठन से समर्पण तक</p>
         <div class="timeline">
           <div class="tl-item">
             <div class="tl-year">2008 – 2009</div>
@@ -270,13 +272,13 @@
     <!-- DAILY FEED / NEWS -->
     <section id="feed" class="section">
       <div class="container">
-        <h2 class="section-title" data-num="03">समाचार एवं गतिविधियाँ</h2>
-        <p class="section-sub">नवीनतम अपडेट</p>
+        <h2 class="section-title" data-num="03" data-en="News &amp; Activities">समाचार एवं गतिविधियाँ</h2>
+        <p class="section-sub" data-en="Latest updates">नवीनतम अपडेट</p>
         <div id="feed-grid" class="feed-grid">
           <!-- पोस्ट यहाँ अपने आप जुड़ जाएँगी (data/feed.json से) -->
         </div>
         <div class="feed-more">
-          <a href="/samachar/" class="btn btn-ghost">सभी समाचार देखें →</a>
+          <a href="/samachar/" class="btn btn-ghost" data-en="View all news →">सभी समाचार देखें →</a>
         </div>
       </div>
     </section>
@@ -284,8 +286,8 @@
     <!-- PHOTO GALLERY -->
     <section id="gallery" class="section section-alt">
       <div class="container">
-        <h2 class="section-title" data-num="04">फोटो गैलरी</h2>
-        <p class="section-sub">कार्यक्रमों एवं गतिविधियों की झलकियाँ</p>
+        <h2 class="section-title" data-num="04" data-en="Photo Gallery">फोटो गैलरी</h2>
+        <p class="section-sub" data-en="Glimpses of programmes &amp; activities">कार्यक्रमों एवं गतिविधियों की झलकियाँ</p>
         <div id="gallery-grid" class="gallery-grid">
           <!-- फ़ोटो यहाँ अपने आप जुड़ जाएँगी (data/gallery.js से) -->
         </div>
@@ -295,7 +297,7 @@
     <!-- POSITIONS -->
     <section id="positions" class="section">
       <div class="container">
-        <h2 class="section-title" data-num="05">प्रमुख दायित्व</h2>
+        <h2 class="section-title" data-num="05" data-en="Key Responsibilities">प्रमुख दायित्व</h2>
         <ul class="positions-list">
           <li>सह चुनाव कार्यालय प्रभारी, लोकसभा फतेहपुर सीकरी</li>
           <li>पूर्व जिला उपाध्यक्ष, भाजपा किसान मोर्चा, आगरा</li>
@@ -310,15 +312,15 @@
     <!-- CONTACT -->
     <section id="contact" class="section section-alt">
       <div class="container">
-        <h2 class="section-title" data-num="06">संपर्क करें</h2>
-        <p class="section-sub">आपके सुझाव एवं सहयोग का स्वागत है</p>
+        <h2 class="section-title" data-num="06" data-en="Contact">संपर्क करें</h2>
+        <p class="section-sub" data-en="Your suggestions and support are welcome">आपके सुझाव एवं सहयोग का स्वागत है</p>
         <ul class="contact-list" id="contact-list">
-          <li><strong>ई-मेल:</strong> <a href="mailto:info@santoshsikarwar.in" id="c-email">info@santoshsikarwar.in</a></li>
-          <li><strong>फ़ोन:</strong> <a href="tel:+910000000000" id="c-phone">+91 00000 00000</a></li>
-          <li><strong>क्षेत्र:</strong> <span id="c-area">आगरा, उत्तर प्रदेश</span></li>
+          <li><strong data-en="Email:">ई-मेल:</strong> <a href="mailto:info@santoshsikarwar.in" id="c-email">info@santoshsikarwar.in</a></li>
+          <li><strong data-en="Phone:">फ़ोन:</strong> <a href="tel:+910000000000" id="c-phone">+91 00000 00000</a></li>
+          <li><strong data-en="Area:">क्षेत्र:</strong> <span id="c-area">आगरा, उत्तर प्रदेश</span></li>
         </ul>
         <div class="vcard-actions">
-          <button type="button" id="vcard-btn" class="btn btn-ghost">संपर्क कार्ड सहेजें (vCard)</button>
+          <button type="button" id="vcard-btn" class="btn btn-ghost" data-en="Save contact card (vCard)">संपर्क कार्ड सहेजें (vCard)</button>
         </div>
       </div>
     </section>
@@ -343,8 +345,8 @@
     <div class="container">
       <img src="/images/bjp-logo.svg" alt="Bharatiya Janata Party" class="footer-bjp-logo" id="party-logo" width="300" height="62" />
       <p class="footer-name">संतोष सिकरवार</p>
-      <p class="footer-role">जिला उपाध्यक्ष, भारतीय जनता पार्टी, आगरा · आधिकारिक वेबसाइट</p>
-      <p class="footer-slogan">संगठन, सेवा और समर्पण के पथ पर निरंतर अग्रसर</p>
+      <p class="footer-role" data-en="District Vice President, Bharatiya Janata Party, Agra · Official Website">जिला उपाध्यक्ष, भारतीय जनता पार्टी, आगरा · आधिकारिक वेबसाइट</p>
+      <p class="footer-slogan" data-en="Steadily advancing on the path of organisation, service and dedication">संगठन, सेवा और समर्पण के पथ पर निरंतर अग्रसर</p>
 
       <nav class="footer-nav" aria-label="फ़ुटर नेविगेशन">
         <a href="#about">परिचय</a>
@@ -375,6 +377,6 @@
     </div>
   </footer>
 
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>

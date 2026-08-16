@@ -496,9 +496,9 @@ async function renderGallery() {
     }, { passive: true });
   }
 
-  // Particle field
+  // Particle field (skipped in the civic light theme where the canvas is hidden)
   const canvas = document.getElementById("fx-particles");
-  if (!canvas || reduce) return;
+  if (!canvas || reduce || getComputedStyle(canvas).display === "none") return;
   const ctx = canvas.getContext("2d");
   const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
   const isMobile = window.innerWidth < 820;
@@ -570,4 +570,29 @@ async function renderGallery() {
   document.addEventListener("pointerout", (e) => {
     if (e.target.closest("a, button, .chip, .feed-card, .gallery-item, input")) ring.classList.remove("hovering");
   });
+})();
+
+
+// ============================================================
+// Language toggle (Hindi / English) — swaps interface text
+// Body/news content authored in Hindi remains as written.
+// ============================================================
+(function langToggle() {
+  const btn = document.getElementById("lang-toggle");
+  if (!btn) return;
+  const nodes = document.querySelectorAll("[data-en]");
+  nodes.forEach((n) => { n.dataset.hi = n.textContent; });
+
+  function apply(lang) {
+    const en = lang === "en";
+    nodes.forEach((n) => { n.textContent = en ? n.getAttribute("data-en") : n.dataset.hi; });
+    document.documentElement.lang = en ? "en" : "hi";
+    btn.textContent = en ? "हिं" : "EN";
+    try { localStorage.setItem("ss_lang", lang); } catch (e) {}
+  }
+
+  let cur = "hi";
+  try { if (localStorage.getItem("ss_lang") === "en") cur = "en"; } catch (e) {}
+  apply(cur);
+  btn.addEventListener("click", () => { cur = cur === "en" ? "hi" : "en"; apply(cur); });
 })();
