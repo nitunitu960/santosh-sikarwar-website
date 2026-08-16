@@ -517,17 +517,21 @@ async function renderGallery() {
     hero.addEventListener("pointerleave", () => { layers.forEach((l) => (l.style.transform = "")); });
   }
 
-  // Hero exit on scroll (scale/opacity)
-  if (!reduce) {
-    const inner = hero.querySelector(".hero-inner");
+  // Subtle scroll parallax (desktop, motion-safe): crowd down, portrait up, panel slight
+  if (!reduce && fine) {
+    const bg = document.getElementById("hero-bg");
+    const photo = hero.querySelector(".hero-photo");
+    const text = hero.querySelector(".hero-text");
     let t = false;
     window.addEventListener("scroll", () => {
       if (t) return; t = true;
       requestAnimationFrame(() => {
         t = false;
         const st = window.pageYOffset || document.documentElement.scrollTop;
-        const p = Math.min(1, st / (window.innerHeight * 0.85));
-        if (inner) { inner.style.transform = "scale(" + (1 - p * 0.05).toFixed(3) + ")"; inner.style.opacity = (1 - p * 0.55).toFixed(2); }
+        const p = Math.min(1, st / (window.innerHeight || 1));
+        if (bg) bg.style.transform = "translateY(" + (p * 10).toFixed(1) + "px)";
+        if (photo) photo.style.transform = "translateY(" + (-p * 8).toFixed(1) + "px)";
+        if (text) text.style.transform = "translateY(" + (p * 4).toFixed(1) + "px)";
       });
     }, { passive: true });
   }
@@ -639,4 +643,27 @@ async function renderGallery() {
   try { if (localStorage.getItem("ss_lang") === "en") cur = "en"; } catch (e) {}
   apply(cur);
   btn.addEventListener("click", () => { cur = cur === "en" ? "hi" : "en"; apply(cur); });
+})();
+
+
+// ============================================================
+// National Spirit section: reveal only if its photos actually load
+// (avoids showing broken images if the files aren't uploaded yet)
+// ============================================================
+(function nationalSpirit() {
+  const sec = document.getElementById("national-spirit");
+  if (!sec) return;
+  const imgs = ["ns-img-2", "ns-img-1"].map((id) => document.getElementById(id)).filter(Boolean);
+  if (!imgs.length) return;
+  let done = 0, ok = 0;
+  const settle = (good) => {
+    done++;
+    if (good) ok++;
+    if (done === imgs.length && ok > 0) sec.hidden = false;
+  };
+  imgs.forEach((im) => {
+    if (im.complete) { settle(im.naturalWidth > 0); return; }
+    im.addEventListener("load", () => settle(true));
+    im.addEventListener("error", () => { const f = im.closest("figure"); if (f) f.remove(); settle(false); });
+  });
 })();

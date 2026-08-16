@@ -1442,3 +1442,178 @@ body.cursor-on .cursor-ring, body.cursor-on .cursor-dot { opacity: 1; }
   .hero-cine .hero-cutout { max-width: 300px; margin: 0 auto; }
 }
 
+
+
+/* ============================================================
+   PREMIUM HERO v2 — editorial, dignified, restrained BJP identity
+   (overrides earlier hero rules; keeps crowd photo as a soft layer)
+   ============================================================ */
+.hero-cine {
+  min-height: 86vh;
+  color: var(--ink);
+  background:
+    radial-gradient(560px circle at 12% 16%, rgba(244,114,22,0.08), transparent 60%),
+    radial-gradient(560px circle at 88% 84%, rgba(19,136,8,0.07), transparent 60%),
+    #fffdf7;
+}
+
+/* Crowd photo becomes a faint supporting layer under an ivory wash */
+.hero-cine.has-hero-bg .hero-bg {
+  opacity: 1;
+  background-image:
+    radial-gradient(70% 70% at 14% 18%, rgba(244,114,22,0.10), transparent 62%),
+    radial-gradient(70% 70% at 86% 86%, rgba(19,136,8,0.09), transparent 62%),
+    linear-gradient(rgba(255,253,247,0.80), rgba(255,253,247,0.84)),
+    var(--hero-bg-url);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  filter: none;
+  transform: none;
+}
+
+/* Remove clutter: radial rays / chakra off, jaali grid very faint */
+.hero-cine .fx-fields { display: none !important; }
+.hero-cine .fx-grid {
+  opacity: 0.22;
+  background-image:
+    linear-gradient(rgba(16,42,67,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16,42,67,0.05) 1px, transparent 1px);
+}
+
+/* Editorial content panel behind the text */
+.hero-cine .hero-text {
+  position: relative;
+  max-width: 560px;
+  padding: 30px 34px;
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(16, 42, 67, 0.10);
+  border-radius: 16px;
+  box-shadow: 0 22px 55px rgba(16, 42, 67, 0.14);
+}
+/* small saffron→green accent line on the panel's left edge */
+.hero-cine.has-hero-bg .hero-text::before,
+.hero-cine .hero-text::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 26px; bottom: 26px; right: auto;
+  width: 4px; height: auto;
+  background: linear-gradient(180deg, var(--saffron), var(--green));
+  border-radius: 0 4px 4px 0;
+  z-index: 1;
+}
+
+/* Typography — navy name, refined accents */
+.hero-cine .eyebrow { color: var(--saffron-deep); letter-spacing: 0.14em; }
+.hero-cine .eb-dot { background: var(--saffron); box-shadow: none; }
+.hero-cine .hero-name,
+.hero-cine.has-hero-bg .hero-name {
+  color: var(--navy);
+  text-shadow: none;
+  filter: none;
+}
+.hero-cine .hero-name::after { background: var(--saffron); margin-top: 12px; }
+.hero-cine .slogan,
+.hero-cine.has-hero-bg .slogan { color: var(--muted); text-shadow: none; }
+
+/* Chips — clean civic pills */
+.hero-cine .chip {
+  background: #fff; color: var(--navy);
+  border: 1px solid rgba(16, 42, 67, 0.12); box-shadow: 0 2px 8px rgba(16,42,67,0.05);
+}
+.hero-cine .chip:hover { border-color: var(--saffron); background: #fff; }
+
+/* Buttons — transparent, fill saffron on hover (readable on the light panel) */
+.hero-cine .btn-primary,
+.hero-cine .btn-ghost {
+  background: transparent;
+  border: 2px solid var(--saffron);
+  color: var(--saffron-deep);
+  box-shadow: none;
+}
+.hero-cine .btn-primary:hover,
+.hero-cine .btn-ghost:hover {
+  background: var(--saffron-deep);
+  border-color: var(--saffron-deep);
+  color: #fff;
+}
+
+/* Portrait — visual anchor, subtle white halo */
+.hero-cine .photo-frame {
+  box-shadow: 0 24px 55px rgba(16, 42, 67, 0.18), 0 0 0 7px rgba(255, 255, 255, 0.55);
+}
+
+/* Elegant scroll indicator — thin flowing line, no bouncing */
+.hero-cine .scroll-indicator { color: var(--muted); }
+.hero-cine .scroll-indicator .si-line {
+  display: block; width: 2px; height: 48px; margin: 8px auto 0;
+  background: rgba(16, 42, 67, 0.20); position: relative; overflow: hidden; border-radius: 2px;
+}
+.hero-cine .scroll-indicator .si-line::after {
+  content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 45%;
+  background: linear-gradient(180deg, var(--saffron-deep), transparent);
+  animation: siFlow 1.9s ease-in-out infinite;
+}
+@keyframes siFlow { 0% { transform: translateY(-110%); } 100% { transform: translateY(230%); } }
+
+/* Latest activity — floating editorial strip integrated with the hero */
+.latest-strip {
+  background: rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border: 1px solid rgba(16, 42, 67, 0.10);
+  box-shadow: 0 14px 34px rgba(16, 42, 67, 0.12);
+  color: var(--ink);
+}
+.latest-strip .latest-label { color: var(--saffron-deep); }
+.latest-strip .latest-arrow { color: var(--saffron-deep); }
+
+/* Entrance: soft fade for the crowd layer (motion-safe) */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-cine.has-hero-bg .hero-bg { animation: hbgIn 1100ms ease both; }
+  @keyframes hbgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-cine .scroll-indicator .si-line::after { animation: none; }
+}
+
+/* Mobile: portrait prominent on top, full-width panel, no side-by-side */
+@media (max-width: 820px) {
+  .hero-cine { min-height: auto; padding: 92px 0 40px; }
+  .hero-cine .hero-text { max-width: 100%; padding: 22px 20px; }
+  .hero-cine.has-hero-bg .hero-bg {
+    background-image:
+      linear-gradient(rgba(255,253,247,0.74), rgba(255,253,247,0.82)),
+      var(--hero-bg-url);
+  }
+  .hero-cine .photo-frame { box-shadow: 0 16px 36px rgba(16,42,67,0.20), 0 0 0 5px rgba(255,255,255,0.6); }
+}
+
+
+/* ============================================================
+   NATIONAL SPIRIT — premium editorial photo section (warm ivory)
+   ============================================================ */
+.ns-section { background: #fffdf7; }
+.ns-grid {
+  display: grid;
+  grid-template-columns: 1.55fr 1fr;
+  gap: 22px;
+  align-items: stretch;
+  margin-top: 8px;
+}
+.ns-grid figure { margin: 0; overflow: hidden; border-radius: 16px;
+  border: 1px solid rgba(16,42,67,0.10); box-shadow: 0 18px 44px rgba(16,42,67,0.12);
+  background: #fff; position: relative; }
+.ns-grid figure::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px;
+  background: linear-gradient(90deg, var(--saffron) 0 33%, #ffffff 33% 66%, var(--green) 66% 100%);
+}
+.ns-grid img { display: block; width: 100%; height: 100%; object-fit: cover;
+  transition: transform var(--motion-normal) var(--ease-standard); }
+.ns-grid img:hover { transform: scale(1.015); }
+.ns-wide img { aspect-ratio: 16 / 9; }
+.ns-tall img { aspect-ratio: 3 / 4; }
+@media (max-width: 820px) {
+  .ns-grid { grid-template-columns: 1fr; }
+}

@@ -218,6 +218,13 @@ def build_image_sitemap(eligible, settings):
     portrait = "images/santosh-sikarwar.jpg"
     if image_exists(portrait):
         home_imgs.append((portrait, "Santosh Sikarwar"))
+    # National Spirit section photos (homepage), only if the files exist
+    for rel, title in (
+        ("images/national-spirit-2.jpg", "Santosh Sikarwar with the Indian national flag"),
+        ("images/national-spirit-1.jpg", "Santosh Sikarwar holding the Indian national flag"),
+    ):
+        if image_exists(rel):
+            home_imgs.append((rel, title))
     if home_imgs:
         lines.append("  <!-- Homepage images -->")
         lines.append("  <url>")
