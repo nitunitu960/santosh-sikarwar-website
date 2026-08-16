@@ -270,12 +270,19 @@ async function renderSettings() {
   }
 
   // Hero background photo (rally/flags) — shown blurred + tinted behind the hero.
-  if (s.hero_bg) {
+  // Priority: CMS "hero_bg" setting, else auto-use images/hero-bg.jpg if present.
+  function applyHeroBg(url) {
     const hero = document.querySelector(".hero-cine");
-    if (hero) {
-      hero.style.setProperty("--hero-bg-url", "url('" + imgSrc(s.hero_bg) + "')");
-      hero.classList.add("has-hero-bg");
-    }
+    if (!hero) return;
+    hero.style.setProperty("--hero-bg-url", "url('" + url + "')");
+    hero.classList.add("has-hero-bg");
+  }
+  if (s.hero_bg) {
+    applyHeroBg(imgSrc(s.hero_bg));
+  } else {
+    const probe = new Image();
+    probe.onload = () => applyHeroBg("images/hero-bg.jpg");
+    probe.src = "images/hero-bg.jpg";
   }
 
   if (s.photo) {
