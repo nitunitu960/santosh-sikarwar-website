@@ -1,0 +1,7 @@
+# Keep generator output as LF so `generate_sitemaps.py` stays deterministic
+# (Python writes LF; without this, autocrlf could rewrite the working copy to
+# CRLF on checkout and produce a spurious diff on the next run).
+sitemap.xml        text eol=lf
+image-sitemap.xml  text eol=lf
+news-sitemap.xml   text eol=lf
+generate_sitemaps.py text eol=lf
