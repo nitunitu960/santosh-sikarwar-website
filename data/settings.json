@@ -1,8 +1,7 @@
 {
   "party_logo": "/images/logo_1_0.webp",
   "facebook": "https://www.facebook.com/santoshsikarwarbjp",
-  "logo": "",
-  "favicon": "",
+  "logo": "/images/logo_1_0.png",
   "name": "संतोष सिकरवार",
   "banner": "",
   "area": "आगरा, उत्तर प्रदेश",
@@ -10,6 +9,7 @@
   "photo": "/images/653106925_3104359849751568_2861146496380879189_n.jpg",
   "instagram": "https://instagram.com/santoshsikarwarbjp",
   "twitter": "https://x.com/ssikarwarbjp",
+  "favicon": "",
   "role": "जिला उपाध्यक्ष, भारतीय जनता पार्टी, आगरा",
   "bannerCaption": "राष्ट्र प्रथम · राष्ट्र सर्वोपरि",
   "email": "info@santoshsikarwar.in",
