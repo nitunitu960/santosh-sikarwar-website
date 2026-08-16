@@ -1,5 +1,12 @@
 {
   "photos": [
-    { "src": "images/2009-bjp-membership.jpg", "caption": "2009 में भाजपा की सदस्यता ली" }
+    {
+      "src": "images/2009-bjp-membership.jpg",
+      "caption": "2009 में भाजपा की सदस्यता ली"
+    },
+    {
+      "caption": "विपक्ष में कमिश्नरी घेराव",
+      "src": "/images/img-20230602-919927880061-s.whatsapp.net-9c2b29c39d7dc67b7495cf46cb023c99d56f776a.jpg"
+    }
   ]
 }
