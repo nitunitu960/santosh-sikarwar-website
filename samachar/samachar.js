@@ -405,3 +405,30 @@ function renderNotFound() {
     '<p class="empty-note">आप जिस समाचार/गतिविधि को खोज रहे हैं वह उपलब्ध नहीं है या हटा दी गई है।</p>' +
     '<p class="article-back"><a href="/samachar/">← सभी समाचार</a> · <a href="/">मुख्य पृष्ठ</a></p>';
 }
+
+
+// ---- Mobile nav toggle (samachar pages) ----
+(function navToggle() {
+  const toggle = document.querySelector(".nav-toggle");
+  const links = document.querySelector(".nav-links");
+  if (!toggle || !links) return;
+  toggle.addEventListener("click", () => {
+    const open = links.classList.toggle("open");
+    toggle.setAttribute("aria-expanded", String(open));
+  });
+  links.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => { links.classList.remove("open"); toggle.setAttribute("aria-expanded", "false"); })
+  );
+})();
+
+// ---- Header logo + favicon from settings (keeps sync with admin) ----
+(async function brand() {
+  try {
+    const res = await fetch("/data/settings.json", { cache: "no-store" });
+    if (!res.ok) return;
+    const s = await res.json();
+    if (s.logo) { const el = document.getElementById("site-logo"); if (el) el.src = s.logo; }
+    const fav = document.querySelector('link[rel="icon"]');
+    if (fav && (s.favicon || s.logo)) { fav.href = s.favicon || s.logo; fav.removeAttribute("type"); }
+  } catch (e) {}
+})();

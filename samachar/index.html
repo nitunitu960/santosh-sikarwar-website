@@ -30,7 +30,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=4" />
+  <link rel="stylesheet" href="/styles.css?v=8" />
 
   <script type="application/ld+json" id="article-jsonld"></script>
 </head>
@@ -42,10 +42,13 @@
   <header class="site-header">
     <nav class="nav container" aria-label="मुख्य नेविगेशन">
       <a href="/" class="logo">
-        <img class="lotus-logo" src="/images/bjp-lotus.svg" alt="भाजपा कमल" width="36" height="36" />
+        <img class="lotus-logo" id="site-logo" src="/images/logo_1_0.png" alt="भाजपा कमल" width="36" height="36" />
         <span class="logo-text">संतोष सिकरवार</span>
       </a>
-      <ul class="nav-links" style="transform:none;position:static">
+      <button class="nav-toggle" aria-label="मेनू खोलें" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
         <li><a href="/">मुख्य पृष्ठ</a></li>
         <li><a href="/#about">परिचय</a></li>
         <li><a href="/samachar/">समाचार</a></li>
@@ -94,6 +97,6 @@
     <span class="lightbox-counter" id="lightbox-counter" hidden></span>
   </div>
 
-  <script src="/samachar/samachar.js?v=4"></script>
+  <script src="/samachar/samachar.js?v=8"></script>
 </body>
 </html>
