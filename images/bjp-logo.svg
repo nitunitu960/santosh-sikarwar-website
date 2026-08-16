@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 124" width="600" height="124" role="img" aria-label="Bharatiya Janata Party">
+  <defs>
+    <linearGradient id="bpetal" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#e2600d"/>
+      <stop offset="0.55" stop-color="#ff8c1a"/>
+      <stop offset="1" stop-color="#ffc24d"/>
+    </linearGradient>
+    <linearGradient id="bleaf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1aa314"/>
+      <stop offset="1" stop-color="#0b5a04"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Lotus mark -->
+  <g transform="translate(2,3)">
+    <path d="M58,92 C42,92 26,99 17,111 C31,104 47,99 59,96 Z" fill="url(#bleaf)"/>
+    <path d="M62,92 C78,92 94,99 103,111 C89,104 73,99 61,96 Z" fill="url(#bleaf)"/>
+    <g fill="url(#bpetal)" stroke="#c9530a" stroke-width="1" stroke-linejoin="round">
+      <path d="M60,93 C47,74 49,47 60,24 C71,47 73,74 60,93 Z" transform="rotate(-36 60 93)"/>
+      <path d="M60,93 C47,74 49,47 60,24 C71,47 73,74 60,93 Z" transform="rotate(36 60 93)"/>
+      <path d="M60,93 C49,73 51,44 60,20 C69,44 71,73 60,93 Z" transform="rotate(-17 60 93)"/>
+      <path d="M60,93 C49,73 51,44 60,20 C69,44 71,73 60,93 Z" transform="rotate(17 60 93)"/>
+      <path d="M60,95 C50,73 52,42 60,15 C68,42 70,73 60,95 Z"/>
+    </g>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="140" y="76" font-family="'Segoe UI', Arial, sans-serif" font-weight="800" font-size="46" letter-spacing="1.5" fill="#f47216">BHARATIYA JANATA</text>
+  <text x="140" y="112" font-family="'Segoe UI', Arial, sans-serif" font-weight="800" font-size="46" letter-spacing="1.5" fill="#f47216">PARTY</text>
+</svg>

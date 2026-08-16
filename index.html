@@ -16,7 +16,7 @@
        <meta name="google-site-verification" content="YOUR_CODE_HERE" /> -->
 
   <!-- Icons / PWA -->
-  <link rel="icon" type="image/svg+xml" href="/images/bjp-lotus.svg" />
+  <link rel="icon" type="image/svg+xml" href="/images/bjp-lotus.svg" id="favicon" />
   <link rel="apple-touch-icon" href="/images/bjp-lotus.svg" />
   <link rel="manifest" href="/manifest.webmanifest" />
 
@@ -113,7 +113,7 @@
   <header class="site-header">
     <nav class="nav container">
       <a href="#home" class="logo">
-        <img class="lotus-logo" src="images/bjp-lotus.svg" alt="भाजपा" />
+        <img class="lotus-logo" id="site-logo" src="images/bjp-lotus.svg" alt="भाजपा कमल" />
         <span class="logo-text">संतोष सिकरवार</span>
       </a>
       <button class="nav-toggle" aria-label="मेनू खोलें" aria-expanded="false">
@@ -153,7 +153,7 @@
         <div class="hero-photo">
           <div class="photo-frame" id="hero-photo-frame">
             <div class="photo-placeholder">
-              <img class="lotus-big" src="images/bjp-lotus.svg" alt="भाजपा" />
+              <img class="lotus-big" id="hero-lotus" src="images/bjp-lotus.svg" alt="भाजपा कमल" />
               <span>फ़ोटो यहाँ लगाएँ<br /><small>photo.jpg</small></span>
             </div>
           </div>
@@ -322,6 +322,7 @@
   <footer class="site-footer">
     <div class="tricolor-strip"></div>
     <div class="container">
+      <img src="/images/bjp-logo.svg" alt="Bharatiya Janata Party" class="footer-bjp-logo" id="party-logo" width="300" height="62" />
       <p class="footer-name">संतोष सिकरवार</p>
       <p class="footer-role">जिला उपाध्यक्ष, भारतीय जनता पार्टी, आगरा · आधिकारिक वेबसाइट</p>
       <p class="footer-slogan">संगठन, सेवा और समर्पण के पथ पर निरंतर अग्रसर</p>

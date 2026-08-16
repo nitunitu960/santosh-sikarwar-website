@@ -495,6 +495,13 @@ button:focus-visible,
 }
 
 /* ===== Footer enhancements ===== */
+.footer-bjp-logo {
+  display: block;
+  width: 280px;
+  max-width: 80%;
+  height: auto;
+  margin: 0 auto 18px;
+}
 .footer-name {
   font-size: 1.3rem;
   font-weight: 800;

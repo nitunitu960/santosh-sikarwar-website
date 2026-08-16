@@ -189,6 +189,17 @@ async function renderSettings() {
   const s = await loadJSON("data/settings.json");
   if (!s) return;
 
+  // Custom logos (optional; fall back to default SVGs if empty)
+  if (s.logo) {
+    const v = imgSrc(s.logo);
+    const hl = document.getElementById("site-logo"); if (hl) hl.src = v;
+    const bl = document.getElementById("hero-lotus"); if (bl) bl.src = v;
+    const fav = document.getElementById("favicon"); if (fav) { fav.href = v; fav.removeAttribute("type"); }
+  }
+  if (s.party_logo) {
+    const pl = document.getElementById("party-logo"); if (pl) pl.src = imgSrc(s.party_logo);
+  }
+
   if (s.photo) {
     const frame = document.getElementById("hero-photo-frame");
     if (frame) {
