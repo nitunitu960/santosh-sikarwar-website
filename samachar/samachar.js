@@ -127,6 +127,8 @@ function renderArchive(list) {
     });
     results.innerHTML = filtered.map(renderCard).join("");
     empty.hidden = filtered.length > 0;
+    results.style.opacity = "0";
+    requestAnimationFrame(() => { results.style.opacity = "1"; });
   }
   apply();
 
@@ -340,19 +342,26 @@ function setupPhotoStory(items) {
   }, { passive: true });
 }
 
-// ---- Scroll progress + back-to-top (samachar pages) ----
+// ---- Scroll progress + sticky nav + back-to-top (samachar pages) ----
 (function scrollUX() {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const bar = document.getElementById("scroll-progress");
   const toTop = document.getElementById("to-top");
-  function onScroll() {
-    const st = document.documentElement.scrollTop || document.body.scrollTop;
+  const header = document.querySelector(".site-header");
+  if (toTop) toTop.removeAttribute("hidden");
+  let ticking = false;
+  function update() {
+    ticking = false;
+    const st = window.pageYOffset || document.documentElement.scrollTop;
     const h = (document.documentElement.scrollHeight - document.documentElement.clientHeight) || 1;
     if (bar) bar.style.width = Math.min(100, (st / h) * 100) + "%";
-    if (toTop) toTop.hidden = st < 500;
+    if (toTop) toTop.classList.toggle("show", st >= 500);
+    if (header) header.classList.toggle("scrolled", st > 40);
   }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
   window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-  if (toTop) toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  update();
+  if (toTop) toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }));
 })();
 
 (async function init() {

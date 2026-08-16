@@ -87,6 +87,7 @@ async function loadJSON(path) {
   await renderGallery();
   renderLatestStrip();
   setupVCard();
+  staggerReveal(Array.prototype.slice.call(document.querySelectorAll(".positions-list li")));
 })();
 
 // ---- Live "नवीनतम गतिविधि" strip (most recent published, by date) ----
@@ -133,20 +134,77 @@ async function setupVCard() {
   });
 }
 
-// ===== Scroll progress + back-to-top =====
+// ===== Scroll UX: progress bar, sticky nav, back-to-top, timeline illumination =====
 (function scrollUX() {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const bar = document.getElementById("scroll-progress");
   const toTop = document.getElementById("to-top");
-  function onScroll() {
-    const st = document.documentElement.scrollTop || document.body.scrollTop;
+  const header = document.querySelector(".site-header");
+  const timeline = document.querySelector(".timeline");
+  const tlItems = timeline ? Array.prototype.slice.call(timeline.querySelectorAll(".tl-item")) : [];
+  if (toTop) toTop.removeAttribute("hidden");
+
+  if (timeline && reduce) timeline.style.setProperty("--tl-progress", "100%");
+
+  let ticking = false;
+  function update() {
+    ticking = false;
+    const st = window.pageYOffset || document.documentElement.scrollTop;
     const h = (document.documentElement.scrollHeight - document.documentElement.clientHeight) || 1;
     if (bar) bar.style.width = Math.min(100, (st / h) * 100) + "%";
-    if (toTop) toTop.hidden = st < 500;
+    if (toTop) toTop.classList.toggle("show", st >= 500);
+    if (header) header.classList.toggle("scrolled", st > 40);
+
+    if (timeline && !reduce) {
+      const rect = timeline.getBoundingClientRect();
+      const mid = window.innerHeight * 0.55;
+      const total = rect.height || 1;
+      const p = Math.max(0, Math.min(1, (mid - rect.top) / total));
+      timeline.style.setProperty("--tl-progress", (p * 100).toFixed(1) + "%");
+      tlItems.forEach((it) => {
+        const r = it.getBoundingClientRect();
+        it.classList.toggle("tl-active", r.top <= mid && r.bottom >= mid * 0.4);
+      });
+    }
   }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
   window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-  if (toTop) toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  window.addEventListener("resize", onScroll, { passive: true });
+  update();
+  if (toTop) toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }));
 })();
+
+// ===== Subtle magnetic hero buttons (desktop, motion-safe) =====
+(function magneticButtons() {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fine = window.matchMedia("(pointer: fine)").matches;
+  if (reduce || !fine) return;
+  document.querySelectorAll(".hero-actions .btn").forEach((btn) => {
+    btn.addEventListener("pointermove", (e) => {
+      const r = btn.getBoundingClientRect();
+      const mx = e.clientX - (r.left + r.width / 2);
+      const my = e.clientY - (r.top + r.height / 2);
+      btn.style.transform = "translate(" + Math.max(-5, Math.min(5, mx * 0.15)) + "px," + Math.max(-5, Math.min(5, my * 0.15 - 2)) + "px)";
+    });
+    btn.addEventListener("pointerleave", () => { btn.style.transform = ""; });
+  });
+})();
+
+// ===== Staggered reveal for injected items =====
+function staggerReveal(items) {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || !("IntersectionObserver" in window) || !items.length) return;
+  items.forEach((el, i) => { el.classList.add("r-item"); el.style.transitionDelay = Math.min(i, 6) * 80 + "ms"; });
+  const io = new IntersectionObserver((es) => {
+    es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  items.forEach((el) => io.observe(el));
+}
+function skeletonCards(n) {
+  let h = "";
+  for (let i = 0; i < n; i++) h += '<div class="skeleton-card"><div class="sk-img"></div><div class="sk-body"><div class="skeleton-line short"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div></div>';
+  return h;
+}
 
 // ===== Active nav highlighting + reveal-on-scroll =====
 (function navAndReveal() {
@@ -307,6 +365,7 @@ function publishedPosts(data) {
 async function renderFeed() {
   const grid = document.getElementById("feed-grid");
   if (!grid) return;
+  grid.innerHTML = skeletonCards(3);
   const data = await loadJSON("data/feed.json");
   const list = publishedPosts(data);
 
@@ -341,6 +400,7 @@ async function renderFeed() {
   grid.querySelectorAll(".feed-card").forEach((a) =>
     a.addEventListener("click", () => trackEvent("news_article_open", { url: a.getAttribute("href") }))
   );
+  staggerReveal(Array.prototype.slice.call(grid.querySelectorAll(".feed-card")));
 }
 
 // ---- Gallery + lightbox ----
@@ -364,6 +424,8 @@ async function renderGallery() {
       <img src="${imgSrc(item.src)}" ${withFallback(item.caption ? "संतोष सिकरवार - " + item.caption : "संतोष सिकरवार - कार्यक्रम फ़ोटो")} loading="lazy" />
       ${item.caption ? `<figcaption>${item.caption}</figcaption>` : ""}
     </figure>`).join("");
+
+  staggerReveal(Array.prototype.slice.call(grid.querySelectorAll(".gallery-item")));
 
   const lightbox = document.getElementById("lightbox");
   const lbImg = document.getElementById("lightbox-img");

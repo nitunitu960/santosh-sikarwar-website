@@ -817,3 +817,129 @@ a.feed-card:hover .read-more { color: var(--green); }
 @media (max-width: 520px) {
   .lightbox-nav { width: 44px; height: 44px; font-size: 2rem; }
 }
+
+/* ============================================================
+   Premium motion system (2026) — CSS-first, restrained
+   ============================================================ */
+:root {
+  --motion-fast: 180ms;
+  --motion-normal: 320ms;
+  --motion-slow: 600ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Consistent motion tokens applied to existing transitions */
+.btn { transition: transform var(--motion-fast) var(--ease-standard), background var(--motion-fast), color var(--motion-fast), box-shadow var(--motion-fast); }
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+
+/* Reveal upgrade: opacity + translateY + subtle scale */
+.reveal { opacity: 0; transform: translateY(26px) scale(0.985); transition: opacity var(--motion-slow) var(--ease-emphasized), transform var(--motion-slow) var(--ease-emphasized); }
+.reveal.in { opacity: 1; transform: none; }
+
+/* Staggered children (capped) */
+.r-item { opacity: 0; transform: translateY(20px); transition: opacity var(--motion-normal) var(--ease-emphasized), transform var(--motion-normal) var(--ease-emphasized); }
+.r-item.in { opacity: 1; transform: none; }
+
+/* ---- Hero: ambient orbs + entrance polish ---- */
+.hero { position: relative; overflow: hidden; }
+.hero-inner { position: relative; z-index: 1; }
+.hero::before, .hero::after {
+  content: ""; position: absolute; border-radius: 50%;
+  filter: blur(64px); opacity: 0.5; z-index: 0; pointer-events: none;
+}
+.hero::before { width: 340px; height: 340px; top: -90px; right: -60px;
+  background: radial-gradient(circle, rgba(255,153,51,0.45), transparent 70%); animation: orbA 20s ease-in-out infinite; }
+.hero::after { width: 300px; height: 300px; bottom: -100px; left: -60px;
+  background: radial-gradient(circle, rgba(19,136,8,0.28), transparent 70%); animation: orbB 26s ease-in-out infinite; }
+@keyframes orbA { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-24px, 20px); } }
+@keyframes orbB { 0%,100% { transform: translate(0,0); } 50% { transform: translate(20px, -18px); } }
+
+/* Profile frame gentle glow */
+.photo-frame { animation: frameGlow 7s ease-in-out infinite; }
+@keyframes frameGlow {
+  0%,100% { box-shadow: 0 20px 45px rgba(244,114,22,0.25); }
+  50% { box-shadow: 0 22px 62px rgba(244,114,22,0.42); }
+}
+
+/* ---- Sticky compact navigation ---- */
+.site-header { transition: box-shadow var(--motion-normal) var(--ease-standard), background var(--motion-normal); }
+.site-header .nav { transition: height var(--motion-normal) var(--ease-standard); }
+.site-header.scrolled { box-shadow: 0 6px 22px rgba(0,0,0,0.08); background: rgba(255,255,255,0.92); }
+.site-header.scrolled .nav { height: 58px; }
+.nav-links a { transition: color var(--motion-fast); }
+
+/* ---- News cards: image zoom + lift + arrow ---- */
+.feed-card { transition: transform var(--motion-normal) var(--ease-standard), box-shadow var(--motion-normal) var(--ease-standard); }
+.feed-card .feed-img img { transition: transform var(--motion-slow) var(--ease-standard); }
+.feed-card:hover .feed-img img { transform: scale(1.05); }
+.feed-card .read-more { transition: transform var(--motion-fast) var(--ease-standard); }
+.feed-card:hover .read-more { transform: translateX(5px); }
+
+/* ---- Timeline illumination ---- */
+.timeline::before { opacity: 0.28; }
+.timeline::after {
+  content: ""; position: absolute; left: 12px; top: 6px; width: 3px;
+  height: var(--tl-progress, 0%);
+  background: linear-gradient(to bottom, var(--saffron), var(--green));
+  border-radius: 3px;
+  transition: height 140ms linear;
+}
+.tl-item::before { transition: transform var(--motion-normal) var(--ease-emphasized), box-shadow var(--motion-normal); }
+.tl-item.tl-active::before { transform: scale(1.35); box-shadow: 0 0 0 4px rgba(255,153,51,0.25); }
+
+/* ---- Back to top: fade + scale ---- */
+.to-top { opacity: 0; transform: scale(0.8) translateY(10px); pointer-events: none;
+  transition: opacity var(--motion-normal) var(--ease-emphasized), transform var(--motion-normal) var(--ease-emphasized), background var(--motion-fast); }
+.to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+
+/* ---- Lightbox: backdrop blur + image scale-in ---- */
+.lightbox { background: rgba(24,16,8,0.72); transition: opacity var(--motion-normal) var(--ease-standard); }
+@supports ((backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px))) {
+  .lightbox { background: rgba(24,16,8,0.55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+}
+.lightbox img { transform: scale(0.95); transition: transform var(--motion-normal) var(--ease-emphasized); }
+.lightbox.open img { transform: none; }
+
+/* ---- Search results fade ---- */
+#news-results { transition: opacity var(--motion-fast) var(--ease-standard); }
+
+/* ---- Skeleton loading ---- */
+.skeleton-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.skeleton-card .sk-img { aspect-ratio: 16/10; background: #eee; }
+.skeleton-card .sk-body { padding: 22px; }
+.skeleton-line { height: 12px; border-radius: 6px; background: #eee; margin-bottom: 10px; }
+.skeleton-line.short { width: 45%; }
+.sk-img, .skeleton-line { position: relative; overflow: hidden; }
+.sk-img::after, .skeleton-line::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+  transform: translateX(-100%); animation: shimmer 1.3s infinite;
+}
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+
+/* ---- Footer social lift ---- */
+.social-links a { transition: transform var(--motion-fast) var(--ease-standard), background var(--motion-fast), color var(--motion-fast); }
+
+/* ============================================================
+   Reduced motion — disable decorative animation
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .hero::before, .hero::after, .photo-frame, .latest-dot { animation: none !important; }
+  .reveal, .r-item { opacity: 1 !important; transform: none !important; }
+  .timeline::after { transition: none; }
+  .to-top { transition: opacity var(--motion-fast); }
+  * { scroll-behavior: auto !important; }
+}
+
+/* ---- Article entrance (motion-safe) ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .article h1, .article-meta, .share-bar, .article-hero {
+    opacity: 0; animation: aUp 0.55s var(--ease-emphasized) forwards;
+  }
+  .article-meta { animation-delay: 0.06s; }
+  .share-bar { animation-delay: 0.12s; }
+  .article-hero { animation-delay: 0.18s; }
+  @keyframes aUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+}
