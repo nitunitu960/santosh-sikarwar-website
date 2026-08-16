@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Santosh Sikarwar</title>
+  <meta name="description" content="Official website of Santosh Sikarwar." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="#home" class="logo">Santosh Sikarwar</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="container hero-inner">
+        <p class="eyebrow">Welcome</p>
+        <h1>Santosh Sikarwar</h1>
+        <p class="tagline">A short line about who you are and what you do.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Get in touch</a>
+          <a href="#about" class="btn btn-ghost">Learn more</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container">
+        <h2 class="section-title">About</h2>
+        <div class="about-grid">
+          <div class="about-photo" aria-hidden="true">
+            <div class="photo-placeholder">Your Photo</div>
+          </div>
+          <div class="about-text">
+            <p>
+              Write a couple of paragraphs about yourself here. Share your
+              background, what you're passionate about, and what visitors
+              should know about you.
+            </p>
+            <p>
+              Replace this placeholder text with your real story. You can edit
+              everything in the <code>index.html</code> file.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title">Work &amp; Highlights</h2>
+        <div class="cards">
+          <article class="card">
+            <h3>Highlight One</h3>
+            <p>Describe a project, achievement, or service you offer.</p>
+          </article>
+          <article class="card">
+            <h3>Highlight Two</h3>
+            <p>Describe a project, achievement, or service you offer.</p>
+          </article>
+          <article class="card">
+            <h3>Highlight Three</h3>
+            <p>Describe a project, achievement, or service you offer.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container">
+        <h2 class="section-title">Contact</h2>
+        <p class="contact-intro">Reach out through any of the channels below.</p>
+        <ul class="contact-list">
+          <li><strong>Email:</strong> <a href="mailto:hello@santoshsikarwar.in">hello@santoshsikarwar.in</a></li>
+          <li><strong>Phone:</strong> <a href="tel:+910000000000">+91 00000 00000</a></li>
+          <li><strong>Location:</strong> India</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Santosh Sikarwar. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
