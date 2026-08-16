@@ -254,3 +254,64 @@ identity everywhere. This **cannot guarantee** a Google Knowledge Panel; it buil
 Grow the site only with genuine material (programmes, meetings, social/organisational activities,
 public events, real photographs, verified updates). No AI-generated filler, fake news, or fabricated
 achievements.
+
+---
+
+# SEARCH, IMAGES & DISCOVER — SEO FOUNDATION
+
+The goal: help Google clearly understand **who** (Santosh Sikarwar), **where** (Agra, Uttar Pradesh),
+**association** (Bharatiya Janata Party), and **what the site contains** (profile, political journey,
+responsibilities, genuine activities, photographs). Rankings, Google Images/Discover/News placement,
+and Knowledge Panels are decided by Google and **cannot be guaranteed** — this only builds the
+strongest legitimate foundation. No keyword stuffing, doorway/thin pages, or fabricated content.
+
+## Image SEO — the long-term engine
+Every genuine activity photo should live on a real article/activity page near relevant text.
+When you upload an image in the CMS:
+- **Descriptive filename** that matches the actual photo, e.g.
+  `santosh-sikarwar-kisan-samvad-agra-2026-08-16.jpg` (rename before upload).
+  Avoid `IMG_1234.jpg` / WhatsApp-style names, and don't reuse one filename for every photo.
+- **Alt text** (new "फ़ोटो का विवरण / image_alt" field): describe what's genuinely visible, e.g.
+  "Santosh Sikarwar at a farmers' interaction in Agra." Alt text serves accessibility first —
+  do NOT stuff "BJP Agra leader" repeatedly.
+- **Featured image:** prefer a real high-resolution landscape photo (≥1200px, ideally 16:9).
+  Avoid tiny/compressed screenshots, watermarked stock, or the generic logo when a real photo exists.
+- Gallery: add 2–8 genuine supporting photos with captions where useful.
+
+Article structured data already uses the article's **featured photo** (not the logo) as the image,
+with `max-image-preview:large` enabled — the settings Google looks at for large image previews.
+
+## Sitemaps (three files, all in robots.txt)
+- `sitemap.xml` — canonical indexable documents (home, /samachar/ archive, legal pages).
+- `image-sitemap.xml` — genuine images mapped to the page they appear on. **When you publish a new
+  activity with photos, add its images here** (image:loc + a short image:title), and remove any that
+  are deleted. Never list admin/placeholder/broken images.
+- `news-sitemap.xml` — ONLY articles published in the **last ~2 days** (Google News guidance). Remove
+  older entries; update on each publish. Effective only if Google accepts the site as a news source.
+
+Submit all three in Google Search Console → Sitemaps.
+
+## Article title & description guidance (natural, not stuffed)
+- Title describes the real activity, e.g. "किसान संवाद कार्यक्रम — संतोष सिकरवार, आगरा" or
+  "Santosh Sikarwar attends [actual event] in Agra". Use BJP/Agra only when genuinely relevant.
+- Excerpt/description answers what happened, who, where, when — only if actually known.
+- Each article gets a unique title/description/canonical + NewsArticle JSON-LD automatically.
+
+## Search Console monitoring (after a few weeks of real data)
+Performance → check **Queries, Pages, Impressions, Clicks, CTR, Average position**.
+Switch **Search type → Image** to see image impressions/clicks/queries. If Discover data appears,
+review Discover impressions/clicks. Then improve real pages that get impressions but low CTR
+(better title/description/photo) — never by faking freshness (don't change dates/titles artificially).
+
+## Entity & authority (legitimate only)
+- Ensure his official Facebook/Instagram/X profiles list **santoshsikarwar.in** as the website, and
+  use a consistent name, photo, and designation everywhere (this reinforces the `sameAs` signal).
+- Earn references only where genuinely relevant: official organisational pages, real event pages,
+  legitimate local news coverage, interviews, official announcements. **Never buy or fabricate links.**
+
+## Current URL limitation (honest)
+Article pages are client-rendered at `/samachar/?slug=…` (query URLs), which is why they are NOT in
+the normal `sitemap.xml`; Google discovers them via internal links (homepage feed + archive) and
+renders the JS. A future Eleventy/Astro migration could produce clean `/samachar/[slug]/` pages with
+static HTML + static per-article OG images + automatic sitemaps + better social-crawler support.
+Not migrating now.

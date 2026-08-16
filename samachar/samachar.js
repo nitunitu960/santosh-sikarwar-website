@@ -62,7 +62,7 @@ function setMeta(id, attr, value) {
 function renderCard({ post, idx }) {
   const href = articleUrl(post, idx);
   const img = post.image
-    ? `<div class="feed-img"><img src="${absImg(post.image)}" alt="${escapeHtml(post.title)}" loading="lazy" /></div>`
+    ? `<div class="feed-img"><img src="${absImg(post.image)}" alt="${escapeHtml(post.image_alt || post.title)}" loading="lazy" /></div>`
     : "";
   const meta = [post.category, post.location].filter(Boolean).map(escapeHtml).join(" · ");
   return `
@@ -207,7 +207,7 @@ function renderArticle(entry, list) {
   const metaLine = [formatHindiDate(post.date), post.location, post.category, readMin + " मिनट पढ़ने का समय"]
     .filter(Boolean).map(escapeHtml).join(" · ");
   const feature = post.image
-    ? `<img class="article-hero" src="${absImg(post.image)}" alt="${escapeHtml(post.title)}" fetchpriority="high" decoding="async" />`
+    ? `<img class="article-hero" src="${absImg(post.image)}" alt="${escapeHtml(post.image_alt || post.title)}" fetchpriority="high" width="1200" height="675" decoding="async" />`
     : "";
 
   // Share bar

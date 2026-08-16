@@ -43,7 +43,8 @@ collections:
                 required: false
                 default: "अन्य"
                 options: ["कार्यक्रम", "जनसंपर्क", "संगठनात्मक गतिविधि", "सामाजिक गतिविधि", "बैठक", "सम्मान", "अन्य"]
-              - { label: "मुख्य फ़ोटो", name: "image", widget: "image", required: false, hint: "featured image" }
+              - { label: "मुख्य फ़ोटो", name: "image", widget: "image", required: false, hint: "featured image — बड़ा, कम-से-कम 1200px चौड़ा, असली फ़ोटो" }
+              - { label: "फ़ोटो का विवरण (alt text)", name: "image_alt", widget: "string", required: false, hint: "फ़ोटो में क्या है, संक्षेप में (जैसे: संतोष सिकरवार, आगरा में किसान संवाद कार्यक्रम में)" }
               - { label: "संक्षिप्त विवरण (excerpt)", name: "excerpt", widget: "text", required: false, hint: "कार्ड पर दिखने वाला 1-2 पंक्ति का सार" }
               - { label: "पूरा विवरण", name: "text", widget: "text", hint: "गतिविधि का पूरा विवरण" }
               - label: "गैलरी फ़ोटो (वैकल्पिक)"

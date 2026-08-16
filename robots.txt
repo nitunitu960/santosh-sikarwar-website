@@ -5,3 +5,5 @@ Allow: /
 Disallow: /admin/
 
 Sitemap: https://santoshsikarwar.in/sitemap.xml
+Sitemap: https://santoshsikarwar.in/image-sitemap.xml
+Sitemap: https://santoshsikarwar.in/news-sitemap.xml

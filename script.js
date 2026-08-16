@@ -382,8 +382,9 @@ async function renderFeed() {
 
   grid.innerHTML = list.slice(0, 6).map(({ post, idx }) => {
     const href = articleUrl(post, idx);
+    const alt = escapeHtml(post.image_alt || post.title);
     const img = post.image
-      ? `<div class="feed-img"><img src="${imgSrc(post.image)}" ${withFallback(escapeHtml(post.title))} loading="lazy" /></div>`
+      ? `<div class="feed-img"><img src="${imgSrc(post.image)}" ${withFallback(alt)} loading="lazy" /></div>`
       : "";
     const meta = [post.category, post.location].filter(Boolean).map(escapeHtml).join(" · ");
     return `

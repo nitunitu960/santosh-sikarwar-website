@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <!-- Homepage images -->
+  <url>
+    <loc>https://santoshsikarwar.in/</loc>
+    <image:image>
+      <image:loc>https://santoshsikarwar.in/images/653106925_3104359849751568_2861146496380879189_n.jpg</image:loc>
+      <image:title>Santosh Sikarwar, District Vice President, BJP Agra</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://santoshsikarwar.in/images/santosh-sikarwar.jpg</image:loc>
+      <image:title>Santosh Sikarwar</image:title>
+    </image:image>
+  </url>
+  <!-- News archive images -->
+  <url>
+    <loc>https://santoshsikarwar.in/samachar/</loc>
+    <image:image>
+      <image:loc>https://santoshsikarwar.in/images/atal.jpg</image:loc>
+      <image:title>Tribute to Atal Bihari Vajpayee — Santosh Sikarwar</image:title>
+    </image:image>
+  </url>
+</urlset>
