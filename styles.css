@@ -1320,6 +1320,7 @@ body.cursor-on .cursor-ring, body.cursor-on .cursor-dot { opacity: 1; }
 
 /* Buttons — high contrast against saffron */
 .hero-cine .btn-primary { background: #fff; color: var(--saffron-deep); box-shadow: 0 10px 24px rgba(0,0,0,0.20); }
+.hero-cine .btn-primary:hover { background: var(--saffron-deep); color: #fff; }
 .hero-cine .btn-ghost { background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.85); color: #fff; }
 .hero-cine .btn-ghost:hover { background: #fff; color: var(--saffron-deep); }
 
