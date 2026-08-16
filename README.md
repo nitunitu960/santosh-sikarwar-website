@@ -197,3 +197,60 @@ no client-render dependency — while keeping Decap CMS and the current visual d
 Article pages are client-rendered, so WhatsApp/Facebook/X scrapers (which don't run JS) fall
 back to the site's default `og-image.jpg` and default title rather than the article's own image.
 Google indexes articles fine (it renders JS). The SSG migration above is the clean future fix.
+
+---
+
+# FINAL LAUNCH GUIDE (production)
+
+## Publishing a genuine activity/news article — checklist
+```
+[ ] Correct title (real, no exaggeration)
+[ ] Correct date (YYYY-MM-DD)
+[ ] Correct location (public only; never a private residential address)
+[ ] Correct names / designation / organization
+[ ] Genuine photograph(s), descriptive filename + alt/caption
+[ ] Accurate factual description
+[ ] Hindi content checked
+[ ] English version checked (if provided)
+[ ] No fabricated claims / statistics / awards
+[ ] Publish (प्रकाशित करें = ON) in Decap CMS
+[ ] Verify the live page: https://santoshsikarwar.in/samachar/?slug=YOUR-SLUG
+[ ] Confirm title/description/canonical/OG look correct
+[ ] (Optional) Request indexing in Google Search Console
+```
+
+## Google Search Console — exact steps
+1. https://search.google.com/search-console → add property → **URL prefix** → `https://santoshsikarwar.in/`.
+2. Verify ownership (HTML tag method): paste the tag into `<head>` of `index.html` at the marked
+   comment `<!-- Google Search Console ... -->`. (Only the real code Google gives you.)
+3. **Sitemaps** → submit `sitemap.xml` (full URL `https://santoshsikarwar.in/sitemap.xml` if the short form is rejected).
+4. **URL Inspection** → paste the homepage → **Request Indexing**.
+5. Monitor **Pages** (indexing), **Experience → Core Web Vitals**, **Security & Manual Actions**.
+Do not request indexing for the same URL repeatedly.
+
+## Indexing workflow for a new article
+Publish → verify page loads → verify canonical + metadata → (articles are discovered via
+internal links from the homepage feed and `/samachar/`) → optionally URL-Inspect + Request Indexing.
+
+## Sitemap policy (GitHub Pages, no build step)
+`sitemap.xml` lists only canonical indexable documents: homepage, `/samachar/` archive, and the
+legal pages. It intentionally does **not** list per-article query URLs. New articles are found by
+Google through internal links (Google renders the JS). If you later adopt a static-site generator,
+each article can get its own clean URL + sitemap entry automatically.
+
+## Cache-busting workflow
+CSS/JS are linked with a version query, e.g. `styles.css?v=9`, `script.js?v=9`.
+**After changing `styles.css` or `script.js`, increment the number** on the pages that use them
+(`index.html`, `samachar/index.html`, legal pages) so browsers fetch the fresh file.
+Do not add version queries to images or other assets unnecessarily.
+
+## Entity strategy (honest)
+Stronger Google entity recognition comes from: this official website + consistent official social
+profiles (Facebook/Instagram/X already linked) + accurate biography + valid structured data +
+genuine public-activity archive with real photographs + legitimate external references + consistent
+identity everywhere. This **cannot guarantee** a Google Knowledge Panel; it builds the right signals.
+
+## Growth
+Grow the site only with genuine material (programmes, meetings, social/organisational activities,
+public events, real photographs, verified updates). No AI-generated filler, fake news, or fabricated
+achievements.
