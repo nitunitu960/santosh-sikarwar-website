@@ -194,7 +194,12 @@ async function renderSettings() {
     const v = imgSrc(s.logo);
     const hl = document.getElementById("site-logo"); if (hl) hl.src = v;
     const bl = document.getElementById("hero-lotus"); if (bl) bl.src = v;
-    const fav = document.getElementById("favicon"); if (fav) { fav.href = v; fav.removeAttribute("type"); }
+  }
+  // Favicon: dedicated field, else header logo, else default in HTML
+  const favVal = s.favicon || s.logo;
+  if (favVal) {
+    const fav = document.getElementById("favicon");
+    if (fav) { fav.href = "/" + imgSrc(favVal); fav.removeAttribute("type"); }
   }
   if (s.party_logo) {
     const pl = document.getElementById("party-logo"); if (pl) pl.src = imgSrc(s.party_logo);

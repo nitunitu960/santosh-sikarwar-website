@@ -88,7 +88,8 @@ collections:
           - { label: "पद", name: "role", widget: "string" }
           - { label: "नारा", name: "slogan", widget: "string" }
           - { label: "मुख्य फ़ोटो", name: "photo", widget: "image", required: false }
-          - { label: "मुख्य प्रतीक / कमल लोगो (हेडर)", name: "logo", widget: "image", required: false, hint: "खाली छोड़ने पर डिफ़ॉल्ट कमल दिखेगा" }
+          - { label: "हेडर लोगो / कमल प्रतीक", name: "logo", widget: "image", required: false, hint: "हेडर में नाम के साथ दिखने वाला लोगो। खाली = डिफ़ॉल्ट कमल" }
+          - { label: "ब्राउज़र टैब आइकन (favicon)", name: "favicon", widget: "image", required: false, hint: "ब्राउज़र टैब में दिखने वाला छोटा आइकन (चौकोर PNG अनुशंसित)। खाली = हेडर लोगो" }
           - { label: "पार्टी लोगो (फ़ुटर)", name: "party_logo", widget: "image", required: false, hint: "खाली छोड़ने पर डिफ़ॉल्ट BJP लोगो दिखेगा" }
           - { label: "बैनर फ़ोटो (चौड़ी)", name: "banner", widget: "image", required: false }
           - { label: "बैनर पर लिखा वाक्य", name: "bannerCaption", widget: "string", required: false }
