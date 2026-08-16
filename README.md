@@ -118,19 +118,80 @@ rendered on the homepage (latest) and at `/samachar/` (archive + individual arti
 5. Click **Publish → Publish now**. Live in ~1–2 minutes.
 6. Verify the article at `https://santoshsikarwar.in/samachar/?slug=<your-slug>`.
 
-## After publishing (for fast indexing)
-Because GitHub Pages has no build step, the **sitemap is updated manually**:
-1. Edit `sitemap.xml` and add the new article URL:
-   ```xml
-   <url><loc>https://santoshsikarwar.in/samachar/?slug=YOUR-SLUG</loc><lastmod>YYYY-MM-DD</lastmod><priority>0.6</priority></url>
-   ```
-2. Commit/push (or edit on GitHub).
-3. In Google Search Console → **URL Inspection** → paste the article URL → **Request Indexing**.
+## After publishing — run the sitemap generator (one command)
+The three sitemaps are **generated from `data/feed.json`**, never edited by hand:
+```bash
+python generate_sitemaps.py
+```
+This regenerates `sitemap.xml`, `image-sitemap.xml`, and `news-sitemap.xml` from the
+published posts. Then review the output, check `git diff`, and commit/push.
+See **“Automated Sitemap Generation”** below for full details.
+
+Requesting indexing in Search Console is **optional** (Google also finds new articles
+through the submitted sitemap + internal links). Do it only if you want a fresh article
+noticed faster: **URL Inspection** → paste the article URL → **Request Indexing** (once).
 
 ## Slugs
 Give each item a short English **slug** (lowercase, hyphens), e.g. `agra-karyakarta-baithak`.
-If left blank, the article is still reachable via `/samachar/?id=<index>`, but a slug is
-recommended for clean, memorable URLs.
+If left blank, the article is still reachable via `/samachar/?id=<index>` (and the generator
+will warn you), but a slug is strongly recommended for a clean, **stable** URL.
+
+---
+
+# Automated Sitemap Generation
+
+`data/feed.json` is the **single source of truth**. A small script reads it and generates all
+three sitemaps deterministically — you never hand-edit `sitemap.xml`, `image-sitemap.xml`, or
+`news-sitemap.xml` again.
+
+## One command
+```bash
+python generate_sitemaps.py
+```
+Requires Python 3 (already available on the maintainer's machine). No frameworks, no packages —
+standard library only. It reads `data/feed.json` (and `data/settings.json` for the homepage hero
+image) and writes the three XML files in the repo root.
+
+Helpful flags:
+- `python generate_sitemaps.py --check` — report what *would* change without writing (exit code 1 if anything differs). Good for a pre-commit sanity check.
+- `python generate_sitemaps.py --today 2026-08-16` — override “today” for the news window (testing only).
+
+## What it generates
+- **`sitemap.xml`** — homepage, `/samachar/` archive, the three legal pages, **plus every published
+  article URL** (`/samachar/?slug=…`, with `<lastmod>` from the post's `updated_at` or `date`).
+  Unpublished posts, admin, 404, and duplicates are excluded.
+- **`image-sitemap.xml`** — homepage hero + portrait, and each published article's **featured image +
+  gallery images**, mapped to the page they actually appear on. Images whose files are missing from
+  the repo are skipped (no broken/placeholder paths). Only images referenced by published content.
+- **`news-sitemap.xml`** — only articles whose **original publication date** is within the previous
+  **2 days** (Google News guidance). `updated_at` is never used to fake freshness. If none qualify,
+  a valid **empty** `<urlset>` is written.
+
+## Guarantees
+- **Deterministic:** the same `feed.json` produces byte-identical XML on a given day. No generation
+  timestamps are embedded; article `<lastmod>` comes from the feed data. Running it twice without
+  changing `feed.json` yields **no git diff**.
+- **Published-only:** anything with `published: false` is omitted everywhere.
+- **Validation with warnings:** missing title, missing/invalid slug, missing/invalid date, duplicate
+  slugs/URLs, and missing image files each print a clear `!` warning instead of silently producing a
+  broken sitemap. Review warnings before committing.
+- **Absolute HTTPS URLs** only, canonical base `https://santoshsikarwar.in/`.
+
+## It does NOT touch anything else
+The generator only **reads** `feed.json`/`settings.json` and **writes** the three XML files. It does
+not modify Decap CMS config, the `feed.json` schema, admin authentication, article rendering, SEO
+metadata, or existing article URLs.
+
+## Deployment reality (important, honest)
+GitHub Pages is **static** — it does **not** run this script or regenerate sitemaps after a CMS
+publish. The generator runs **on your computer before deployment**, and the resulting XML files are
+committed and pushed like any other file. That is by design.
+
+## Future option (not implemented on purpose)
+This same script could later be wired into a **GitHub Actions** workflow to run automatically on
+every push (so publishing via the CMS would trigger regeneration server-side). That adds CI
+infrastructure and is intentionally **not** set up now to keep things simple. It can be added later
+without changing the generator itself.
 
 ## Architecture note & limitation (important)
 - Article pages are **client-rendered** from `feed.json` at `/samachar/?slug=…`.
@@ -214,9 +275,11 @@ Google indexes articles fine (it renders JS). The SSG migration above is the cle
 [ ] English version checked (if provided)
 [ ] No fabricated claims / statistics / awards
 [ ] Publish (प्रकाशित करें = ON) in Decap CMS
+[ ] Run: python generate_sitemaps.py
+[ ] Review the 3 sitemaps + `git diff`, then commit & push
 [ ] Verify the live page: https://santoshsikarwar.in/samachar/?slug=YOUR-SLUG
 [ ] Confirm title/description/canonical/OG look correct
-[ ] (Optional) Request indexing in Google Search Console
+[ ] (Optional, not required) Request indexing in Google Search Console
 ```
 
 ## Google Search Console — exact steps
@@ -232,11 +295,11 @@ Do not request indexing for the same URL repeatedly.
 Publish → verify page loads → verify canonical + metadata → (articles are discovered via
 internal links from the homepage feed and `/samachar/`) → optionally URL-Inspect + Request Indexing.
 
-## Sitemap policy (GitHub Pages, no build step)
-`sitemap.xml` lists only canonical indexable documents: homepage, `/samachar/` archive, and the
-legal pages. It intentionally does **not** list per-article query URLs. New articles are found by
-Google through internal links (Google renders the JS). If you later adopt a static-site generator,
-each article can get its own clean URL + sitemap entry automatically.
+## Sitemap policy (generated from feed.json)
+All three sitemaps are produced by `python generate_sitemaps.py` from `data/feed.json` — never
+edited by hand. `sitemap.xml` lists the homepage, `/samachar/` archive, the legal pages, and every
+**published** article URL (`/samachar/?slug=…`). Unpublished posts, admin, 404, and duplicates are
+excluded automatically. See **“Automated Sitemap Generation”** above.
 
 ## Cache-busting workflow
 CSS/JS are linked with a version query, e.g. `styles.css?v=9`, `script.js?v=9`.
@@ -281,15 +344,16 @@ When you upload an image in the CMS:
 Article structured data already uses the article's **featured photo** (not the logo) as the image,
 with `max-image-preview:large` enabled — the settings Google looks at for large image previews.
 
-## Sitemaps (three files, all in robots.txt)
-- `sitemap.xml` — canonical indexable documents (home, /samachar/ archive, legal pages).
-- `image-sitemap.xml` — genuine images mapped to the page they appear on. **When you publish a new
-  activity with photos, add its images here** (image:loc + a short image:title), and remove any that
-  are deleted. Never list admin/placeholder/broken images.
-- `news-sitemap.xml` — ONLY articles published in the **last ~2 days** (Google News guidance). Remove
-  older entries; update on each publish. Effective only if Google accepts the site as a news source.
+## Sitemaps (three files, all in robots.txt — auto-generated)
+All three are generated by `python generate_sitemaps.py` from `data/feed.json`; do not edit by hand.
+- `sitemap.xml` — homepage, /samachar/ archive, legal pages, and every published article URL.
+- `image-sitemap.xml` — homepage images + each published article's featured/gallery images, mapped
+  to the page they appear on. Missing image files are skipped automatically (no broken/placeholder).
+- `news-sitemap.xml` — only articles published in the **last 2 days** (empty-but-valid if none).
+  Effective only if Google accepts the site as a news source.
 
-Submit all three in Google Search Console → Sitemaps.
+Submit all three once in Google Search Console → Sitemaps (already done). After that, just rerun the
+generator when you publish and push — Google re-reads the submitted sitemaps automatically.
 
 ## Article title & description guidance (natural, not stuffed)
 - Title describes the real activity, e.g. "किसान संवाद कार्यक्रम — संतोष सिकरवार, आगरा" or
@@ -310,8 +374,8 @@ review Discover impressions/clicks. Then improve real pages that get impressions
   legitimate local news coverage, interviews, official announcements. **Never buy or fabricate links.**
 
 ## Current URL limitation (honest)
-Article pages are client-rendered at `/samachar/?slug=…` (query URLs), which is why they are NOT in
-the normal `sitemap.xml`; Google discovers them via internal links (homepage feed + archive) and
-renders the JS. A future Eleventy/Astro migration could produce clean `/samachar/[slug]/` pages with
-static HTML + static per-article OG images + automatic sitemaps + better social-crawler support.
-Not migrating now.
+Article pages are client-rendered at `/samachar/?slug=…` (query URLs). These URLs **are** now listed
+in `sitemap.xml` (added by the generator) and Google renders the JS to index them; they are also
+reachable via internal links (homepage feed + archive). A future Eleventy/Astro migration could
+produce clean `/samachar/[slug]/` pages with static HTML + static per-article OG images + better
+social-crawler support. Not migrating now.

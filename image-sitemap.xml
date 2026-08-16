@@ -13,12 +13,11 @@
       <image:title>Santosh Sikarwar</image:title>
     </image:image>
   </url>
-  <!-- News archive images -->
   <url>
-    <loc>https://santoshsikarwar.in/samachar/</loc>
+    <loc>https://santoshsikarwar.in/samachar/?slug=atal-bihari-vajpayee-shraddhanjali</loc>
     <image:image>
       <image:loc>https://santoshsikarwar.in/images/atal.jpg</image:loc>
-      <image:title>Tribute to Atal Bihari Vajpayee — Santosh Sikarwar</image:title>
+      <image:title>हार नहीं मानूंगा, रार नहीं ठानूंगा, काल के कपाल पर लिखता मिटाता हूँ। गीत नया गाता हूं। — श्रद्धेय अटल बिहारी वाजपेयी</image:title>
     </image:image>
   </url>
 </urlset>
