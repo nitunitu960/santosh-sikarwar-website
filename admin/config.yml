@@ -89,6 +89,7 @@ collections:
           - { label: "पद", name: "role", widget: "string" }
           - { label: "नारा", name: "slogan", widget: "string" }
           - { label: "मुख्य फ़ोटो", name: "photo", widget: "image", required: false }
+          - { label: "हीरो बैकग्राउंड फ़ोटो (मुख्य पृष्ठ के ऊपर)", name: "hero_bg", widget: "image", required: false, hint: "मुख्य पृष्ठ के शीर्ष पर पृष्ठभूमि में धुंधली/हल्की दिखने वाली रैली/झंडे की असली फ़ोटो। खाली छोड़ने पर कमल वॉटरमार्क दिखेगा।" }
           - { label: "हेडर लोगो / कमल प्रतीक", name: "logo", widget: "image", required: false, hint: "हेडर में नाम के साथ दिखने वाला लोगो। खाली = डिफ़ॉल्ट कमल" }
           - { label: "ब्राउज़र टैब आइकन (favicon)", name: "favicon", widget: "image", required: false, hint: "ब्राउज़र टैब में दिखने वाला छोटा आइकन (चौकोर PNG अनुशंसित)। खाली = हेडर लोगो" }
           - { label: "राजनीतिक यात्रा टाइमलाइन आइकन", name: "timeline_icon", widget: "image", required: false, hint: "टाइमलाइन पर दिखने वाला छोटा आइकन। खाली = डिफ़ॉल्ट कमल" }

@@ -269,6 +269,15 @@ async function renderSettings() {
     document.documentElement.style.setProperty("--tl-marker", "url('" + imgSrc(s.timeline_icon) + "')");
   }
 
+  // Hero background photo (rally/flags) — shown blurred + tinted behind the hero.
+  if (s.hero_bg) {
+    const hero = document.querySelector(".hero-cine");
+    if (hero) {
+      hero.style.setProperty("--hero-bg-url", "url('" + imgSrc(s.hero_bg) + "')");
+      hero.classList.add("has-hero-bg");
+    }
+  }
+
   if (s.photo) {
     const frame = document.getElementById("hero-photo-frame");
     if (frame) {
