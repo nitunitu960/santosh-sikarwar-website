@@ -1264,3 +1264,14 @@ body.cursor-on .cursor-ring, body.cursor-on .cursor-dot { opacity: 1; }
 @media (max-width: 560px) {
   .bio-row { grid-template-columns: 1fr; gap: 2px; }
 }
+
+/* ---- Mobile hero spacing fix (prevent SCROLL/strip overlap) ---- */
+@media (max-width: 820px) {
+  .hero-cine .scroll-indicator { display: none; }
+  .hero-cine { padding-bottom: 44px; }
+  .latest-strip {
+    transform: none;
+    margin: 16px auto 0;
+    width: calc(100% - 32px);
+  }
+}
