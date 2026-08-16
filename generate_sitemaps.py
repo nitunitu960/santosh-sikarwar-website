@@ -114,12 +114,9 @@ def image_abs(rel):
     return BASE + rel
 
 
-def article_url(idx, post):
-    """Canonical article URL. Matches script.js/samachar.js articleUrl()."""
-    slug = post.get("slug")
-    if slug and SLUG_RE.match(slug):
-        return BASE + "samachar/?slug=" + slug
-    return BASE + "samachar/?id=" + str(idx)
+def article_url(post):
+    """Canonical article URL (slug-based only). Caller must pass a slug-eligible post."""
+    return BASE + "samachar/?slug=" + post["slug"]
 
 
 def published_posts(feed):
@@ -130,37 +127,45 @@ def published_posts(feed):
     return out
 
 
+def eligible_posts(published):
+    """Published posts that may appear in sitemaps: those with a VALID, UNIQUE slug.
+    Missing / invalid / duplicate slug -> warn and EXCLUDE from all sitemaps.
+    No ?id= fallback is ever generated (a sitemap must contain only canonical URLs)."""
+    eligible = []
+    seen = {}
+    for idx, post in published:
+        title = str(post.get("title") or "")[:40]
+        slug = post.get("slug")
+        if not slug:
+            warn("post #%d ('%s'): missing slug -> EXCLUDED from all sitemaps "
+                 "(add a lowercase-hyphen slug to include it)" % (idx, title))
+            continue
+        if not SLUG_RE.match(slug):
+            warn("post #%d ('%s'): invalid slug '%s' -> EXCLUDED from all sitemaps "
+                 "(use lowercase letters, digits and hyphens)" % (idx, title, slug))
+            continue
+        if slug in seen:
+            warn("post #%d ('%s'): duplicate slug '%s' (first used by post #%d) "
+                 "-> duplicate EXCLUDED from all sitemaps" % (idx, title, slug, seen[slug]))
+            continue
+        seen[slug] = idx
+        eligible.append((idx, post))
+    return eligible
+
+
 # ---------- validation ----------
 def validate(published):
-    """Warn about missing/invalid data. Returns set of duplicate-safe URLs."""
-    seen_slugs = {}
-    seen_urls = set()
+    """Warn about missing title/date and missing image files.
+    (Slug validity + uniqueness is handled by eligible_posts, which excludes
+    offending articles from every sitemap.)"""
     for idx, post in published:
         title = post.get("title")
         if not title or not str(title).strip():
             warn("post #%d: missing title" % idx)
 
-        slug = post.get("slug")
-        if not slug:
-            warn("post #%d ('%s'): no slug -> falling back to unstable ?id=%d URL "
-                 "(add a lowercase-hyphen slug for a stable URL)"
-                 % (idx, str(title)[:40], idx))
-        elif not SLUG_RE.match(slug):
-            warn("post #%d: invalid slug '%s' (use lowercase letters, digits, hyphens) "
-                 "-> falling back to ?id=%d" % (idx, slug, idx))
-        elif slug in seen_slugs:
-            warn("duplicate slug '%s' on posts #%d and #%d" % (slug, seen_slugs[slug], idx))
-        else:
-            seen_slugs[slug] = idx
-
         if valid_date(post.get("date")) is None:
             warn("post #%d ('%s'): missing/invalid date '%s' (expected YYYY-MM-DD)"
                  % (idx, str(title)[:40], post.get("date")))
-
-        url = article_url(idx, post)
-        if url in seen_urls:
-            warn("duplicate article URL suppressed: %s" % url)
-        seen_urls.add(url)
 
         # image existence checks (broken/placeholder paths are skipped later)
         feat = norm_image(post.get("image"))
@@ -173,7 +178,7 @@ def validate(published):
 
 
 # ---------- builders ----------
-def build_sitemap(published):
+def build_sitemap(eligible):
     lines = ['<?xml version="1.0" encoding="UTF-8"?>',
              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for path, changefreq, priority in STATIC_URLS:
@@ -183,8 +188,8 @@ def build_sitemap(published):
                   "    <priority>%s</priority>" % priority,
                   "  </url>"]
     emitted = set()
-    for idx, post in published:
-        url = article_url(idx, post)
+    for idx, post in eligible:
+        url = article_url(post)
         if url in emitted:
             continue
         emitted.add(url)
@@ -200,7 +205,7 @@ def build_sitemap(published):
     return "\n".join(lines) + "\n"
 
 
-def build_image_sitemap(published, settings):
+def build_image_sitemap(eligible, settings):
     lines = ['<?xml version="1.0" encoding="UTF-8"?>',
              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
              '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
@@ -225,7 +230,7 @@ def build_image_sitemap(published, settings):
         lines.append("  </url>")
 
     # Article images (featured + gallery), mapped to the article's own page
-    for idx, post in published:
+    for idx, post in eligible:
         imgs = []
         feat = norm_image(post.get("image"))
         if feat and image_exists(feat):
@@ -239,7 +244,7 @@ def build_image_sitemap(published, settings):
         if not imgs:
             continue
         lines.append("  <url>")
-        lines.append("    <loc>%s</loc>" % xml_escape(article_url(idx, post)))
+        lines.append("    <loc>%s</loc>" % xml_escape(article_url(post)))
         for rel, title in imgs:
             lines += ["    <image:image>",
                       "      <image:loc>%s</image:loc>" % xml_escape(image_abs(rel)),
@@ -251,9 +256,9 @@ def build_image_sitemap(published, settings):
     return "\n".join(lines) + "\n"
 
 
-def build_news_sitemap(published, today):
+def build_news_sitemap(eligible, today):
     recent = []
-    for idx, post in published:
+    for idx, post in eligible:
         pub = valid_date(post.get("date"))
         if pub is None:
             continue
@@ -271,7 +276,7 @@ def build_news_sitemap(published, today):
              '        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">']
     for idx, post, pub in recent:
         lines += ["  <url>",
-                  "    <loc>%s</loc>" % xml_escape(article_url(idx, post)),
+                  "    <loc>%s</loc>" % xml_escape(article_url(post)),
                   "    <news:news>",
                   "      <news:publication>",
                   "        <news:name>Santosh Sikarwar</news:name>",
@@ -328,17 +333,19 @@ def main():
 
     published = published_posts(feed)
     validate(published)
+    eligible = eligible_posts(published)
 
-    print("Source     : data/feed.json (%d published / %d total)"
-          % (len(published), len(feed.get("posts", []) if isinstance(feed, dict) else [])))
+    total = len(feed.get("posts", []) if isinstance(feed, dict) else [])
+    print("Source     : data/feed.json (%d total / %d published / %d with a valid unique slug)"
+          % (total, len(published), len(eligible)))
     print("News window : articles dated %s .. %s"
           % ((today - timedelta(days=2)).isoformat(), today.isoformat()))
     print("Files:")
 
     changed = False
-    changed |= write_or_check("sitemap.xml", build_sitemap(published), args.check)
-    changed |= write_or_check("image-sitemap.xml", build_image_sitemap(published, settings), args.check)
-    changed |= write_or_check("news-sitemap.xml", build_news_sitemap(published, today), args.check)
+    changed |= write_or_check("sitemap.xml", build_sitemap(eligible), args.check)
+    changed |= write_or_check("image-sitemap.xml", build_image_sitemap(eligible, settings), args.check)
+    changed |= write_or_check("news-sitemap.xml", build_news_sitemap(eligible, today), args.check)
 
     if WARNINGS:
         print("\nWarnings (%d):" % len(WARNINGS))

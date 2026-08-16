@@ -131,10 +131,13 @@ Requesting indexing in Search Console is **optional** (Google also finds new art
 through the submitted sitemap + internal links). Do it only if you want a fresh article
 noticed faster: **URL Inspection** → paste the article URL → **Request Indexing** (once).
 
-## Slugs
-Give each item a short English **slug** (lowercase, hyphens), e.g. `agra-karyakarta-baithak`.
-If left blank, the article is still reachable via `/samachar/?id=<index>` (and the generator
-will warn you), but a slug is strongly recommended for a clean, **stable** URL.
+## Slugs (required for sitemap inclusion)
+Give each item a short English **slug** (lowercase letters, digits, hyphens), e.g.
+`agra-karyakarta-baithak`. A valid, unique slug is **required** for the article to appear in the
+sitemaps: the generator **excludes** any published article with a missing, invalid, or duplicate
+slug from `sitemap.xml`, `image-sitemap.xml`, and `news-sitemap.xml` (and prints a warning). It
+never emits an unstable `?id=` URL. The article stays in `feed.json` and is still viewable, but it
+won't be represented in any sitemap until its slug is fixed.
 
 ---
 
@@ -158,8 +161,9 @@ Helpful flags:
 
 ## What it generates
 - **`sitemap.xml`** — homepage, `/samachar/` archive, the three legal pages, **plus every published
-  article URL** (`/samachar/?slug=…`, with `<lastmod>` from the post's `updated_at` or `date`).
-  Unpublished posts, admin, 404, and duplicates are excluded.
+  article that has a valid, unique slug** (`/samachar/?slug=…`, with `<lastmod>` from the post's
+  `updated_at` or `date`). Unpublished posts, admin, 404, and articles with a missing/invalid/duplicate
+  slug are excluded. Only canonical slug URLs are emitted — never an unstable `?id=` URL.
 - **`image-sitemap.xml`** — homepage hero + portrait, and each published article's **featured image +
   gallery images**, mapped to the page they actually appear on. Images whose files are missing from
   the repo are skipped (no broken/placeholder paths). Only images referenced by published content.
@@ -172,9 +176,9 @@ Helpful flags:
   timestamps are embedded; article `<lastmod>` comes from the feed data. Running it twice without
   changing `feed.json` yields **no git diff**.
 - **Published-only:** anything with `published: false` is omitted everywhere.
-- **Validation with warnings:** missing title, missing/invalid slug, missing/invalid date, duplicate
-  slugs/URLs, and missing image files each print a clear `!` warning instead of silently producing a
-  broken sitemap. Review warnings before committing.
+- **Validation with warnings:** a missing/invalid/duplicate slug prints a clear `!` warning and
+  **excludes** that article from all three sitemaps (no broken or `?id=` URL is ever written).
+  Missing title, missing/invalid date, and missing image files also warn. Review warnings before committing.
 - **Absolute HTTPS URLs** only, canonical base `https://santoshsikarwar.in/`.
 
 ## It does NOT touch anything else
