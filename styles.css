@@ -1275,3 +1275,55 @@ body.cursor-on .cursor-ring, body.cursor-on .cursor-dot { opacity: 1; }
     width: calc(100% - 32px);
   }
 }
+
+
+/* ============================================================
+   Hero (main page top): darker BJP-saffron treatment
+   Overrides the light ivory hero with a deep saffron gradient
+   and light text, while keeping the white photo card.
+   ============================================================ */
+.hero-cine {
+  color: #fff5e9;
+  background:
+    radial-gradient(620px circle at 12% 14%, rgba(255,176,92,0.30), transparent 60%),
+    radial-gradient(600px circle at 88% 86%, rgba(19,136,8,0.28), transparent 62%),
+    linear-gradient(135deg, #c2540f 0%, #a5410a 48%, #7f3007 100%);
+}
+
+/* Faint patterns switched to light so they read on the dark saffron */
+.hero-cine .fx-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px);
+}
+.hero-cine .fx-fields {
+  background: repeating-conic-gradient(from 0deg, rgba(255,255,255,0.07) 0deg 0.6deg, transparent 0.6deg 15deg);
+  opacity: 0.55;
+}
+
+/* Hero text — cream / white on saffron */
+.hero-cine .eyebrow { color: #ffd9a6; }
+.hero-cine .eb-dot { background: #ffd27f; }
+.hero-cine .hero-name { color: #ffffff; }
+.hero-cine .hero-name::after { background: #ffd27f; }
+.hero-cine .hero-role { color: #fff0dc; }
+.hero-cine .slogan { color: rgba(255,255,255,0.88); }
+
+/* Chips — translucent white pills */
+.hero-cine .chip {
+  background: rgba(255,255,255,0.14); color: #fff;
+  border: 1px solid rgba(255,255,255,0.30); box-shadow: none;
+}
+.hero-cine .chip:hover {
+  border-color: #fff; background: rgba(255,255,255,0.22); box-shadow: none;
+}
+
+/* Buttons — high contrast against saffron */
+.hero-cine .btn-primary { background: #fff; color: var(--saffron-deep); box-shadow: 0 10px 24px rgba(0,0,0,0.20); }
+.hero-cine .btn-ghost { background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.85); color: #fff; }
+.hero-cine .btn-ghost:hover { background: #fff; color: var(--saffron-deep); }
+
+/* Photo card accents + scroll cue in a light tone */
+.hero-cine .photo-frame::before { border-top-color: #ffd27f; border-left-color: #ffd27f; }
+.hero-cine .scroll-indicator { color: rgba(255,255,255,0.90); }
+.hero-cine .scroll-indicator .si-line { background: linear-gradient(to bottom, #ffd27f, transparent); }
