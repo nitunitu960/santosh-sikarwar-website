@@ -1432,19 +1432,3 @@ body.cursor-on .cursor-ring, body.cursor-on .cursor-dot { opacity: 1; }
   .hero-cine .hero-cutout { max-width: 300px; margin: 0 auto; }
 }
 
-
-/* ============================================================
-   Hero name — calligraphic saffron style (like reference)
-   ============================================================ */
-.hero-cine .hero-name {
-  font-weight: 800;
-  line-height: 1.12;
-  background: linear-gradient(92deg, #ff9a2e 0%, #f4600f 55%, #e0510b 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  filter: drop-shadow(0 3px 10px rgba(0,0,0,0.55));
-}
-/* keep the accent underline, tuned to saffron */
-.hero-cine .hero-name::after { background: #ffd27f; margin-top: 14px; }
