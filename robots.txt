@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Admin / CMS is not for search engines
+Disallow: /admin/
+
+Sitemap: https://santoshsikarwar.in/sitemap.xml

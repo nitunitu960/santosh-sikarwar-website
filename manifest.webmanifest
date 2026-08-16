@@ -1,0 +1,19 @@
+{
+  "name": "Santosh Sikarwar - BJP Agra",
+  "short_name": "Santosh Sikarwar",
+  "description": "Official website of Santosh Sikarwar, District Vice President, Bharatiya Janata Party (BJP), Agra.",
+  "lang": "hi-IN",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fff8f0",
+  "theme_color": "#f47216",
+  "icons": [
+    {
+      "src": "/images/bjp-lotus.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

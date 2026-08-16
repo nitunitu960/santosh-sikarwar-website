@@ -1,3 +1,30 @@
+// ============================================================
+// Google Analytics 4 (GA4)
+// ------------------------------------------------------------
+// अपनी GA4 Measurement ID यहाँ डालें (जैसे "G-XXXXXXXXXX")।
+// खाली रहने पर Analytics लोड नहीं होगा (कोई फ़र्ज़ी ID नहीं)।
+// विवरण: README.md देखें।
+// ============================================================
+const GA_MEASUREMENT_ID = ""; // <-- अपनी असली GA4 ID यहाँ डालें
+
+function initAnalytics() {
+  if (!GA_MEASUREMENT_ID) return; // no ID set -> skip
+  const s = document.createElement("script");
+  s.async = true;
+  s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_MEASUREMENT_ID;
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { window.dataLayer.push(arguments); };
+  window.gtag("js", new Date());
+  window.gtag("config", GA_MEASUREMENT_ID);
+}
+
+// Safe event helper (no-op if GA not configured)
+function trackEvent(name, params) {
+  if (typeof window.gtag === "function") window.gtag("event", name, params || {});
+}
+initAnalytics();
+
 // ===== Mobile nav toggle =====
 const toggle = document.querySelector(".nav-toggle");
 const links = document.querySelector(".nav-links");
@@ -68,8 +95,9 @@ async function renderSettings() {
   if (s.photo) {
     const frame = document.getElementById("hero-photo-frame");
     if (frame) {
+      const heroAlt = `${s.name || "संतोष सिकरवार"} - ${s.role || "जिला उपाध्यक्ष, भाजपा आगरा"}`;
       frame.innerHTML =
-        `<img class="hero-img" src="${imgSrc(s.photo)}" ${withFallback(s.name || "फ़ोटो")} />`;
+        `<img class="hero-img" src="${imgSrc(s.photo)}" alt="${heroAlt}" width="300" height="375" fetchpriority="high" decoding="async" onerror="this.onerror=null;this.src='${PLACEHOLDER}';" />`;
     }
   }
 
@@ -78,22 +106,42 @@ async function renderSettings() {
   if (banner && s.banner) {
     banner.style.backgroundImage = `url('${imgSrc(s.banner)}')`;
     banner.hidden = false;
+    banner.setAttribute("role", "img");
+    banner.setAttribute(
+      "aria-label",
+      s.bannerCaption || `${s.name || "संतोष सिकरवार"} - ${s.role || ""}`
+    );
     const cap = document.getElementById("banner-caption");
     if (cap) cap.textContent = s.bannerCaption || "";
   }
   const email = document.getElementById("c-email");
   const phone = document.getElementById("c-phone");
   const area = document.getElementById("c-area");
-  if (email && s.email) { email.textContent = s.email; email.href = "mailto:" + s.email; }
-  if (phone && s.phone) { phone.textContent = s.phone; phone.href = "tel:" + s.phone.replace(/\s/g, ""); }
+  if (email && s.email) {
+    email.textContent = s.email;
+    email.href = "mailto:" + s.email;
+    email.addEventListener("click", () => trackEvent("contact_click", { method: "email" }));
+  }
+  if (phone && s.phone) {
+    phone.textContent = s.phone;
+    phone.href = "tel:" + s.phone.replace(/\s/g, "");
+    phone.addEventListener("click", () => trackEvent("phone_click", { method: "phone" }));
+  }
   if (area && s.area) { area.textContent = s.area; }
 
   // Social links: set href from settings, hide any that are empty
   const socials = { facebook: s.facebook, instagram: s.instagram, twitter: s.twitter };
   document.querySelectorAll("#social-links a[data-social]").forEach((a) => {
     const url = socials[a.dataset.social];
-    if (url) { a.href = url; a.hidden = false; }
-    else { a.hidden = true; }
+    if (url) {
+      a.href = url;
+      a.hidden = false;
+      a.addEventListener("click", () =>
+        trackEvent("social_profile_click", { network: a.dataset.social })
+      );
+    } else {
+      a.hidden = true;
+    }
   });
 }
 
@@ -147,7 +195,7 @@ async function renderGallery() {
 
   grid.innerHTML = photos.map((item) => `
     <figure class="gallery-item" data-src="${imgSrc(item.src)}" data-caption="${item.caption || ""}">
-      <img src="${imgSrc(item.src)}" ${withFallback(item.caption || "फ़ोटो")} loading="lazy" />
+      <img src="${imgSrc(item.src)}" ${withFallback(item.caption ? "संतोष सिकरवार - " + item.caption : "संतोष सिकरवार - कार्यक्रम फ़ोटो")} loading="lazy" />
       ${item.caption ? `<figcaption>${item.caption}</figcaption>` : ""}
     </figure>`).join("");
 
@@ -158,9 +206,11 @@ async function renderGallery() {
   grid.querySelectorAll(".gallery-item").forEach((fig) => {
     fig.addEventListener("click", () => {
       lbImg.src = fig.dataset.src;
+      lbImg.alt = fig.dataset.caption || "संतोष सिकरवार - फ़ोटो";
       lbCap.textContent = fig.dataset.caption;
       lightbox.classList.add("open");
       lightbox.setAttribute("aria-hidden", "false");
+      trackEvent("gallery_open", { caption: fig.dataset.caption || "" });
     });
   });
 

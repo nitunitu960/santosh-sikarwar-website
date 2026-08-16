@@ -458,3 +458,105 @@ a:hover { color: var(--green); }
   cursor: pointer;
   line-height: 1;
 }
+
+/* ===== Accessibility: skip link & focus ===== */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 200;
+  background: var(--saffron-deep);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 0 0 8px 0;
+  font-weight: 600;
+}
+.skip-link:focus {
+  left: 0;
+  color: #fff;
+}
+a:focus-visible,
+button:focus-visible,
+.gallery-item:focus-visible {
+  outline: 3px solid var(--saffron-deep);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ===== About: official website note ===== */
+.official-note {
+  margin-top: 18px;
+  padding: 12px 16px;
+  background: rgba(19, 136, 8, 0.06);
+  border-left: 4px solid var(--green);
+  border-radius: 8px;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+
+/* ===== Footer enhancements ===== */
+.footer-name {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--saffron);
+}
+.footer-role {
+  color: #e7d6c4;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+.footer-nav,
+.footer-legal {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin: 16px 0;
+}
+.footer-nav a,
+.footer-legal a {
+  color: #e7d6c4;
+  font-size: 0.92rem;
+}
+.footer-nav a:hover,
+.footer-legal a:hover { color: var(--saffron); }
+.footer-legal {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.85rem;
+}
+
+/* ===== 404 page ===== */
+.notfound {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 60px 0;
+}
+.notfound h1 {
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  color: var(--saffron-deep);
+  margin: 16px 0 10px;
+}
+.notfound p { color: var(--muted); margin-bottom: 26px; }
+.notfound .footer-nav a { color: var(--green-deep); font-weight: 600; }
+.notfound .footer-nav a:hover { color: var(--saffron-deep); }
+
+/* ===== Legal pages & breadcrumb ===== */
+.breadcrumb {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.breadcrumb a { color: var(--saffron-deep); font-weight: 600; }
+.breadcrumb span { margin: 0 4px; }
+.legal-page { max-width: 860px; margin: 0 auto; }
+.legal-page h2 {
+  font-size: 1.25rem;
+  color: var(--green-deep);
+  margin: 26px 0 8px;
+}
+.legal-page p { color: var(--ink); margin-bottom: 12px; }
+.legal-updated { color: var(--muted); font-size: 0.88rem; margin-bottom: 20px; }
