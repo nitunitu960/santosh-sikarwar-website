@@ -78,6 +78,14 @@ async function renderSettings() {
   if (email && s.email) { email.textContent = s.email; email.href = "mailto:" + s.email; }
   if (phone && s.phone) { phone.textContent = s.phone; phone.href = "tel:" + s.phone.replace(/\s/g, ""); }
   if (area && s.area) { area.textContent = s.area; }
+
+  // Social links: set href from settings, hide any that are empty
+  const socials = { facebook: s.facebook, instagram: s.instagram, twitter: s.twitter };
+  document.querySelectorAll("#social-links a[data-social]").forEach((a) => {
+    const url = socials[a.dataset.social];
+    if (url) { a.href = url; a.hidden = false; }
+    else { a.hidden = true; }
+  });
 }
 
 // ---- Daily feed ----

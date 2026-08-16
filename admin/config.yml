@@ -71,3 +71,6 @@ collections:
           - { label: "ई-मेल", name: "email", widget: "string", required: false }
           - { label: "फ़ोन", name: "phone", widget: "string", required: false }
           - { label: "क्षेत्र", name: "area", widget: "string", required: false }
+          - { label: "Facebook लिंक", name: "facebook", widget: "string", required: false }
+          - { label: "Instagram लिंक", name: "instagram", widget: "string", required: false }
+          - { label: "X (Twitter) लिंक", name: "twitter", widget: "string", required: false }
