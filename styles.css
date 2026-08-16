@@ -1250,3 +1250,17 @@ body.cursor-on .cursor-ring, body.cursor-on .cursor-dot { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
   .hero-cine .fx-fields { animation: none !important; }
 }
+
+/* ---- Biography detail grid (जीवन परिचय) ---- */
+.bio-title { font-size: 1.15rem; color: var(--green-deep); margin: 24px 0 12px; }
+.bio-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 8px; }
+.bio-row {
+  display: grid; grid-template-columns: 190px 1fr; gap: 12px;
+  padding: 11px 16px; background: var(--paper);
+  border: 1px solid var(--line); border-left: 4px solid var(--saffron); border-radius: 10px;
+}
+.bio-k { font-weight: 700; color: var(--saffron-deep); }
+.bio-v { color: var(--ink); }
+@media (max-width: 560px) {
+  .bio-row { grid-template-columns: 1fr; gap: 2px; }
+}
