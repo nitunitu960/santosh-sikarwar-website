@@ -68,6 +68,8 @@ collections:
           - { label: "पद", name: "role", widget: "string" }
           - { label: "नारा", name: "slogan", widget: "string" }
           - { label: "मुख्य फ़ोटो", name: "photo", widget: "image", required: false }
+          - { label: "बैनर फ़ोटो (चौड़ी)", name: "banner", widget: "image", required: false }
+          - { label: "बैनर पर लिखा वाक्य", name: "bannerCaption", widget: "string", required: false }
           - { label: "ई-मेल", name: "email", widget: "string", required: false }
           - { label: "फ़ोन", name: "phone", widget: "string", required: false }
           - { label: "क्षेत्र", name: "area", widget: "string", required: false }

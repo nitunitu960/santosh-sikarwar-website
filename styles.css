@@ -175,6 +175,33 @@ a:hover { color: var(--green); }
   display: block;
 }
 
+/* Patriotic banner */
+.banner {
+  position: relative;
+  min-height: 60vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  border-top: 5px solid var(--saffron);
+  border-bottom: 5px solid var(--green);
+}
+.banner[hidden] { display: none; }
+.banner-overlay {
+  width: 100%;
+  background: linear-gradient(to top, rgba(35, 24, 12, 0.75), transparent);
+  padding: 40px 24px 30px;
+}
+.banner-caption {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  color: #fff;
+  font-size: clamp(1.3rem, 3.5vw, 2.2rem);
+  font-weight: 800;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
 /* Sections */
 .section { padding: 80px 0; }
 .section-alt { background: #fff; }

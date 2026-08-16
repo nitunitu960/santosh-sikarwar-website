@@ -72,6 +72,15 @@ async function renderSettings() {
         `<img class="hero-img" src="${imgSrc(s.photo)}" ${withFallback(s.name || "फ़ोटो")} />`;
     }
   }
+
+  // Patriotic banner (wide photo)
+  const banner = document.getElementById("banner");
+  if (banner && s.banner) {
+    banner.style.backgroundImage = `url('${imgSrc(s.banner)}')`;
+    banner.hidden = false;
+    const cap = document.getElementById("banner-caption");
+    if (cap) cap.textContent = s.bannerCaption || "";
+  }
   const email = document.getElementById("c-email");
   const phone = document.getElementById("c-phone");
   const area = document.getElementById("c-area");
