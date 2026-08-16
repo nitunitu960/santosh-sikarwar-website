@@ -653,17 +653,28 @@ async function renderGallery() {
 (function nationalSpirit() {
   const sec = document.getElementById("national-spirit");
   if (!sec) return;
-  const imgs = ["ns-img-2", "ns-img-1"].map((id) => document.getElementById(id)).filter(Boolean);
-  if (!imgs.length) return;
-  let done = 0, ok = 0;
-  const settle = (good) => {
-    done++;
-    if (good) ok++;
-    if (done === imgs.length && ok > 0) sec.hidden = false;
-  };
-  imgs.forEach((im) => {
-    if (im.complete) { settle(im.naturalWidth > 0); return; }
-    im.addEventListener("load", () => settle(true));
-    im.addEventListener("error", () => { const f = im.closest("figure"); if (f) f.remove(); settle(false); });
+  // Probe with standalone Image objects (a hidden section with lazy images
+  // would otherwise never load, so the in-DOM imgs can't be used to detect this).
+  const items = [
+    { url: "images/national-spirit-2.jpg", id: "ns-img-2" },
+    { url: "images/national-spirit-1.jpg", id: "ns-img-1" },
+  ];
+  let checked = 0, anyOk = false;
+  items.forEach((it) => {
+    const probe = new Image();
+    probe.onload = () => finish(true, it);
+    probe.onerror = () => finish(false, it);
+    probe.src = it.url;
   });
+  function finish(ok, it) {
+    checked++;
+    if (ok) {
+      anyOk = true;
+    } else {
+      const im = document.getElementById(it.id);
+      const fig = im && im.closest("figure");
+      if (fig) fig.remove();
+    }
+    if (checked === items.length && anyOk) sec.hidden = false;
+  }
 })();
