@@ -385,16 +385,13 @@ function postExcerpt(post) {
 function articleUrl(post, idx) {
   return post.slug ? "/samachar/?slug=" + encodeURIComponent(post.slug) : "/samachar/?id=" + idx;
 }
-// Return published posts (with original index kept), newest first, featured prioritized
+// Return published posts (with original index kept), strictly newest first (by date)
 function publishedPosts(data) {
   if (!data || !data.posts) return null;
   const list = data.posts
     .map((post, idx) => ({ post, idx }))
     .filter((x) => x.post.published !== false);
-  list.sort((a, b) => {
-    if (!!b.post.featured !== !!a.post.featured) return b.post.featured ? 1 : -1;
-    return String(b.post.date || "").localeCompare(String(a.post.date || ""));
-  });
+  list.sort((a, b) => String(b.post.date || "").localeCompare(String(a.post.date || "")));
   return list;
 }
 
