@@ -294,6 +294,25 @@ async function renderSettings() {
     }
   }
 
+  // Cutout portrait (transparent PNG) — shown frameless + blended into the hero.
+  // Priority: CMS "photo_cutout", else auto-use images/hero-portrait.png if present.
+  function applyCutout(url) {
+    const hero = document.querySelector(".hero-cine");
+    const frame = document.getElementById("hero-photo-frame");
+    if (!hero || !frame) return;
+    const heroAlt = `${s.name || "संतोष सिकरवार"} - ${s.role || "जिला उपाध्यक्ष, भाजपा आगरा"}`;
+    frame.innerHTML =
+      `<img class="hero-cutout" src="${url}" alt="${heroAlt}" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='${PLACEHOLDER}';" />`;
+    hero.classList.add("has-cutout");
+  }
+  if (s.photo_cutout) {
+    applyCutout(imgSrc(s.photo_cutout));
+  } else {
+    const pc = new Image();
+    pc.onload = () => applyCutout("images/hero-portrait.png");
+    pc.src = "images/hero-portrait.png";
+  }
+
   // Patriotic banner (wide photo)
   const banner = document.getElementById("banner");
   if (banner && s.banner) {
