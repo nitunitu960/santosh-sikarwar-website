@@ -1597,7 +1597,7 @@ body.cursor-on .cursor-ring, body.cursor-on .cursor-dot { opacity: 1; }
 .ns-section { background: #fffdf7; }
 .ns-grid {
   display: grid;
-  grid-template-columns: 1.55fr 1fr;
+  grid-template-columns: 1fr;
   gap: 22px;
   align-items: stretch;
   margin-top: 8px;

@@ -657,7 +657,6 @@ async function renderGallery() {
   // would otherwise never load, so the in-DOM imgs can't be used to detect this).
   const items = [
     { url: "images/national-spirit-2.jpg", id: "ns-img-2" },
-    { url: "images/national-spirit-1.jpg", id: "ns-img-1" },
   ];
   let checked = 0, anyOk = false;
   items.forEach((it) => {
