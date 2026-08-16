@@ -1,19 +1,31 @@
 {
   "posts": [
     {
-      "title": "हार नहीं मानूंगा, रार नहीं ठानूंगा, काल के कपाल पर लिखता मिटाता हूँ। गीत नया गाता हूं। — श्रद्धेय अटल बिहारी वाजपेयी",
-      "slug": "atal-bihari-vajpayee-shraddhanjali",
-      "date": "2026-08-16",
-      "location": "",
-      "category": "सम्मान",
-      "image": "/images/atal.jpg",
       "excerpt": "श्रद्धेय अटल बिहारी वाजपेयी जी को उनकी पुण्यतिथि पर विनम्र श्रद्धांजलि।",
-      "text": "Remembering Atal Bihari Vajpayee Ji on his Punyatithi.\n\nA visionary statesman, gifted orator and a leader who dedicated his life to the service of the nation. His ideals, wisdom and unwavering commitment to India continue to inspire generations.\n\nA leader remembered. A legacy that lives on.\n\nॐ शांति 🙏",
-      "gallery": [],
       "author": "संतोष सिकरवार",
+      "slug": "atal-bihari-vajpayee-shraddhanjali",
+      "text": "Remembering Atal Bihari Vajpayee Ji on his Punyatithi.\n\nA visionary statesman, gifted orator and a leader who dedicated his life to the service of the nation. His ideals, wisdom and unwavering commitment to India continue to inspire generations.\n\nA leader remembered. A legacy that lives on.\n\nॐ शांति 🙏",
       "featured": true,
       "published": true,
-      "updated_at": ""
+      "date": "2026-08-16",
+      "gallery": [],
+      "location": "",
+      "updated_at": "",
+      "title": "हार नहीं मानूंगा, रार नहीं ठानूंगा, काल के कपाल पर लिखता मिटाता हूँ। गीत नया गाता हूं। — श्रद्धेय अटल बिहारी वाजपेयी",
+      "image": "/images/atal.jpg",
+      "category": "सम्मान"
+    },
+    {
+      "image_alt": "आज हम उन महान स्वतंत्रता सेनानियों और वीर शहीदों को नमन करते हैं, जिन्होंने अपना सर्वस्व न्योछावर कर हमें स्वतंत्र भारत का गौरव प्रदान किया। ",
+      "author": "संतोष सिकरवार",
+      "text": "आज हम उन महान स्वतंत्रता सेनानियों और वीर शहीदों को नमन करते हैं, जिन्होंने अपना सर्वस्व न्योछावर कर हमें स्वतंत्र भारत का गौरव प्रदान किया।\nआइए, इस पावन अवसर पर हम राष्ट्र की एकता, अखंडता और संप्रभुता को मजबूत करने तथा भारत को विकसित, सशक्त और आत्मनिर्भर राष्ट्र बनाने का संकल्प लें।\nवंदे मातरम्! 🇮🇳\nभारत माता की जय!\nSantosh Sikarwar \n#स्वतंत्रता_दिवस #IndependenceDay #जय_हिंद #वंदे_मातरम्",
+      "featured": false,
+      "published": true,
+      "date": "2026-08-15",
+      "location": "आगरा, उत्तर प्रदेश",
+      "title": "🇮🇳 स्वतंत्रता दिवस की हार्दिक शुभकामनाएँ! 🇮🇳",
+      "image": "/images/774575390_1835037704604524_7943096891715521402_n.jpg",
+      "category": "अन्य"
     }
   ]
 }
