@@ -8,7 +8,7 @@
 
 backend:
   name: github
-  repo: YOUR-USERNAME/santosh-sikarwar-website   # <-- बदलें
+  repo: nitunitu960/santosh-sikarwar-website
   branch: main
   base_url: https://YOUR-OAUTH-URL               # <-- बदलें (Cloudflare Worker URL)
 
