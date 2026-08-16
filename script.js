@@ -581,13 +581,21 @@ async function renderGallery() {
   const btn = document.getElementById("lang-toggle");
   if (!btn) return;
   const nodes = document.querySelectorAll("[data-en]");
-  nodes.forEach((n) => { n.dataset.hi = n.textContent; });
+  // Preserve original Hindi (incl. inline HTML like <strong>) via a Map
+  const originalHi = new Map();
+  nodes.forEach((n) => originalHi.set(n, n.innerHTML));
 
   function apply(lang) {
     const en = lang === "en";
-    nodes.forEach((n) => { n.textContent = en ? n.getAttribute("data-en") : n.dataset.hi; });
+    nodes.forEach((n) => {
+      const val = en ? n.getAttribute("data-en") : originalHi.get(n);
+      // Fallback: never blank out content
+      if (val != null && val !== "") n.innerHTML = val;
+      else n.innerHTML = originalHi.get(n);
+    });
     document.documentElement.lang = en ? "en" : "hi";
     btn.textContent = en ? "हिं" : "EN";
+    btn.setAttribute("aria-label", en ? "हिंदी में बदलें" : "Switch to English");
     try { localStorage.setItem("ss_lang", lang); } catch (e) {}
   }
 
