@@ -147,3 +147,53 @@ recommended for clean, memorable URLs.
 ## RSS
 An RSS `/feed.xml` was intentionally **not** added: without a build step it would go stale
 and risk serving outdated content. It can be added later alongside the SSG upgrade above.
+
+---
+
+# Content Quality, Maintenance & Long-Term Strategy
+
+## Pre-publish checklist (every genuine activity)
+Before setting **प्रकाशित करें = ON**, verify:
+- [ ] Real event **date** (YYYY-MM-DD)
+- [ ] Correct **title** (no exaggeration)
+- [ ] **Location** (only if genuinely public; never a private/residential address)
+- [ ] Authentic **photograph** with a descriptive filename + accurate caption
+- [ ] Correct **names, designation, organization** spelling — always "Santosh Sikarwar", "जिला उपाध्यक्ष, भारतीय जनता पार्टी, आगरा"
+- [ ] Any **quotation** is accurate and correctly attributed
+- [ ] Factual **description** — no invented achievements, statistics, endorsements, or news
+
+Never publish fabricated political information. AI may help with grammar/formatting/summarizing owner-supplied facts, never with inventing them.
+
+## Recommended image specs
+- **Featured image:** ~1200px wide, compressed JP/WebP, under ~300 KB, descriptive filename
+  (e.g. `santosh-sikarwar-agra-programme.jpg`), meaningful alt/caption.
+- **Gallery:** compressed, lazy-loaded automatically, captions where useful.
+- Avoid uploading raw multi-MB camera files; resize first. Do not stretch/distort photos.
+- The social fallback image `images/og-image.jpg` stays **1200×630** and must return HTTP 200.
+
+## Content roadmap (all genuine only)
+Public programmes · organizational activities · meetings · social activities · public events ·
+authentic photographs · factual political-journey updates.
+Avoid: AI filler, fake news, keyword stuffing, duplicate articles.
+
+## Draft/publish behaviour (verified)
+`published: false` → hidden from homepage feed, latest strip, archive, related, and should be
+kept out of `sitemap.xml`. `published: true` → visible through the normal flow.
+An invalid or unpublished `?slug=` shows a professional "यह समाचार उपलब्ध नहीं है" page (noindex).
+
+## Google Knowledge Panel — honest expectation
+Structured data and consistent identity **strengthen entity signals but cannot guarantee** a
+Knowledge Panel. Long-term strategy: official website + consistent official social profiles +
+accurate structured data + a genuine public-activity archive + legitimate external references +
+consistent identity information. No guarantees.
+
+## Future SSG migration (do NOT do now)
+A lightweight static-site generator (Eleventy/Astro) could later pre-render each `feed.json`
+entry to its own static HTML file, giving: clean `/samachar/[slug]` URLs, **article-specific
+static OG metadata** (fixes the social-crawler limitation), automatic sitemap generation, and
+no client-render dependency — while keeping Decap CMS and the current visual design.
+
+## Known limitation — social link previews
+Article pages are client-rendered, so WhatsApp/Facebook/X scrapers (which don't run JS) fall
+back to the site's default `og-image.jpg` and default title rather than the article's own image.
+Google indexes articles fine (it renders JS). The SSG migration above is the clean future fix.
