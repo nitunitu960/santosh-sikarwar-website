@@ -1390,7 +1390,7 @@ body.cursor-on .cursor-ring, body.cursor-on .cursor-dot { opacity: 1; }
 /* Designation plate — BJP flag colours (green | saffron) for strong visibility */
 .hero-cine .hero-role {
   display: inline-block;
-  background: linear-gradient(90deg, #159a3c 0 50%, #f47216 50% 100%);
+  background: linear-gradient(90deg, #159a3c 0 30%, #f47216 30% 100%);
   color: #ffffff;
   font-weight: 700;
   padding: 8px 20px;
