@@ -378,9 +378,21 @@ function setupPhotoStory(items) {
   if ((slug || id !== null) && entry) {
     renderArticle(entry, list);
   } else if (slug || id !== null) {
-    // Requested article not found or unpublished -> show archive
-    renderArchive(list);
+    // Requested article does not exist or is unpublished -> professional message
+    renderNotFound();
   } else {
     renderArchive(list);
   }
 })();
+
+// ---- Article not found (invalid/unpublished slug) ----
+function renderNotFound() {
+  setMeta("meta-robots", "content", "noindex, follow");
+  document.title = "समाचार उपलब्ध नहीं | Santosh Sikarwar";
+  const bc = document.getElementById("breadcrumb");
+  if (bc) bc.innerHTML = '<a href="/">मुख्य पृष्ठ</a> <span>›</span> <a href="/samachar/">समाचार</a> <span>›</span> <span>उपलब्ध नहीं</span>';
+  document.getElementById("samachar-content").innerHTML =
+    '<h1 class="section-title" style="text-align:left">यह समाचार उपलब्ध नहीं है</h1>' +
+    '<p class="empty-note">आप जिस समाचार/गतिविधि को खोज रहे हैं वह उपलब्ध नहीं है या हटा दी गई है।</p>' +
+    '<p class="article-back"><a href="/samachar/">← सभी समाचार</a> · <a href="/">मुख्य पृष्ठ</a></p>';
+}

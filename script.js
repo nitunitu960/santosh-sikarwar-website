@@ -211,18 +211,27 @@ async function renderSettings() {
     const cap = document.getElementById("banner-caption");
     if (cap) cap.textContent = s.bannerCaption || "";
   }
+  // Contact: show only real values; hide placeholder email/phone entirely
+  const isPlaceholderContact = (v) => !v || /0{4,}|example|info@santoshsikarwar\.in/i.test(v);
   const email = document.getElementById("c-email");
   const phone = document.getElementById("c-phone");
   const area = document.getElementById("c-area");
-  if (email && s.email) {
-    email.textContent = s.email;
-    email.href = "mailto:" + s.email;
-    email.addEventListener("click", () => trackEvent("contact_click", { method: "email" }));
+  const hideLi = (el) => { const li = el && el.closest("li"); if (li) li.hidden = true; };
+  if (email) {
+    if (isPlaceholderContact(s.email)) { hideLi(email); }
+    else {
+      email.textContent = s.email;
+      email.href = "mailto:" + s.email;
+      email.addEventListener("click", () => trackEvent("contact_click", { method: "email" }));
+    }
   }
-  if (phone && s.phone) {
-    phone.textContent = s.phone;
-    phone.href = "tel:" + s.phone.replace(/\s/g, "");
-    phone.addEventListener("click", () => trackEvent("phone_click", { method: "phone" }));
+  if (phone) {
+    if (isPlaceholderContact(s.phone)) { hideLi(phone); }
+    else {
+      phone.textContent = s.phone;
+      phone.href = "tel:" + s.phone.replace(/\s/g, "");
+      phone.addEventListener("click", () => trackEvent("phone_click", { method: "phone" }));
+    }
   }
   if (area && s.area) { area.textContent = s.area; }
 
