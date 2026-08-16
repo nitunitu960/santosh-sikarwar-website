@@ -887,7 +887,7 @@ a.feed-card:hover .read-more { color: var(--green); }
   transition: height 140ms linear;
 }
 .tl-item::before { transition: transform var(--motion-normal) var(--ease-emphasized), box-shadow var(--motion-normal); }
-.tl-item.tl-active::before { transform: scale(1.35); box-shadow: 0 0 0 4px rgba(255,153,51,0.25); }
+.tl-item.tl-active::before { transform: scale(1.22); box-shadow: 0 0 0 4px rgba(255,153,51,0.18), 0 0 14px rgba(255,153,51,0.35); }
 
 /* ---- Back to top: fade + scale ---- */
 .to-top { opacity: 0; transform: scale(0.8) translateY(10px); pointer-events: none;

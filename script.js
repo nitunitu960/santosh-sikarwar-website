@@ -161,10 +161,12 @@ async function setupVCard() {
       const total = rect.height || 1;
       const p = Math.max(0, Math.min(1, (mid - rect.top) / total));
       timeline.style.setProperty("--tl-progress", (p * 100).toFixed(1) + "%");
-      tlItems.forEach((it) => {
-        const r = it.getBoundingClientRect();
-        it.classList.toggle("tl-active", r.top <= mid && r.bottom >= mid * 0.4);
+      let bestIdx = -1, bestDist = Infinity;
+      tlItems.forEach((it, i) => {
+        const top = it.getBoundingClientRect().top;
+        if (top <= mid) { const d = mid - top; if (d < bestDist) { bestDist = d; bestIdx = i; } }
       });
+      tlItems.forEach((it, i) => it.classList.toggle("tl-active", i === bestIdx));
     }
   }
   function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
