@@ -1,10 +1,19 @@
 {
   "posts": [
     {
-      "date": "16 अगस्त 2026",
-      "title": "हार नहीं मानूंगा, रार नहीं ठानूंगा, काल के कपाल पर लिखता मिटाता हूँ। गीत नया गाता हूं।  श्रद्धेय अटल बिहारी वाजपेयी",
+      "title": "हार नहीं मानूंगा, रार नहीं ठानूंगा, काल के कपाल पर लिखता मिटाता हूँ। गीत नया गाता हूं। — श्रद्धेय अटल बिहारी वाजपेयी",
+      "slug": "atal-bihari-vajpayee-shraddhanjali",
+      "date": "2026-08-16",
+      "location": "",
+      "category": "सम्मान",
       "image": "/images/atal.jpg",
-      "text": "Remembering Atal Bihari Vajpayee Ji on his Punyatithi.\n\nA visionary statesman, gifted orator and a leader who dedicated his life to the service of the nation. His ideals, wisdom and unwavering commitment to India continue to inspire generations.\n\nA leader remembered. A legacy that lives on.\n\nॐ शांति 🙏"
+      "excerpt": "श्रद्धेय अटल बिहारी वाजपेयी जी को उनकी पुण्यतिथि पर विनम्र श्रद्धांजलि।",
+      "text": "Remembering Atal Bihari Vajpayee Ji on his Punyatithi.\n\nA visionary statesman, gifted orator and a leader who dedicated his life to the service of the nation. His ideals, wisdom and unwavering commitment to India continue to inspire generations.\n\nA leader remembered. A legacy that lives on.\n\nॐ शांति 🙏",
+      "gallery": [],
+      "author": "संतोष सिकरवार",
+      "featured": true,
+      "published": true,
+      "updated_at": ""
     }
   ]
 }

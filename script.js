@@ -145,36 +145,76 @@ async function renderSettings() {
   });
 }
 
-// ---- Daily feed ----
+// ---- Shared content helpers (used by homepage + /samachar/) ----
+const HINDI_MONTHS = ["जनवरी","फ़रवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
+function formatHindiDate(d) {
+  if (!d) return "";
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(d);
+  if (m) return parseInt(m[3], 10) + " " + HINDI_MONTHS[parseInt(m[2], 10) - 1] + " " + m[1];
+  return d; // already a display string (backward compatible)
+}
+function escapeHtml(s) {
+  return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+function postExcerpt(post) {
+  if (post.excerpt) return post.excerpt;
+  const t = (post.text || "").replace(/\s+/g, " ").trim();
+  return t.length > 140 ? t.slice(0, 140) + "…" : t;
+}
+function articleUrl(post, idx) {
+  return post.slug ? "/samachar/?slug=" + encodeURIComponent(post.slug) : "/samachar/?id=" + idx;
+}
+// Return published posts (with original index kept), newest first, featured prioritized
+function publishedPosts(data) {
+  if (!data || !data.posts) return null;
+  const list = data.posts
+    .map((post, idx) => ({ post, idx }))
+    .filter((x) => x.post.published !== false);
+  list.sort((a, b) => {
+    if (!!b.post.featured !== !!a.post.featured) return b.post.featured ? 1 : -1;
+    return String(b.post.date || "").localeCompare(String(a.post.date || ""));
+  });
+  return list;
+}
+
+// ---- Homepage activity feed (latest published) ----
 async function renderFeed() {
   const grid = document.getElementById("feed-grid");
   if (!grid) return;
   const data = await loadJSON("data/feed.json");
-  const posts = data && data.posts ? data.posts : null;
+  const list = publishedPosts(data);
 
-  if (!posts) {
+  if (!list) {
     grid.innerHTML = '<p class="empty-note">समाचार लोड करने के लिए वेबसाइट को ऑनलाइन (लाइव) देखें।</p>';
     return;
   }
-  if (!posts.length) {
+  if (!list.length) {
     grid.innerHTML = '<p class="empty-note">अभी कोई अपडेट नहीं है।</p>';
     return;
   }
 
-  grid.innerHTML = posts.map((post) => {
+  grid.innerHTML = list.slice(0, 6).map(({ post, idx }) => {
+    const href = articleUrl(post, idx);
     const img = post.image
-      ? `<div class="feed-img"><img src="${imgSrc(post.image)}" ${withFallback(post.title)} loading="lazy" /></div>`
+      ? `<div class="feed-img"><img src="${imgSrc(post.image)}" ${withFallback(escapeHtml(post.title))} loading="lazy" /></div>`
       : "";
+    const meta = [post.category, post.location].filter(Boolean).map(escapeHtml).join(" · ");
     return `
-      <article class="feed-card">
+      <a class="feed-card" href="${href}" aria-label="${escapeHtml(post.title)}">
         ${img}
         <div class="feed-body">
-          <span class="feed-date">${post.date || ""}</span>
-          <h3>${post.title || ""}</h3>
-          <p>${post.text || ""}</p>
+          <span class="feed-date">${formatHindiDate(post.date)}</span>
+          ${meta ? `<span class="feed-meta">${meta}</span>` : ""}
+          <h3>${escapeHtml(post.title)}</h3>
+          <p>${escapeHtml(postExcerpt(post))}</p>
+          <span class="read-more">और पढ़ें →</span>
         </div>
-      </article>`;
+      </a>`;
   }).join("");
+
+  grid.querySelectorAll(".feed-card").forEach((a) =>
+    a.addEventListener("click", () => trackEvent("news_article_open", { url: a.getAttribute("href") }))
+  );
 }
 
 // ---- Gallery + lightbox ----

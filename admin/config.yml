@@ -28,16 +28,36 @@ collections:
         label: "समाचार सूची"
         file: "data/feed.json"
         fields:
-          - label: "पोस्ट"
+          - label: "समाचार / गतिविधि"
             name: "posts"
             widget: "list"
-            label_singular: "पोस्ट"
+            label_singular: "समाचार / गतिविधि"
             summary: "{{fields.date}} — {{fields.title}}"
             fields:
-              - { label: "तारीख", name: "date", widget: "string", hint: "जैसे: 16 अगस्त 2026" }
-              - { label: "शीर्षक", name: "title", widget: "string" }
-              - { label: "विवरण", name: "text", widget: "text" }
-              - { label: "फ़ोटो (वैकल्पिक)", name: "image", widget: "image", required: false }
+              - { label: "शीर्षक", name: "title", widget: "string", hint: "गतिविधि/कार्यक्रम का वास्तविक शीर्षक" }
+              - { label: "तारीख", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", hint: "कार्यक्रम की वास्तविक तिथि" }
+              - { label: "स्थान", name: "location", widget: "string", required: false, hint: "जैसे: आगरा, उत्तर प्रदेश (यदि लागू हो)" }
+              - label: "श्रेणी"
+                name: "category"
+                widget: "select"
+                required: false
+                default: "अन्य"
+                options: ["कार्यक्रम", "जनसंपर्क", "संगठनात्मक गतिविधि", "सामाजिक गतिविधि", "बैठक", "सम्मान", "अन्य"]
+              - { label: "मुख्य फ़ोटो", name: "image", widget: "image", required: false, hint: "featured image" }
+              - { label: "संक्षिप्त विवरण (excerpt)", name: "excerpt", widget: "text", required: false, hint: "कार्ड पर दिखने वाला 1-2 पंक्ति का सार" }
+              - { label: "पूरा विवरण", name: "text", widget: "text", hint: "गतिविधि का पूरा विवरण" }
+              - label: "गैलरी फ़ोटो (वैकल्पिक)"
+                name: "gallery"
+                widget: "list"
+                required: false
+                summary: "{{fields.caption}}"
+                fields:
+                  - { label: "फ़ोटो", name: "src", widget: "image" }
+                  - { label: "कैप्शन", name: "caption", widget: "string", required: false }
+              - { label: "लेखक/स्रोत", name: "author", widget: "string", required: false, default: "संतोष सिकरवार" }
+              - { label: "मुख्य (featured) बनाएँ?", name: "featured", widget: "boolean", default: false, required: false }
+              - { label: "प्रकाशित करें?", name: "published", widget: "boolean", default: true, hint: "बंद रखने पर वेबसाइट पर नहीं दिखेगा" }
+              - { label: "अद्यतन तिथि (यदि बदला हो)", name: "updated_at", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", required: false }
 
   # ---------- फोटो गैलरी ----------
   - name: "gallery"

@@ -93,3 +93,57 @@ without losing the current design.
 - [ ] Create a GA4 property and paste the Measurement ID into `script.js`.
 - [ ] (Optional) Add a dedicated 1200×630 `images/og-image.jpg`.
 - [ ] Confirm real email & phone in the admin panel (currently placeholders).
+
+---
+
+# News & Activities — Publishing Workflow
+
+The news/activity system is CMS-driven. Content lives in `data/feed.json` and is
+rendered on the homepage (latest) and at `/samachar/` (archive + individual articles).
+
+## Add a genuine activity/news item
+1. Open **https://santoshsikarwar.in/admin/** and log in.
+2. Go to **समाचार / गतिविधियाँ → समाचार सूची** and click **Add समाचार / गतिविधि**.
+3. Fill in (use only real information):
+   - **शीर्षक** (title) — the actual event/activity title
+   - **तारीख** (date) — the real event date (stored as YYYY-MM-DD)
+   - **स्थान** (location) — e.g. "आगरा, उत्तर प्रदेश" (leave empty if not applicable; never a private address)
+   - **श्रेणी** (category) — कार्यक्रम / जनसंपर्क / संगठनात्मक गतिविधि / सामाजिक गतिविधि / बैठक / सम्मान / अन्य
+   - **मुख्य फ़ोटो** (featured image) — upload with a descriptive filename, e.g. `santosh-sikarwar-agra-programme.jpg`
+   - **संक्षिप्त विवरण** (excerpt) — 1–2 line summary shown on cards
+   - **पूरा विवरण** (full body)
+   - **गैलरी फ़ोटो** (optional) — add multiple photos with captions
+   - **लेखक/स्रोत**, **मुख्य (featured)?**, **प्रकाशित करें?** (uncheck to keep hidden), **अद्यतन तिथि** (if edited later)
+4. Keep **प्रकाशित करें?** ON to publish; OFF keeps it hidden from the public site.
+5. Click **Publish → Publish now**. Live in ~1–2 minutes.
+6. Verify the article at `https://santoshsikarwar.in/samachar/?slug=<your-slug>`.
+
+## After publishing (for fast indexing)
+Because GitHub Pages has no build step, the **sitemap is updated manually**:
+1. Edit `sitemap.xml` and add the new article URL:
+   ```xml
+   <url><loc>https://santoshsikarwar.in/samachar/?slug=YOUR-SLUG</loc><lastmod>YYYY-MM-DD</lastmod><priority>0.6</priority></url>
+   ```
+2. Commit/push (or edit on GitHub).
+3. In Google Search Console → **URL Inspection** → paste the article URL → **Request Indexing**.
+
+## Slugs
+Give each item a short English **slug** (lowercase, hyphens), e.g. `agra-karyakarta-baithak`.
+If left blank, the article is still reachable via `/samachar/?id=<index>`, but a slug is
+recommended for clean, memorable URLs.
+
+## Architecture note & limitation (important)
+- Article pages are **client-rendered** from `feed.json` at `/samachar/?slug=…`.
+  Google renders JavaScript, so these pages are crawlable/indexable, and each gets a
+  correct canonical + `NewsArticle` JSON-LD + title/description at runtime.
+- **Limitation:** social scrapers (WhatsApp/Facebook/X) generally do **not** execute
+  JavaScript, so per-article link previews fall back to the site's default share image,
+  not the article's own image. The homepage and archive share correctly.
+- **Future upgrade (optional, not a rebuild-now):** to get per-article static OG images
+  and clean `/samachar/[slug]` URLs, introduce a lightweight static-site generator
+  (e.g. Eleventy/Astro) that pre-renders each `feed.json` entry to its own HTML file at
+  build time. This keeps Decap CMS and the current design while adding a build step.
+
+## RSS
+An RSS `/feed.xml` was intentionally **not** added: without a build step it would go stale
+and risk serving outdated content. It can be added later alongside the SSG upgrade above.
