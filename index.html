@@ -50,7 +50,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles.css?v=25" />
+  <link rel="stylesheet" href="styles.css?v=26" />
 
   <!-- Structured data: Person + PoliticalParty + WebSite -->
   <script type="application/ld+json">
@@ -303,12 +303,17 @@
       </div>
     </section>
 
-    <!-- NATIONAL SPIRIT (single wide photo, no heading) -->
+    <!-- NATIONAL SPIRIT (single wide photo / subtle carousel, no heading) -->
     <section id="national-spirit" class="ns-section" hidden>
       <div class="container">
-        <figure class="ns-figure">
-          <img id="ns-img-2" src="images/national-spirit-2.jpg" alt="Santosh Sikarwar with the Indian national flag" loading="lazy" decoding="async" />
-        </figure>
+        <div class="ns-carousel">
+          <figure class="ns-figure">
+            <div class="ns-track" id="ns-track">
+              <img class="ns-slide active" id="ns-img-2" src="images/national-spirit-2.jpg" alt="Santosh Sikarwar with the Indian national flag" decoding="async" />
+            </div>
+          </figure>
+          <div class="ns-dots" id="ns-dots" role="tablist" aria-label="राष्ट्रीय भावना फोटो / National Spirit photos" hidden></div>
+        </div>
       </div>
     </section>
 
@@ -420,6 +425,6 @@
     </div>
   </footer>
 
-  <script src="script.js?v=26"></script>
+  <script src="script.js?v=27"></script>
 </body>
 </html>

@@ -649,28 +649,109 @@ async function renderGallery() {
 // ============================================================
 (function nationalSpirit() {
   const sec = document.getElementById("national-spirit");
-  if (!sec) return;
-  // Probe with standalone Image objects (a hidden section with lazy images
-  // would otherwise never load, so the in-DOM imgs can't be used to detect this).
-  const items = [
-    { url: "images/national-spirit-2.jpg", id: "ns-img-2" },
+  const track = document.getElementById("ns-track");
+  const dotsWrap = document.getElementById("ns-dots");
+  if (!sec || !track) return;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Slide 1 (wide salute photo) is already in the HTML. These extra slides are
+  // ADDED ONLY if the file genuinely exists — nothing is invented.
+  const extras = [
+    "images/national-spirit-1.jpg",
+    "images/national-spirit-3.jpg",
+    "images/national-spirit-4.jpg",
+    "images/national-spirit-5.jpg",
   ];
-  let checked = 0, anyOk = false;
-  items.forEach((it) => {
+  const ALT = "Santosh Sikarwar with the Indian national flag";
+
+  const firstImg = track.querySelector(".ns-slide");
+  let revealed = false;
+  const reveal = () => { if (!revealed) { revealed = true; sec.hidden = false; } };
+
+  // Reveal as soon as the first (existing) photo is confirmed to load.
+  const p0 = new Image();
+  p0.onload = reveal;
+  p0.onerror = () => { if (firstImg) firstImg.remove(); };
+  p0.src = firstImg ? firstImg.getAttribute("src") : "";
+
+  // Probe extras; collect only those that exist, then decide single-vs-carousel.
+  const loaded = [];
+  let pending = extras.length;
+  extras.forEach((url) => {
     const probe = new Image();
-    probe.onload = () => finish(true, it);
-    probe.onerror = () => finish(false, it);
-    probe.src = it.url;
+    probe.onload = () => { loaded.push(url); done(); };
+    probe.onerror = done;
+    probe.src = url;
   });
-  function finish(ok, it) {
-    checked++;
-    if (ok) {
-      anyOk = true;
-    } else {
-      const im = document.getElementById(it.id);
-      const fig = im && im.closest("figure");
-      if (fig) fig.remove();
+  if (!pending) init();
+  function done() { if (--pending <= 0) init(); }
+
+  function init() {
+    if (!loaded.length) return; // only one photo -> keep the current single image, no dots
+    reveal();
+    loaded.sort();
+    loaded.forEach((url) => {
+      const img = document.createElement("img");
+      img.className = "ns-slide";
+      img.src = url; img.alt = ALT;
+      img.loading = "lazy"; img.decoding = "async";
+      track.appendChild(img);
+    });
+
+    const figure = track.closest(".ns-figure");
+    const carousel = figure.closest(".ns-carousel") || figure;
+    figure.classList.add("is-carousel");
+    const slides = Array.prototype.slice.call(track.querySelectorAll(".ns-slide"));
+    slides.forEach((s, i) => s.classList.toggle("active", i === 0));
+
+    // Dots
+    dotsWrap.hidden = false;
+    slides.forEach((s, i) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "ns-dot" + (i === 0 ? " active" : "");
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-label", "फोटो " + (i + 1) + " देखें / View photo " + (i + 1));
+      if (i === 0) b.setAttribute("aria-current", "true");
+      b.addEventListener("click", () => { go(i); restart(); });
+      dotsWrap.appendChild(b);
+    });
+    const dots = Array.prototype.slice.call(dotsWrap.children);
+
+    let cur = 0, timer = null;
+    function go(n) {
+      cur = (n + slides.length) % slides.length;
+      slides.forEach((s, i) => s.classList.toggle("active", i === cur));
+      dots.forEach((d, i) => {
+        d.classList.toggle("active", i === cur);
+        if (i === cur) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current");
+      });
     }
-    if (checked === items.length && anyOk) sec.hidden = false;
+    const next = () => go(cur + 1);
+    const prev = () => go(cur - 1);
+    const start = () => { if (reduce) return; stop(); timer = setInterval(next, 4500); };
+    const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+    const restart = () => { stop(); start(); };
+    start();
+
+    // Pause on hover (desktop pointers only)
+    if (window.matchMedia("(pointer: fine)").matches) {
+      figure.addEventListener("mouseenter", stop);
+      figure.addEventListener("mouseleave", start);
+    }
+    // Keyboard when the carousel is focused (no focus trap)
+    carousel.tabIndex = 0;
+    carousel.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { next(); restart(); e.preventDefault(); }
+      else if (e.key === "ArrowLeft") { prev(); restart(); e.preventDefault(); }
+    });
+    // Touch swipe (horizontal only; vertical scrolling unaffected)
+    let sx = 0, sy = 0, sw = false;
+    figure.addEventListener("touchstart", (e) => { const t = e.touches[0]; sx = t.clientX; sy = t.clientY; sw = true; }, { passive: true });
+    figure.addEventListener("touchend", (e) => {
+      if (!sw) return; sw = false;
+      const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { if (dx < 0) next(); else prev(); restart(); }
+    }, { passive: true });
   }
 })();

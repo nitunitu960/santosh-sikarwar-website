@@ -1595,7 +1595,9 @@ body.cursor-on .cursor-ring, body.cursor-on .cursor-dot { opacity: 1; }
    NATIONAL SPIRIT — premium editorial photo section (warm ivory)
    ============================================================ */
 .ns-section { background: #fffdf7; padding: 10px 0 56px; }
+.ns-carousel { position: relative; }
 .ns-figure {
+  position: relative;
   margin: 0;
   line-height: 0;                 /* kill inline-image whitespace under the img */
   border-radius: 16px;
@@ -1603,23 +1605,49 @@ body.cursor-on .cursor-ring, body.cursor-on .cursor-dot { opacity: 1; }
   border: 1px solid rgba(16, 42, 67, 0.10);
   box-shadow: 0 18px 44px rgba(16, 42, 67, 0.12);
 }
-.ns-figure img {
+/* single-image mode: natural height, no forced/empty space */
+.ns-figure .ns-slide {
   display: block;
   width: 100%;
-  height: auto;                   /* natural height — no forced/empty space */
+  height: auto;
   transition: transform var(--motion-normal) var(--ease-standard);
 }
-.ns-figure img:hover { transform: scale(1.015); }
-/* thin tricolor accent sits immediately below the image */
+.ns-figure .ns-slide:hover { transform: scale(1.015); }
+/* thin tricolor accent along the bottom of the image */
 .ns-figure::after {
   content: "";
-  display: block;
-  height: 4px;
+  position: absolute; left: 0; right: 0; bottom: 0; height: 4px; z-index: 2;
   background: linear-gradient(90deg, var(--saffron) 0 33%, #ffffff 33% 66%, var(--green) 66% 100%);
 }
+/* multi-slide crossfade carousel */
+.ns-figure.is-carousel { aspect-ratio: 16 / 9; }
+.ns-figure.is-carousel .ns-track { position: absolute; inset: 0; }
+.ns-figure.is-carousel .ns-slide {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 600ms ease;
+}
+.ns-figure.is-carousel .ns-slide.active { opacity: 1; }
+.ns-figure.is-carousel .ns-slide:hover { transform: none; }
+/* dot indicators */
+.ns-dots { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
+.ns-dots[hidden] { display: none; }
+.ns-dot {
+  width: 8px; height: 8px; padding: 0; border: none; border-radius: 50%;
+  background: rgba(16, 42, 67, 0.25); cursor: pointer;
+  transition: background var(--motion-fast), transform var(--motion-fast);
+}
+.ns-dot:hover { transform: scale(1.15); }
+.ns-dot.active { background: var(--saffron); }
+.ns-dot:focus-visible { outline: 2px solid var(--saffron-deep); outline-offset: 2px; }
 @media (prefers-reduced-motion: no-preference) {
   #national-spirit .ns-figure { animation: nsReveal 700ms ease both; }
   @keyframes nsReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ns-figure.is-carousel .ns-slide { transition: none; }
 }
 @media (max-width: 820px) {
   .ns-section { padding: 6px 0 44px; }
