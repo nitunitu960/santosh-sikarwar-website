@@ -1608,17 +1608,15 @@ body.cursor-on .cursor-ring, body.cursor-on .cursor-dot { opacity: 1; }
   border: 1px solid rgba(16, 42, 67, 0.10);
   box-shadow: 0 18px 44px rgba(16, 42, 67, 0.12);
   opacity: 0;
-  translate: 0 24px;
-  scale: 0.97;
-  clip-path: inset(0 100% 0 0);
+  scale: 0.94;
+  clip-path: inset(8% 8% 8% 8%);
   transition:
-    opacity 850ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    translate 850ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    scale 700ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 900ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    scale 900ms cubic-bezier(0.22, 0.61, 0.36, 1),
     clip-path 900ms cubic-bezier(0.22, 0.61, 0.36, 1),
     box-shadow 300ms ease;
 }
-.ns-figure.ns-revealed { opacity: 1; translate: 0 0; scale: 1; clip-path: inset(0 0 0 0); }
+.ns-figure.ns-revealed { opacity: 1; scale: 1; clip-path: inset(0 0 0 0); }
 
 /* single-image mode: natural height, no forced/empty space */
 .ns-figure .ns-slide { display: block; width: 100%; height: auto; }
