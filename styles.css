@@ -1619,18 +1619,32 @@ body.cursor-on .cursor-ring, body.cursor-on .cursor-dot { opacity: 1; }
   position: absolute; left: 0; right: 0; bottom: 0; height: 4px; z-index: 2;
   background: linear-gradient(90deg, var(--saffron) 0 33%, #ffffff 33% 66%, var(--green) 66% 100%);
 }
-/* multi-slide crossfade carousel */
+/* multi-slide crossfade carousel (full photo, no crop) */
 .ns-figure.is-carousel { aspect-ratio: 16 / 9; }
 .ns-figure.is-carousel .ns-track { position: absolute; inset: 0; }
 .ns-figure.is-carousel .ns-slide {
   position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
   opacity: 0;
   transition: opacity 600ms ease;
 }
 .ns-figure.is-carousel .ns-slide.active { opacity: 1; }
-.ns-figure.is-carousel .ns-slide:hover { transform: none; }
+/* soft blurred fill of the same photo (decorative) — removes empty side bars */
+.ns-figure.is-carousel .ns-slide::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: var(--ns-bg);
+  background-size: cover;
+  background-position: center;
+  filter: blur(22px) brightness(0.92);
+  transform: scale(1.12);
+}
+/* the real, fully-visible photo (never cropped) */
+.ns-figure.is-carousel .ns-slide-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  z-index: 1;
+}
 /* dot indicators */
 .ns-dots { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
 .ns-dots[hidden] { display: none; }

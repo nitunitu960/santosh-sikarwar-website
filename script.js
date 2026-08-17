@@ -685,17 +685,31 @@ async function renderGallery() {
 
   function render(items) {
     if (!items.length) return; // nothing loaded -> stay hidden (no broken images)
+    const multi = items.length >= 2;
     track.innerHTML = "";
     items.forEach((it, i) => {
-      const img = document.createElement("img");
-      img.className = "ns-slide" + (i === 0 ? " active" : "");
-      img.src = it.src; img.alt = it.alt;
-      if (i > 0) img.loading = "lazy";
-      img.decoding = "async";
-      track.appendChild(img);
+      if (multi) {
+        // wrapper: real <img> (contain, no crop) over a blurred fill of the same photo
+        const slide = document.createElement("div");
+        slide.className = "ns-slide" + (i === 0 ? " active" : "");
+        slide.style.setProperty("--ns-bg", "url('" + it.src + "')");
+        const img = document.createElement("img");
+        img.className = "ns-slide-img";
+        img.src = it.src; img.alt = it.alt;
+        if (i > 0) img.loading = "lazy";
+        img.decoding = "async";
+        slide.appendChild(img);
+        track.appendChild(slide);
+      } else {
+        const img = document.createElement("img");
+        img.className = "ns-slide active";
+        img.src = it.src; img.alt = it.alt;
+        img.decoding = "async";
+        track.appendChild(img);
+      }
     });
     sec.hidden = false;
-    if (items.length < 2) return; // single photo -> natural image, no dots/autoplay
+    if (!multi) return; // single photo -> natural image, no dots/autoplay
 
     const figure = track.closest(".ns-figure");
     const carousel = figure.closest(".ns-carousel") || figure;
