@@ -123,3 +123,4 @@ collections:
           - { label: "Facebook लिंक", name: "facebook", widget: "string", required: false }
           - { label: "Instagram लिंक", name: "instagram", widget: "string", required: false }
           - { label: "X (Twitter) लिंक", name: "twitter", widget: "string", required: false }
+          - { label: "YouTube लिंक", name: "youtube", widget: "string", required: false, hint: "जैसे: https://www.youtube.com/@santoshsikarwarbjp" }

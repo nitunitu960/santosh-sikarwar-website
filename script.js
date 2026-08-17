@@ -122,7 +122,7 @@ async function setupVCard() {
     if (!isPlaceholder(s.phone)) lines.push("TEL;TYPE=CELL:" + s.phone.replace(/\s/g, ""));
     if (!isPlaceholder(s.email)) lines.push("EMAIL:" + s.email);
     if (s.area) lines.push("ADR;TYPE=WORK:;;;" + s.area + ";;;India");
-    [s.facebook, s.instagram, s.twitter].filter(Boolean).forEach((u) => lines.push("X-SOCIALPROFILE:" + u));
+    [s.facebook, s.instagram, s.twitter, s.youtube].filter(Boolean).forEach((u) => lines.push("X-SOCIALPROFILE:" + u));
     lines.push("END:VCARD");
     const blob = new Blob([lines.join("\r\n")], { type: "text/vcard;charset=utf-8" });
     const a = document.createElement("a");
@@ -351,7 +351,7 @@ async function renderSettings() {
   if (area && s.area) { area.textContent = s.area; }
 
   // Social links: set href from settings, hide any that are empty
-  const socials = { facebook: s.facebook, instagram: s.instagram, twitter: s.twitter };
+  const socials = { facebook: s.facebook, instagram: s.instagram, twitter: s.twitter, youtube: s.youtube };
   document.querySelectorAll("#social-links a[data-social]").forEach((a) => {
     const url = socials[a.dataset.social];
     if (url) {
