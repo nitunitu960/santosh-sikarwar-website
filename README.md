@@ -383,3 +383,101 @@ in `sitemap.xml` (added by the generator) and Google renders the JS to index the
 reachable via internal links (homepage feed + archive). A future Eleventy/Astro migration could
 produce clean `/samachar/[slug]/` pages with static HTML + static per-article OG images + better
 social-crawler support. Not migrating now.
+
+
+---
+
+# Facebook Page → Website Importer (official Meta Graph API)
+
+Automatically publishes genuine posts from the Santosh Sikarwar **Facebook Page**
+to the website's activity/news section. It uses the **official Meta Graph API**
+only — no scraping, no browser automation, no undocumented endpoints.
+
+## Honest architecture (important)
+GitHub Pages is static and **cannot run server code**, so this is **not** "Facebook
+updates the site instantly." The real flow is:
+
+```
+Facebook Page post
+  → scheduled GitHub Action (runs import_facebook.py)
+  → data/feed.json updated + generate_sitemaps.py run
+  → commit & push to main
+  → GitHub Pages redeploys
+  → website shows the activity
+```
+
+**Expected delay:** up to the schedule interval (currently every 6 hours) **plus**
+a minute or two for the Pages build. It is automatic, but not real-time.
+
+## Honest blocker (you must complete this)
+Reading a Page's own posts via the Graph API needs a **Page access token** with
+`pages_show_list` + `pages_read_engagement`. For continuous/production ("Live") use,
+Meta requires **App Review + Business Verification** of your app for those
+permissions. Until that is approved and the secrets are configured, **the importer
+will not run automatically** — the code is ready, but the Meta access is on your side.
+No scraper or workaround is provided (by design).
+
+## One-time setup (you / a Page admin)
+1. **Create a Meta app:** https://developers.facebook.com/apps → *Create App* → type *Business*.
+2. **Add the "Facebook Login" and "Pages" products.** Note the **App ID** and **App Secret** (App → Settings → Basic).
+3. **Get the Page ID:** open the Facebook Page → *About* → Page transparency / Page ID (or via Graph API Explorer `me/accounts`).
+4. **Generate a Page access token** (as the Page admin) in the **Graph API Explorer**, granting `pages_show_list` and `pages_read_engagement`, then **exchange it for a long‑lived / permanent Page token** (User token → long‑lived user token → Page token via `/me/accounts`). Meta's docs: *Pages API → Getting Started* and *Access Tokens*.
+5. **Submit for App Review + Business Verification** for `pages_read_engagement` so it keeps working in Live mode. (In Development mode it works for you, the admin, for testing.)
+6. **Determine your Graph version** (e.g. `v21.0`); set `GRAPH_VERSION` if you need a newer one.
+
+## Where secrets go (never in the repo)
+GitHub repo → **Settings → Secrets and variables → Actions → New repository secret**:
+- `META_PAGE_ID`
+- `META_PAGE_ACCESS_TOKEN`  (the long‑lived Page token)
+- `META_APP_SECRET`  (optional but recommended — enables `appsecret_proof`)
+- (optional) repository **Variable** `GRAPH_VERSION`, e.g. `v21.0`
+
+Never commit these to Git, never paste them into HTML/JS/JSON. The site's public
+files contain no tokens (verified).
+
+## Run it
+- **Dry run (no writes):**
+  ```bash
+  set META_PAGE_ID=...          &  set META_PAGE_ACCESS_TOKEN=...   (Windows)
+  export META_PAGE_ID=...; export META_PAGE_ACCESS_TOKEN=...        (mac/Linux)
+  python import_facebook.py --dry-run
+  ```
+  Prints proposed title, slug, date, category, location, image count, and Facebook
+  post id for each new post. **feed.json is not modified.**
+- **Real import:**
+  ```bash
+  python import_facebook.py
+  python generate_sitemaps.py
+  ```
+  Then review `git diff`, commit and push.
+- **Automatic:** the scheduled workflow `.github/workflows/facebook-import.yml`
+  runs every 6 hours (and on-demand via **Actions → Facebook Page import → Run workflow**).
+
+## What it does per post
+- **Dedup:** stores the Facebook `post_id` in `feed.json` under `source`; already-imported
+  posts are skipped. Running twice makes no changes (idempotent).
+- **Title:** deterministic — first heading/sentence, with emojis, hashtags and URLs
+  stripped, length-limited. No clickbait, no invented wording.
+- **Slug:** deterministic Hindi→Roman transliteration (with proper-noun mapping like
+  `agra`, `bjp`, `santosh-sikarwar`, `fatehpur-sikri`, `braj`); de-duplicated with `-2`,
+  `-3`; safe fallback from the post id if empty. Existing slugs are never changed.
+- **Date:** the **original** Facebook publication date (`YYYY-MM-DD`) — never the import date.
+- **Body / excerpt:** the original post text, cleaned of URLs/extra whitespace only.
+- **Images:** genuine post media downloaded via the API to `images/` with deterministic
+  names (`facebook-<date>-<slug>.jpg`); featured = first image, gallery = the rest.
+- **Alt text:** conservative — the article title (never identifies people not already established).
+- **Category:** mapped to an existing category by keyword; `अन्य` if unsure.
+- **Location:** only from the post's structured `place` field; otherwise empty (never guessed).
+- **published:** `true` only when required fields validate; otherwise the post is skipped with a warning.
+- **source metadata:** `{ platform, post_id, url, imported_at }` — `imported_at` is set once, not for freshness.
+
+## Coexistence & SEO
+Imported entries use the **same `feed.json` schema** as Decap CMS articles, render through
+the same article template (canonical + `NewsArticle` JSON-LD), and flow through the same
+`generate_sitemaps.py`. Decap CMS, existing articles, SEO, and social URLs are unchanged.
+The Facebook Page remains only a content **source** — it does not replace the site's social links.
+
+## Rotate / revoke credentials
+- Rotate the Page token or App Secret in the Meta dashboard, then update the GitHub Secrets.
+- To stop imports: disable the workflow (Actions tab) or remove the secrets.
+- If a token leaks, **revoke it in Meta immediately** and generate a new one.
