@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/?slug=tryambakan-yajamahe</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-17</news:publication_date>
+      <news:title>ॐ त्र्यम्बकं यजामहे</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/?slug=sawan-teesra-somwar-shubhkamnaye</loc>
     <news:news>
       <news:publication>
@@ -15,6 +26,17 @@
       </news:publication>
       <news:publication_date>2026-08-17</news:publication_date>
       <news:title>सावन के तीसरे सोमवार की हार्दिक शुभकामनाएं</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://santoshsikarwar.in/samachar/?slug=heartiest-congratulations-best-wishes</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-17</news:publication_date>
+      <news:title>Heartiest Congratulations &amp; Best Wishes!</news:title>
     </news:news>
   </url>
   <url>
