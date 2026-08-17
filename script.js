@@ -747,14 +747,23 @@ async function renderGallery() {
       }
     }
 
-    // Cinematic scroll reveal (once). Reduced-motion / no-IO -> reveal instantly.
+    // Cinematic scroll reveal (once) — with fail-safes so it can NEVER stay hidden
+    // (the section appears late after images load, which can defeat a plain observer).
+    const revealNow = () => figure.classList.add("ns-revealed");
     if (reduce || !("IntersectionObserver" in window)) {
-      figure.classList.add("ns-revealed");
+      revealNow();
     } else {
       const io = new IntersectionObserver((es) => {
-        es.forEach((e) => { if (e.isIntersecting) { figure.classList.add("ns-revealed"); io.disconnect(); } });
-      }, { threshold: 0.2 });
+        es.forEach((e) => { if (e.isIntersecting) { revealNow(); io.disconnect(); } });
+      }, { threshold: 0.12 });
       io.observe(figure);
+      // if it's already on/near screen right now, reveal on the next frame …
+      requestAnimationFrame(() => {
+        const r = figure.getBoundingClientRect();
+        if (r.top < (window.innerHeight || 0) * 0.95 && r.bottom > 0) revealNow();
+      });
+      // … and a hard fail-safe in case the observer never fires
+      setTimeout(revealNow, 1500);
     }
 
     if (!multi) return; // single photo -> reveal + Ken Burns only (no carousel)
