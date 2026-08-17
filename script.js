@@ -712,6 +712,41 @@ async function renderGallery() {
 
     const figure = track.closest(".ns-figure");
 
+    // "देखें →" control + click-to-open fullscreen viewer (reuses the gallery lightbox)
+    const lb = document.getElementById("lightbox");
+    if (lb && !lb.dataset.nsBound) {
+      lb.dataset.nsBound = "1";
+      const closeLb = () => { lb.classList.remove("open"); lb.setAttribute("aria-hidden", "true"); };
+      const cbtn = lb.querySelector(".lightbox-close");
+      if (cbtn) cbtn.addEventListener("click", closeLb);
+      lb.addEventListener("click", (e) => { if (e.target === lb) closeLb(); });
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLb(); });
+    }
+    const openViewer = () => {
+      const cur = track.querySelector(".ns-slide.active .ns-slide-img")
+        || track.querySelector(".ns-slide.active") || track.querySelector("img");
+      const lbImg = document.getElementById("lightbox-img");
+      const lbCap = document.getElementById("lightbox-caption");
+      if (!cur || !lb || !lbImg) return;
+      lbImg.src = cur.currentSrc || cur.src;
+      lbImg.alt = cur.alt || "";
+      if (lbCap) lbCap.textContent = "";
+      lb.classList.add("open");
+      lb.setAttribute("aria-hidden", "false");
+    };
+    if (!figure.querySelector(".ns-view")) {
+      const view = document.createElement("button");
+      view.type = "button";
+      view.className = "ns-view";
+      view.setAttribute("aria-label", "फोटो बड़ा देखें / View photo");
+      view.textContent = "देखें →";
+      view.addEventListener("click", (e) => { e.stopPropagation(); openViewer(); });
+      figure.appendChild(view);
+      if (window.matchMedia("(pointer: fine)").matches) {
+        figure.addEventListener("click", (e) => { if (e.target.closest("button")) return; openViewer(); });
+      }
+    }
+
     // Cinematic scroll reveal (once). Reduced-motion / no-IO -> reveal instantly.
     if (reduce || !("IntersectionObserver" in window)) {
       figure.classList.add("ns-revealed");
@@ -810,4 +845,60 @@ async function renderGallery() {
       figure.addEventListener("pointerleave", () => { hovX = 0; hovY = 0; apply(); });
     }
   }
+})();
+
+
+// ============================================================
+// Interactive political journey — click / tap / keyboard a milestone
+// ============================================================
+(function interactiveTimeline() {
+  const tl = document.querySelector(".timeline");
+  if (!tl) return;
+  const items = Array.prototype.slice.call(tl.querySelectorAll(".tl-item"));
+  if (!items.length) return;
+
+  function select(i) {
+    tl.classList.add("has-selection");
+    items.forEach((it, idx) => {
+      const on = idx === i;
+      it.classList.toggle("tl-open", on);
+      it.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+  }
+  function focusSelect(i) { const n = (i + items.length) % items.length; items[n].focus(); select(n); }
+
+  items.forEach((it, i) => {
+    it.tabIndex = 0;
+    it.setAttribute("role", "button");
+    const year = it.querySelector(".tl-year");
+    const title = it.querySelector("h3");
+    it.setAttribute("aria-label",
+      ((year && year.textContent) || "") + " — " + ((title && title.textContent) || ""));
+    it.addEventListener("click", () => select(i));
+    it.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(i); }
+      else if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); focusSelect(i + 1); }
+      else if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); focusSelect(i - 1); }
+    });
+  });
+})();
+
+// ============================================================
+// CTA ripple on hero buttons (magnetic movement is set up elsewhere)
+// ============================================================
+(function ctaRipple() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  document.querySelectorAll(".hero-actions .btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const r = btn.getBoundingClientRect();
+      const size = Math.max(r.width, r.height);
+      const rip = document.createElement("span");
+      rip.className = "btn-ripple";
+      rip.style.width = rip.style.height = size + "px";
+      rip.style.left = (e.clientX - r.left - size / 2) + "px";
+      rip.style.top = (e.clientY - r.top - size / 2) + "px";
+      btn.appendChild(rip);
+      setTimeout(() => rip.remove(), 600);
+    });
+  });
 })();
