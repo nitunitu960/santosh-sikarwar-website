@@ -709,31 +709,44 @@ async function renderGallery() {
       }
     });
     sec.hidden = false;
-    if (!multi) return; // single photo -> natural image, no dots/autoplay
 
     const figure = track.closest(".ns-figure");
+
+    // Cinematic scroll reveal (once). Reduced-motion / no-IO -> reveal instantly.
+    if (reduce || !("IntersectionObserver" in window)) {
+      figure.classList.add("ns-revealed");
+    } else {
+      const io = new IntersectionObserver((es) => {
+        es.forEach((e) => { if (e.isIntersecting) { figure.classList.add("ns-revealed"); io.disconnect(); } });
+      }, { threshold: 0.2 });
+      io.observe(figure);
+    }
+
+    if (!multi) return; // single photo -> reveal + Ken Burns only (no carousel)
+
     const carousel = figure.closest(".ns-carousel") || figure;
     figure.classList.add("is-carousel");
     const slides = Array.prototype.slice.call(track.querySelectorAll(".ns-slide"));
 
+    // Tricolor progress / slide indicator (thin segments, real buttons)
     dotsWrap.hidden = false;
     slides.forEach((s, i) => {
       const b = document.createElement("button");
       b.type = "button";
-      b.className = "ns-dot" + (i === 0 ? " active" : "");
+      b.className = "ns-seg" + (i === 0 ? " active" : "");
       b.setAttribute("role", "tab");
       b.setAttribute("aria-label", "फोटो " + (i + 1) + " देखें / View photo " + (i + 1));
       if (i === 0) b.setAttribute("aria-current", "true");
       b.addEventListener("click", () => { go(i); restart(); });
       dotsWrap.appendChild(b);
     });
-    const dots = Array.prototype.slice.call(dotsWrap.children);
+    const segs = Array.prototype.slice.call(dotsWrap.children);
 
     let cur = 0, timer = null;
     function go(n) {
       cur = (n + slides.length) % slides.length;
       slides.forEach((s, i) => s.classList.toggle("active", i === cur));
-      dots.forEach((d, i) => {
+      segs.forEach((d, i) => {
         d.classList.toggle("active", i === cur);
         if (i === cur) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current");
       });
@@ -745,7 +758,10 @@ async function renderGallery() {
     const restart = () => { stop(); start(); };
     start();
 
-    if (window.matchMedia("(pointer: fine)").matches) {
+    const fine = window.matchMedia("(pointer: fine)").matches;
+    const big = window.matchMedia("(min-width: 821px)").matches;
+
+    if (fine) {
       figure.addEventListener("mouseenter", stop);
       figure.addEventListener("mouseleave", start);
     }
@@ -761,5 +777,37 @@ async function renderGallery() {
       const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
       if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { if (dx < 0) next(); else prev(); restart(); }
     }, { passive: true });
+
+    // Desktop parallax (scroll) + micro hover depth (translate), motion-safe.
+    // Event + rAF (no continuous loop). Translates the contain image over its blurred
+    // fill, so the page background is never exposed.
+    if (!reduce && fine && big) {
+      let parY = 0, hovX = 0, hovY = 0, ticking = false;
+      const clamp = (v, m) => Math.max(-m, Math.min(m, v));
+      const apply = () => {
+        figure.style.setProperty("--img-tx", hovX.toFixed(1) + "px");
+        figure.style.setProperty("--img-ty", (parY + hovY).toFixed(1) + "px");
+      };
+      const onScroll = () => {
+        if (ticking) return; ticking = true;
+        requestAnimationFrame(() => {
+          ticking = false;
+          const r = figure.getBoundingClientRect();
+          const vh = window.innerHeight || 1;
+          const rel = ((r.top + r.height / 2) - vh / 2) / vh; // ~ -0.5 .. 0.5
+          parY = clamp(-rel * 16, 8);
+          apply();
+        });
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+      figure.addEventListener("pointermove", (e) => {
+        const r = figure.getBoundingClientRect();
+        hovX = clamp(((e.clientX - r.left) / r.width - 0.5) * 5, 2.5);
+        hovY = clamp(((e.clientY - r.top) / r.height - 0.5) * 5, 2.5);
+        apply();
+      });
+      figure.addEventListener("pointerleave", () => { hovX = 0; hovY = 0; apply(); });
+    }
   }
 })();
