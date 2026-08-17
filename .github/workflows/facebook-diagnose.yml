@@ -1,0 +1,27 @@
+name: Facebook API diagnostic (read-only)
+
+# Manually-run capability test. It ONLY reads from the Meta Graph API and prints
+# what each edge returns. It never writes feed.json, never downloads images,
+# never commits. Use it to decide whether tagged/collaborator posts are exposed.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Run read-only Graph API diagnostic
+        env:
+          META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+          META_PAGE_ACCESS_TOKEN: ${{ secrets.META_PAGE_ACCESS_TOKEN }}
+          META_APP_SECRET: ${{ secrets.META_APP_SECRET }}
+          GRAPH_VERSION: ${{ vars.GRAPH_VERSION }}
+        run: python import_facebook.py --diagnose

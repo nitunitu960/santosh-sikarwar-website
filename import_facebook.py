@@ -304,10 +304,52 @@ def image_filename(date, slug, count):
     return name, path
 
 
+# ---------- read-only capability diagnostic ----------
+def _summarize_edge(page_id, edge):
+    fields = ("id,created_time,message,from{name,id},"
+              "attachments{media_type,media,subattachments{data{media}}}")
+    try:
+        data = graph_get(page_id + "/" + edge, {"fields": fields, "limit": "10"})
+    except Exception as exc:
+        print("  [/%s] NOT ACCESSIBLE -> %s" % (edge, exc))
+        return
+    items = data.get("data", []) if isinstance(data, dict) else []
+    print("  [/%s] returned %d item(s)" % (edge, len(items)))
+    for it in items[:6]:
+        frm = it.get("from") or {}
+        who = frm.get("id")
+        atype = "page" if who and str(who) == str(page_id) else ("personal/other" if who else "unknown")
+        msg = (it.get("message") or "").replace("\n", " ")[:36]
+        print("     - %s | author=%s (%s) | images=%d | %s"
+              % ((it.get("created_time") or "")[:10], frm.get("name", "?"), atype,
+                 len(extract_images(it)), msg))
+
+
+def diagnose(page_id):
+    print("=== Meta Graph API capability diagnostic (READ-ONLY, feed.json NOT modified) ===")
+    print("Graph version: %s\n" % GRAPH_VERSION)
+    print("1) Page-authored posts   (/published_posts) — used by the current importer:")
+    _summarize_edge(page_id, "published_posts")
+    print("\n2) Page feed incl. others' posts   (/feed):")
+    _summarize_edge(page_id, "feed")
+    print("\n3) Posts that TAG the Page   (/tagged):")
+    _summarize_edge(page_id, "tagged")
+    print("\n--- How to read this ---")
+    print(" * author=page          -> Page-authored (already handled).")
+    print(" * author=personal/other-> a visitor/tagged/collaborator post the API DID expose.")
+    print(" * 'NOT ACCESSIBLE' with an OAuth/permission error on /feed or /tagged means your")
+    print("   token lacks 'pages_read_user_content' (needs Meta App Review). Personal-profile")
+    print("   posts are generally NOT returned by the Graph API regardless.")
+    print(" * If /tagged returns items with images from personal/other authors, extending the")
+    print("   importer IS possible; share this output and it will be added. If not, it is a")
+    print("   Meta API limitation and no scraper will be built.")
+
+
 # ---------- main ----------
 def main():
     ap = argparse.ArgumentParser(description="Import Facebook Page posts into feed.json")
     ap.add_argument("--dry-run", action="store_true", help="show what would be imported; write nothing")
+    ap.add_argument("--diagnose", action="store_true", help="read-only API capability test; write nothing")
     ap.add_argument("--limit", type=int, default=25, help="recent posts to fetch (default 25)")
     args = ap.parse_args()
 
@@ -315,6 +357,14 @@ def main():
     if not page_id or not os.environ.get("META_PAGE_ACCESS_TOKEN"):
         print("ERROR: META_PAGE_ID and META_PAGE_ACCESS_TOKEN environment variables are required.")
         sys.exit(2)
+
+    if args.diagnose:
+        try:
+            diagnose(page_id)
+        except Exception as exc:
+            print("Diagnostic error: %s" % exc)
+            sys.exit(1)
+        return
 
     with open(FEED_PATH, "r", encoding="utf-8") as f:
         feed = json.load(f)
