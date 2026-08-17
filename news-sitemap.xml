@@ -18,6 +18,17 @@
     </news:news>
   </url>
   <url>
+    <loc>https://santoshsikarwar.in/samachar/?slug=bjp-national-team</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-17</news:publication_date>
+      <news:title>भाजपा की राष्ट्रीय कार्यकारी समिति </news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/?slug=atal-bihari-vajpayee-shraddhanjali</loc>
     <news:news>
       <news:publication>
