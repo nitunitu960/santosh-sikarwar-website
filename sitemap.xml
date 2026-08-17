@@ -152,12 +152,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://santoshsikarwar.in/samachar/?slug=gatividhi-431133537820</loc>
-    <lastmod>2025-02-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://santoshsikarwar.in/samachar/?slug=dilli-vidhanasabha-chunava-men-abhutapurva-samarthana-evan</loc>
     <lastmod>2025-02-08</lastmod>
     <changefreq>monthly</changefreq>
@@ -171,6 +165,12 @@
   </url>
   <url>
     <loc>https://santoshsikarwar.in/samachar/?slug=dilli-ke-dila-men-modi</loc>
+    <lastmod>2025-02-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://santoshsikarwar.in/samachar/?slug=bjp-sadasyata-abhiyan</loc>
     <lastmod>2025-02-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
