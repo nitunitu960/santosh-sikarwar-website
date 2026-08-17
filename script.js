@@ -647,64 +647,61 @@ async function renderGallery() {
 // National Spirit section: reveal only if its photos actually load
 // (avoids showing broken images if the files aren't uploaded yet)
 // ============================================================
-(function nationalSpirit() {
+// Photos are managed in the admin panel -> "राष्ट्रीय भावना (मुख्य पृष्ठ स्लाइडर)"
+// (data/national-spirit.json). 1 photo = single image; 2+ = crossfade carousel.
+(async function nationalSpirit() {
   const sec = document.getElementById("national-spirit");
   const track = document.getElementById("ns-track");
   const dotsWrap = document.getElementById("ns-dots");
   if (!sec || !track) return;
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const DEFAULT_ALT = "Santosh Sikarwar with the Indian national flag";
 
-  // Slide 1 (wide salute photo) is already in the HTML. These extra slides are
-  // ADDED ONLY if the file genuinely exists — nothing is invented.
-  const extras = [
-    "images/national-spirit-1.jpg",
-    "images/national-spirit-3.jpg",
-    "images/national-spirit-4.jpg",
-    "images/national-spirit-5.jpg",
-  ];
-  const ALT = "Santosh Sikarwar with the Indian national flag";
+  const data = await loadJSON("data/national-spirit.json");
+  let photos = data && Array.isArray(data.photos)
+    ? data.photos.filter((p) => p && p.src).map((p) => ({ src: imgSrc(p.src), alt: p.alt || DEFAULT_ALT }))
+    : [];
 
-  const firstImg = track.querySelector(".ns-slide");
-  let revealed = false;
-  const reveal = () => { if (!revealed) { revealed = true; sec.hidden = false; } };
-
-  // Reveal as soon as the first (existing) photo is confirmed to load.
-  const p0 = new Image();
-  p0.onload = reveal;
-  p0.onerror = () => { if (firstImg) firstImg.remove(); };
-  p0.src = firstImg ? firstImg.getAttribute("src") : "";
-
-  // Probe extras; collect only those that exist, then decide single-vs-carousel.
-  const loaded = [];
-  let pending = extras.length;
-  extras.forEach((url) => {
+  // Fallback to the static slide in the HTML if the JSON is missing/empty
+  if (!photos.length) {
+    const firstImg = track.querySelector(".ns-slide");
     const probe = new Image();
-    probe.onload = () => { loaded.push(url); done(); };
-    probe.onerror = done;
-    probe.src = url;
-  });
-  if (!pending) init();
-  function done() { if (--pending <= 0) init(); }
+    probe.onload = () => { sec.hidden = false; };
+    probe.onerror = () => { if (firstImg) firstImg.remove(); };
+    probe.src = firstImg ? firstImg.getAttribute("src") : "";
+    return;
+  }
 
-  function init() {
-    if (!loaded.length) return; // only one photo -> keep the current single image, no dots
-    reveal();
-    loaded.sort();
-    loaded.forEach((url) => {
+  // Verify each image loads (drop broken ones), preserving order.
+  const loaded = new Array(photos.length).fill(null);
+  let pending = photos.length;
+  photos.forEach((it, i) => {
+    const probe = new Image();
+    probe.onload = () => { loaded[i] = it; settle(); };
+    probe.onerror = settle;
+    probe.src = it.src;
+  });
+  function settle() { if (--pending <= 0) render(loaded.filter(Boolean)); }
+
+  function render(items) {
+    if (!items.length) return; // nothing loaded -> stay hidden (no broken images)
+    track.innerHTML = "";
+    items.forEach((it, i) => {
       const img = document.createElement("img");
-      img.className = "ns-slide";
-      img.src = url; img.alt = ALT;
-      img.loading = "lazy"; img.decoding = "async";
+      img.className = "ns-slide" + (i === 0 ? " active" : "");
+      img.src = it.src; img.alt = it.alt;
+      if (i > 0) img.loading = "lazy";
+      img.decoding = "async";
       track.appendChild(img);
     });
+    sec.hidden = false;
+    if (items.length < 2) return; // single photo -> natural image, no dots/autoplay
 
     const figure = track.closest(".ns-figure");
     const carousel = figure.closest(".ns-carousel") || figure;
     figure.classList.add("is-carousel");
     const slides = Array.prototype.slice.call(track.querySelectorAll(".ns-slide"));
-    slides.forEach((s, i) => s.classList.toggle("active", i === 0));
 
-    // Dots
     dotsWrap.hidden = false;
     slides.forEach((s, i) => {
       const b = document.createElement("button");
@@ -734,18 +731,15 @@ async function renderGallery() {
     const restart = () => { stop(); start(); };
     start();
 
-    // Pause on hover (desktop pointers only)
     if (window.matchMedia("(pointer: fine)").matches) {
       figure.addEventListener("mouseenter", stop);
       figure.addEventListener("mouseleave", start);
     }
-    // Keyboard when the carousel is focused (no focus trap)
     carousel.tabIndex = 0;
     carousel.addEventListener("keydown", (e) => {
       if (e.key === "ArrowRight") { next(); restart(); e.preventDefault(); }
       else if (e.key === "ArrowLeft") { prev(); restart(); e.preventDefault(); }
     });
-    // Touch swipe (horizontal only; vertical scrolling unaffected)
     let sx = 0, sy = 0, sw = false;
     figure.addEventListener("touchstart", (e) => { const t = e.touches[0]; sx = t.clientX; sy = t.clientY; sw = true; }, { passive: true });
     figure.addEventListener("touchend", (e) => {

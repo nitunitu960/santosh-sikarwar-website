@@ -78,6 +78,25 @@ collections:
               - { label: "फ़ोटो", name: "src", widget: "image" }
               - { label: "शीर्षक", name: "caption", widget: "string", required: false }
 
+  # ---------- राष्ट्रीय भावना (मुख्य पृष्ठ स्लाइडर) ----------
+  - name: "national_spirit"
+    label: "राष्ट्रीय भावना (मुख्य पृष्ठ स्लाइडर)"
+    files:
+      - name: "national_spirit"
+        label: "राष्ट्रीय भावना फ़ोटो"
+        file: "data/national-spirit.json"
+        description: "मुख्य पृष्ठ के 'राष्ट्रीय भावना' भाग का फ़ोटो स्लाइडर। एक फ़ोटो = सामान्य चित्र; दो या अधिक = अपने-आप स्लाइडर बन जाता है।"
+        fields:
+          - label: "फ़ोटो (स्लाइडर)"
+            name: "photos"
+            widget: "list"
+            label_singular: "फ़ोटो"
+            summary: "{{fields.alt}}"
+            hint: "चौड़ी (landscape) फ़ोटो सबसे अच्छी लगती हैं। क्रम बदलने के लिए खींचकर (drag) ऊपर-नीचे करें।"
+            fields:
+              - { label: "फ़ोटो", name: "src", widget: "image" }
+              - { label: "फ़ोटो का विवरण (alt text)", name: "alt", widget: "string", required: false, hint: "फ़ोटो में क्या है — जैसे: संतोष सिकरवार तिरंगे के साथ" }
+
   # ---------- प्रोफ़ाइल / संपर्क सेटिंग ----------
   - name: "settings"
     label: "प्रोफ़ाइल एवं संपर्क"

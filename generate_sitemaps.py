@@ -218,11 +218,14 @@ def build_image_sitemap(eligible, settings):
     portrait = "images/santosh-sikarwar.jpg"
     if image_exists(portrait):
         home_imgs.append((portrait, "Santosh Sikarwar"))
-    # National Spirit carousel photos (homepage), each only if the file exists
-    for n in (2, 1, 3, 4, 5):
-        rel = "images/national-spirit-%d.jpg" % n
-        if image_exists(rel):
-            home_imgs.append((rel, "Santosh Sikarwar with the Indian national flag"))
+    # National Spirit slider photos (homepage), managed via data/national-spirit.json
+    ns = load_json(os.path.join(ROOT, "data", "national-spirit.json")) or {}
+    for p in (ns.get("photos") or []):
+        src = p.get("src") if isinstance(p, dict) else p
+        rel = norm_image(src)
+        if rel and image_exists(rel):
+            alt = (p.get("alt") if isinstance(p, dict) else None) or "Santosh Sikarwar with the Indian national flag"
+            home_imgs.append((rel, alt))
     if home_imgs:
         lines.append("  <!-- Homepage images -->")
         lines.append("  <url>")
