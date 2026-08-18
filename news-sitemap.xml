@@ -7,6 +7,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/?slug=netaji-subhas-chandra-bose-punyatithi-shraddhanjali</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-18</news:publication_date>
+      <news:title>नेताजी सुभाष चंद्र बोस जी की पुण्यतिथि पर विनम्र श्रद्धांजलि</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://santoshsikarwar.in/samachar/?slug=bharatiya-svatantrata-sangrama-ke-mahanayaka-evan-ajada</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-18</news:publication_date>
+      <news:title>भारतीय स्वतंत्रता संग्राम के महानायक एवं आजाद हिंद फौज के संस्थापक नेताजी सुभाष</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/?slug=tryambakan-yajamahe</loc>
     <news:news>
       <news:publication>
