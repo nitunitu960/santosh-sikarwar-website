@@ -28,7 +28,10 @@ function postExcerpt(post) {
   return t.length > 160 ? t.slice(0, 160) + "…" : t;
 }
 function articleUrl(post, idx) {
-  return post.slug ? "/samachar/?slug=" + encodeURIComponent(post.slug) : "/samachar/?id=" + idx;
+  // Clean, crawlable URL for articles that have a valid slug (a real
+  // pre-rendered page exists at /samachar/<slug>/). Fall back to the
+  // legacy ?id= form only for the rare slug-less post.
+  return post.slug ? "/samachar/" + post.slug + "/" : "/samachar/?id=" + idx;
 }
 function bodyToHtml(text) {
   return String(text || "")
@@ -383,6 +386,15 @@ function setupPhotoStory(items) {
   let entry = null;
   if (slug) entry = list.find((x) => x.post.slug === slug) || null;
   else if (id !== null) entry = list.find((x) => String(x.idx) === String(id)) || null;
+
+  // Legacy query-string URLs (?slug= / ?id=) are superseded by real
+  // pre-rendered pages at /samachar/<slug>/. If the requested article
+  // resolves and has a slug, redirect there so both users and crawlers
+  // land on the single canonical URL (acts as a client-side 301).
+  if (entry && entry.post.slug) {
+    location.replace("/samachar/" + entry.post.slug + "/");
+    return;
+  }
 
   if ((slug || id !== null) && entry) {
     renderArticle(entry, list);
