@@ -6,4 +6,15 @@
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://santoshsikarwar.in/samachar/?slug=mann-ki-baat-137-kagaroul-booth-183-kheragarh</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-08-30</news:publication_date>
+      <news:title>खेरागढ़ के कागारौल बूथ नंबर 183 पर सुनी प्रधानमंत्री नरेंद्र मोदी की 137वीं ‘मन की बात’</news:title>
+    </news:news>
+  </url>
 </urlset>
