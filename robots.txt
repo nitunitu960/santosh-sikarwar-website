@@ -6,4 +6,8 @@ Disallow: /admin/
 
 Sitemap: https://santoshsikarwar.in/sitemap.xml
 Sitemap: https://santoshsikarwar.in/image-sitemap.xml
-Sitemap: https://santoshsikarwar.in/news-sitemap.xml
+
+# news-sitemap.xml is intentionally NOT advertised here. A Google News sitemap
+# may only contain articles from the last 2 days, so it is empty most of the
+# time, which Search Console reports as an error. It is only useful if the site
+# is ever accepted as a Google News publisher. The file is still generated.
