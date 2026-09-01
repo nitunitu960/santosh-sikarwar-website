@@ -253,6 +253,7 @@ def main():
     ap.add_argument("--title", default="", help="override the auto-generated title")
     ap.add_argument("--slug", default="", help="override the auto-generated slug")
     ap.add_argument("--alt", default="", help="alt text for the featured photo")
+    ap.add_argument("--english", default="", help="file with an English version/summary, appended as an English section")
     ap.add_argument("--publish", action="store_true", help="publish now instead of saving a draft")
     ap.add_argument("--featured", action="store_true", help="mark as the featured article")
     ap.add_argument("--dry-run", action="store_true", help="show the result; write nothing")
@@ -270,6 +271,18 @@ def main():
     if not body:
         print("ERROR: %s is empty" % args.text)
         sys.exit(2)
+
+    # Optional English section — gives the article English keyword coverage so it
+    # can also surface for English searches (the page title already carries the
+    # English name "Santosh Sikarwar").
+    if args.english:
+        if not os.path.isfile(args.english):
+            print("ERROR: English file not found: %s" % args.english)
+            sys.exit(2)
+        with open(args.english, encoding="utf-8") as fh:
+            english = fh.read().strip()
+        if english:
+            body = body + "\n\n———\n\nEnglish\n\n" + english
 
     with open(FEED_PATH, encoding="utf-8") as fh:
         feed = json.load(fh)
