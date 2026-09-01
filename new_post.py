@@ -87,6 +87,16 @@ def _strip_noise(text):
     return re.sub(r"[ \t]+", " ", text).strip()
 
 
+# Sentence boundary: danda, ! or ? — and a full stop only when it is NOT a
+# decimal point (so "7.8 प्रतिशत" and "FY 2026-27" stay intact).
+_SENT_RE = re.compile(r"।|[!?]|(?<!\d)\.(?!\d)")
+
+
+def _first_sentence(text, fallback):
+    parts = _SENT_RE.split(text)
+    return parts[0].strip() if parts and parts[0].strip() else fallback
+
+
 def make_title(body):
     for line in body.splitlines():
         cleaned = _strip_noise(line)
@@ -95,8 +105,7 @@ def make_title(body):
     else:
         return ""
     if len(cleaned.split()) > 14:
-        parts = re.split(r"[।!?\.]", cleaned)
-        cleaned = (parts[0] if parts and parts[0].strip() else cleaned).strip()
+        cleaned = _first_sentence(cleaned, cleaned)
     if len(cleaned) > 90:
         cut = cleaned[:90]
         sp = cut.rfind(" ")
@@ -108,8 +117,7 @@ def make_excerpt(body, limit=150):
     cleaned = _strip_noise((body or "").replace("\n", " "))
     if not cleaned:
         return ""
-    parts = re.split(r"[।!?\.]", cleaned)
-    first = parts[0].strip() if parts and parts[0].strip() else cleaned
+    first = _first_sentence(cleaned, cleaned)
     if len(first) <= limit:
         return first + ("।" if not first.endswith("।") else "")
     cut = first[:limit]
