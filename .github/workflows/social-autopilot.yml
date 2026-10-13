@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: '0 */4 * * *'  # Runs automatically every 4 hours in GitHub Cloud
   workflow_dispatch:        # Allows manual 1-click trigger from GitHub Actions tab
+  push:
+    paths:
+      - '.github/workflows/social-autopilot.yml'
 
 permissions:
   contents: write
