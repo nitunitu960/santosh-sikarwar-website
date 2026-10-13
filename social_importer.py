@@ -22,7 +22,7 @@ import re
 import sys
 import urllib.request
 import urllib.parse
-from datetime import datetime, date
+from datetime import datetime, date, timezone
 
 # Set UTF-8 encoding for standard output
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
@@ -478,7 +478,7 @@ def add_post_to_feed(item, location="आगरा, उत्तर प्रद�
         "source": {
             "platform": item.get("platform", "social"),
             "url": post_url,
-            "imported_at": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "imported_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         }
     }
 
@@ -504,6 +504,8 @@ def git_publish(commit_title):
             cwd=ROOT,
             check=True
         )
+        # Pull any background remote commits (e.g. from GitHub Actions)
+        subprocess.run(["git", "pull", "--no-rebase", "-X", "ours", "origin", "main"], cwd=ROOT, check=False)
         subprocess.run(["git", "push", "origin", "main"], cwd=ROOT, check=True)
         log("Published live to GitHub successfully!")
     except subprocess.CalledProcessError as e:
