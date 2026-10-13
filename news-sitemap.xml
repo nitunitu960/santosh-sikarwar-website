@@ -6,4 +6,15 @@
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://santoshsikarwar.in/samachar/kashi-ka-aitihasika-kayakalpa-pradhanmantri-modi-ke-vijana/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-14</news:publication_date>
+      <news:title>काशी का ऐतिहासिक कायाकल्प प्रधानमंत्री मोदी के विजन का परिणाम</news:title>
+    </news:news>
+  </url>
 </urlset>

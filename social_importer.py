@@ -3,10 +3,16 @@
 """
 social_importer.py
 ====================================================================
-Import posts from Twitter / X (@ssikarwarbjp) and Facebook,
+Import posts from Twitter / X (@ssikarwarbjp, @BJP4UP, etc.) and Facebook,
 automatically expand short/thin posts using Gemini AI into
 rich 300+ word articles (Google Search Console compliant),
 pre-render static HTML pages, and push live to GitHub.
+
+Supports:
+- Specific Tweet URLs: https://x.com/username/status/123456...
+- Twitter Profile URLs: https://x.com/BJP4UP (fetches latest tweet)
+- Specific Facebook Post URLs: https://www.facebook.com/user/posts/123...
+- Facebook Page URLs: https://www.facebook.com/Santoshsikarwarbjpagra/ (fetches latest post)
 """
 
 import argparse
@@ -164,13 +170,75 @@ def download_image(img_url, dest_name):
 
 
 def fetch_twitter_post(url_or_id):
-    """Fetch post details from Twitter / X using the official syndication endpoint."""
-    tweet_id_match = re.search(r"(?:status|statuses)/(\d+)", str(url_or_id))
-    tweet_id = tweet_id_match.group(1) if tweet_id_match else str(url_or_id).strip()
+    """Fetch post details from Twitter / X using syndication, playwright, or profile timeline."""
+    raw = str(url_or_id).strip()
 
-    if not tweet_id.isdigit():
-        raise ValueError(f"Invalid Tweet ID or URL: {url_or_id}")
+    # 1. Check if it's a specific tweet URL or tweet ID
+    tweet_id_match = re.search(r"(?:status|statuses)/(\d+)", raw)
+    if tweet_id_match:
+        tweet_id = tweet_id_match.group(1)
+    elif raw.isdigit():
+        tweet_id = raw
+    else:
+        # Profile URL or screen name (e.g. https://x.com/BJP4UP or @BJP4UP)
+        username_match = re.search(r"(?:x\.com|twitter\.com)/([a-zA-Z0-9_]+)", raw)
+        screen_name = username_match.group(1) if username_match else raw.lstrip("@").strip()
+        log(f"Profile URL detected for @{screen_name}. Fetching latest tweet...")
 
+        tweet_id = None
+        # Try syndication endpoint first
+        timeline_url = f"https://syndication.twitter.com/srv/timeline-profile/screen-name/{screen_name}"
+        req = urllib.request.Request(
+            timeline_url,
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            }
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                html = resp.read().decode("utf-8")
+            m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', html)
+            if m:
+                data = json.loads(m.group(1))
+                entries = data["props"]["pageProps"]["timeline"]["entries"]
+                tweets = [e["content"]["tweet"] for e in entries if "tweet" in e.get("content", {})]
+                if tweets:
+                    tweet_id = tweets[0]["id_str"]
+                    log(f"Found tweet ID {tweet_id} via syndication API.")
+        except Exception:
+            pass
+
+        # If syndication failed or gave 429, use Playwright Chrome to get tweet ID
+        if not tweet_id:
+            log(f"Fetching @{screen_name} timeline via browser...")
+            from playwright.sync_api import sync_playwright
+            with sync_playwright() as p:
+                browser = p.chromium.launch(
+                    channel="chrome",
+                    headless=True,
+                    args=["--disable-blink-features=AutomationControlled"]
+                )
+                context = browser.new_context(
+                    user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+                )
+                page = context.new_page()
+                page.goto(f"https://x.com/{screen_name}", timeout=25000)
+                page.wait_for_timeout(4000)
+
+                links = page.locator("a[href*='/status/']").all()
+                for l in links:
+                    href = l.get_attribute("href") or ""
+                    m = re.search(r"/status/(\d+)", href)
+                    if m:
+                        tweet_id = m.group(1)
+                        log(f"Found tweet ID {tweet_id} from @{screen_name} timeline via browser!")
+                        break
+                browser.close()
+
+        if not tweet_id:
+            raise RuntimeError(f"Could not find any recent tweets for @{screen_name}")
+
+    # 2. Fetch full tweet details via syndication endpoint
     endpoint = f"https://cdn.syndication.twimg.com/tweet-result?id={tweet_id}&token=x"
     req = urllib.request.Request(
         endpoint,
@@ -206,7 +274,8 @@ def fetch_twitter_post(url_or_id):
             if m.get("type") == "photo" and "media_url_https" in m:
                 photos.append(m["media_url_https"])
 
-    canonical_url = f"https://x.com/ssikarwarbjp/status/{tweet_id}"
+    user_screen_name = data.get("user", {}).get("screen_name") or "twitter"
+    canonical_url = f"https://x.com/{user_screen_name}/status/{tweet_id}"
     return {
         "platform": "twitter",
         "url": canonical_url,
@@ -218,7 +287,7 @@ def fetch_twitter_post(url_or_id):
 
 def fetch_facebook_post(url):
     """Fetch post details from Facebook using system Chrome via Playwright or fallback metadata."""
-    log(f"Fetching Facebook post: {url}")
+    log(f"Fetching Facebook content from: {url}")
     from playwright.sync_api import sync_playwright
 
     text = ""
@@ -226,40 +295,92 @@ def fetch_facebook_post(url):
     post_date = date.today().isoformat()
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(channel="chrome", headless=True)
+        browser = p.chromium.launch(
+            channel="chrome",
+            headless=True,
+            args=["--disable-blink-features=AutomationControlled"]
+        )
         context = browser.new_context(
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            viewport={"width": 1280, "height": 1000}
         )
         page = context.new_page()
 
         try:
-            page.goto(url, wait_until="domcontentloaded", timeout=25000)
-            page.wait_for_timeout(3000)
+            page.goto(url, wait_until="domcontentloaded", timeout=30000)
+            page.wait_for_timeout(4000)
+            page.evaluate("window.scrollBy(0, 1000)")
+            page.wait_for_timeout(2000)
 
-            # Try Open Graph meta tags first
-            og_desc = page.locator('meta[property="og:description"]').get_attribute("content")
-            og_img = page.locator('meta[property="og:image"]').get_attribute("content")
+            # Click any "See more" buttons if present
+            for btn in page.locator('text="See more"').all()[:5]:
+                try:
+                    btn.click(timeout=1000)
+                except Exception:
+                    pass
 
-            if og_desc:
-                text = og_desc
-            if og_img and not og_img.endswith("rsrc.php"):
-                photos.append(og_img)
+            articles = page.locator('div[role="article"]').all()
+            log(f"Found {len(articles)} Facebook article containers.")
 
-            # Try page DOM selectors
-            if not text:
-                text_candidates = page.locator('[data-ad-preview="message"], [dir="auto"]').all_text_contents()
-                for t in text_candidates:
-                    if len(t.strip()) > 30 and not any(k in t for k in ["Log In", "Facebook", "Sign Up"]):
-                        text = t.strip()
+            chosen_article = None
+            # Scan articles: skip pinned posts if another post exists, find one with good text and photos
+            for a in articles:
+                raw_a_text = a.inner_text().strip()
+                # Skip comments
+                if any(x in raw_a_text for x in ["Reply", "View more comments", "Write a comment"]):
+                    pass
+                # Check if it has author text
+                if "Pinned post" in raw_a_text and len(articles) > 1:
+                    if not chosen_article:
+                        chosen_article = a
+                    continue
+                # If it's a post with text
+                if len(raw_a_text) > 20:
+                    chosen_article = a
+                    break
+
+            if chosen_article is None and articles:
+                chosen_article = articles[0]
+
+            if chosen_article:
+                art_text = chosen_article.inner_text().strip()
+                lines = [l.strip() for l in art_text.splitlines() if l.strip()]
+                clean_lines = []
+                collecting = False
+                for line in lines:
+                    if any(t in line for t in ["ago", "yesterday", "·", "August", "September", "October", "November", "December", "January", "February", "March", "April", "May", "June", "July"]):
+                        collecting = True
+                        continue
+                    if any(stop_k in line for stop_k in ["All reactions:", "Like", "Comment", "Share", "View more"]):
                         break
+                    if collecting and len(line) > 2:
+                        clean_lines.append(line)
 
-            # Try finding images in the post container
-            img_elems = page.locator('div[role="feed"] img, [role="main"] img').all()
-            for img in img_elems:
-                src = img.get_attribute("src")
-                if src and src.startswith("http") and not any(k in src for k in ["static", "rsrc.php", "emoji"]):
-                    if src not in photos:
-                        photos.append(src)
+                if clean_lines:
+                    text = " ".join(clean_lines)
+                elif art_text:
+                    filtered = [l for l in lines if not any(k in l for k in ["Santosh Sikarwar", "Like", "Comment", "Share", "All reactions:", "others", "Pinned post", "·"])]
+                    if filtered:
+                        text = " ".join(filtered)
+
+                # Extract images from chosen article
+                for img in chosen_article.locator("img").all():
+                    src = img.get_attribute("src") or ""
+                    if "scontent" in src and not any(k in src for k in ["rsrc.php", "emoji", "static"]):
+                        if src not in photos:
+                            photos.append(src)
+
+            # Fallback if no article text extracted
+            if not text:
+                og_desc = page.locator('meta[property="og:description"]').get_attribute("content")
+                if og_desc and not any(k in og_desc for k in ["Log in", "Facebook", "Sign up"]):
+                    text = og_desc
+
+            # Fallback photos if empty
+            if not photos:
+                og_img = page.locator('meta[property="og:image"]').get_attribute("content")
+                if og_img and not og_img.endswith("rsrc.php"):
+                    photos.append(og_img)
 
         except Exception as e:
             log(f"Warning during Facebook page scan: {e}")
@@ -324,6 +445,7 @@ def add_post_to_feed(item, location="आगरा, उत्तर प्रद�
     while slug in existing_slugs:
         slug = f"{base_slug}-{counter}"
         counter += 1
+
     excerpt = make_excerpt(final_text)
 
     # Download featured image and gallery
