@@ -316,7 +316,14 @@ def add_post_to_feed(item, location="आगरा, उत्तर प्रद�
     if not title:
         title = f"संतोष सिकरवार - {item.get('date')}"
 
-    slug = make_slug(title, existing_slugs)
+    base_slug = make_slug(title)
+    if not base_slug:
+        base_slug = "samachar"
+    slug = base_slug
+    counter = 2
+    while slug in existing_slugs:
+        slug = f"{base_slug}-{counter}"
+        counter += 1
     excerpt = make_excerpt(final_text)
 
     # Download featured image and gallery
