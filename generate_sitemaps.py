@@ -116,7 +116,7 @@ def image_abs(rel):
 
 def article_url(post):
     """Canonical article URL (slug-based only). Caller must pass a slug-eligible post."""
-    return BASE + "samachar/?slug=" + post["slug"]
+    return BASE + "samachar/" + post["slug"] + "/"
 
 
 def published_posts(feed):

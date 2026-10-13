@@ -28,7 +28,7 @@ function postExcerpt(post) {
   return t.length > 160 ? t.slice(0, 160) + "…" : t;
 }
 function articleUrl(post, idx) {
-  return post.slug ? "/samachar/?slug=" + encodeURIComponent(post.slug) : "/samachar/?id=" + idx;
+  return post.slug ? "/samachar/" + encodeURIComponent(post.slug) + "/" : "/samachar/?id=" + idx;
 }
 function bodyToHtml(text) {
   return String(text || "")
@@ -368,6 +368,26 @@ function setupPhotoStory(items) {
   const y = document.getElementById("year");
   if (y) y.textContent = new Date().getFullYear();
 
+  // If this is a pre-rendered static article page, wire up interactions and exit
+  if (document.querySelector(".article")) {
+    setupShare(window.location.href, document.title);
+    const figs = Array.from(document.querySelectorAll(".gallery-item"));
+    if (figs.length) {
+      setupPhotoStory(figs.map((f) => ({ src: f.dataset.src, caption: f.dataset.caption })));
+    }
+    return;
+  }
+
+  const params = new URLSearchParams(location.search);
+  const slug = params.get("slug");
+  const id = params.get("id");
+
+  // If visiting /samachar/?slug=something, immediately redirect to clean static URL
+  if (slug) {
+    location.replace("/samachar/" + encodeURIComponent(slug) + "/");
+    return;
+  }
+
   const data = await loadFeed();
   const content = document.getElementById("samachar-content");
   if (!data || !data.posts) {
@@ -376,18 +396,13 @@ function setupPhotoStory(items) {
   }
 
   const list = publishedList(data);
-  const params = new URLSearchParams(location.search);
-  const slug = params.get("slug");
-  const id = params.get("id");
 
   let entry = null;
-  if (slug) entry = list.find((x) => x.post.slug === slug) || null;
-  else if (id !== null) entry = list.find((x) => String(x.idx) === String(id)) || null;
+  if (id !== null) entry = list.find((x) => String(x.idx) === String(id)) || null;
 
-  if ((slug || id !== null) && entry) {
+  if (id !== null && entry) {
     renderArticle(entry, list);
-  } else if (slug || id !== null) {
-    // Requested article does not exist or is unpublished -> professional message
+  } else if (id !== null) {
     renderNotFound();
   } else {
     renderArchive(list);

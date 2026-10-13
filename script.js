@@ -383,7 +383,7 @@ function postExcerpt(post) {
   return t.length > 140 ? t.slice(0, 140) + "…" : t;
 }
 function articleUrl(post, idx) {
-  return post.slug ? "/samachar/?slug=" + encodeURIComponent(post.slug) : "/samachar/?id=" + idx;
+  return post.slug ? "/samachar/" + encodeURIComponent(post.slug) + "/" : "/samachar/?id=" + idx;
 }
 // Return published posts (with original index kept), strictly newest first (by date)
 function publishedPosts(data) {

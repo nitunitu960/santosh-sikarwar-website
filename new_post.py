@@ -35,7 +35,7 @@ USAGE
 
 3. Review, then publish from /admin (or re-run with --publish), and finally:
 
-       python generate_sitemaps.py
+       python build_static_pages.py
 
 Options:
     --text FILE        file containing the post text (required)
