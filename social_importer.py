@@ -170,6 +170,15 @@ def download_image(img_url, dest_name):
         return ""
 
 
+def launch_playwright_browser(p):
+    """Launch Chrome on Windows or Chromium on Linux (for GitHub Actions / cross-platform)."""
+    args = ["--disable-blink-features=AutomationControlled", "--no-sandbox", "--disable-dev-shm-usage"]
+    try:
+        return p.chromium.launch(channel="chrome", headless=True, args=args)
+    except Exception:
+        return p.chromium.launch(headless=True, args=args)
+
+
 def fetch_twitter_post(url_or_id):
     """Fetch post details from Twitter / X using syndication, playwright, or profile timeline."""
     raw = str(url_or_id).strip()
@@ -214,11 +223,7 @@ def fetch_twitter_post(url_or_id):
             log(f"Fetching @{screen_name} timeline via browser...")
             from playwright.sync_api import sync_playwright
             with sync_playwright() as p:
-                browser = p.chromium.launch(
-                    channel="chrome",
-                    headless=True,
-                    args=["--disable-blink-features=AutomationControlled"]
-                )
+                browser = launch_playwright_browser(p)
                 context = browser.new_context(
                     user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
                 )
@@ -299,11 +304,7 @@ def fetch_facebook_post(url):
     post_date = date.today().isoformat()
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(
-            channel="chrome",
-            headless=True,
-            args=["--disable-blink-features=AutomationControlled"]
-        )
+        browser = launch_playwright_browser(p)
         context = browser.new_context(
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
             viewport={"width": 1280, "height": 1000}
@@ -412,12 +413,18 @@ def add_post_to_feed(item, location="आगरा, उत्तर प्रद�
 
     existing_slugs = {p.get("slug") for p in feed.get("posts", []) if p.get("slug")}
 
-    # Check for duplicate
+    # Check for duplicate by URL or content
     post_url = item.get("url")
+    clean_raw = re.sub(r"\s+", " ", raw_text).strip()
     for p in feed.get("posts", []):
-        if p.get("source", {}).get("url") == post_url:
+        if post_url and p.get("source", {}).get("url") == post_url:
             log(f"Post already imported previously as slug: '{p.get('slug')}'")
-            return p
+            return None
+        p_text = p.get("text") or ""
+        p_excerpt = p.get("excerpt") or ""
+        if len(clean_raw) > 20 and (clean_raw[:35] in p_text or clean_raw[:35] in p_excerpt):
+            log(f"Post content already imported previously as slug: '{p.get('slug')}'")
+            return None
 
     words = len(re.findall(r"\S+", raw_text))
     log(f"Original post word count: {words} words.")
@@ -525,7 +532,7 @@ def process_url(url, push_live=True):
     """Import, format with AI, build static pages, and push live."""
     url = url.strip()
     if not url:
-        return
+        return None
 
     log(f"Processing URL: {url}")
     if "twitter.com" in url or "x.com" in url:
@@ -536,6 +543,9 @@ def process_url(url, push_live=True):
         raise ValueError(f"Unrecognized social platform URL: {url}")
 
     post = add_post_to_feed(item)
+    if not post:
+        log("Post has already been imported previously. No changes needed.")
+        return None
 
     # Re-build static pages & sitemaps
     log("Rebuilding static pages & sitemaps...")
@@ -548,23 +558,113 @@ def process_url(url, push_live=True):
     print(f"DONE! Article is LIVE at:")
     print(f"  https://santoshsikarwar.in/samachar/{post['slug']}/")
     print("=" * 60 + "\n")
+    return post
+
+
+MONITORED_SOURCES = [
+    {
+        "name": "ठा. संतोष सिकरवार (Facebook)",
+        "url": "https://www.facebook.com/Santoshsikarwarbjpagra/",
+        "platform": "facebook",
+    },
+    {
+        "name": "ठा. संतोष सिकरवार (Twitter / X)",
+        "url": "https://x.com/ssikarwarbjp",
+        "platform": "twitter",
+    },
+    {
+        "name": "BJP Uttar Pradesh (Twitter / X)",
+        "url": "https://x.com/BJP4UP",
+        "platform": "twitter",
+    },
+]
+
+
+def run_autopilot(loop=False, interval_minutes=120, push_live=True):
+    """Scan all monitored social accounts for new posts, import new ones, and push live."""
+    import time
+    log("========================================================")
+    log("  Santosh Sikarwar Website - Social Media Autopilot Sync")
+    log("========================================================")
+
+    while True:
+        log(f"\n[Autopilot] Scanning {len(MONITORED_SOURCES)} sources at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}...")
+        new_posts = []
+
+        for src in MONITORED_SOURCES:
+            name = src["name"]
+            url = src["url"]
+            platform = src["platform"]
+            log(f"\n[Autopilot] Checking {name}...")
+            try:
+                if platform == "twitter":
+                    item = fetch_twitter_post(url)
+                else:
+                    item = fetch_facebook_post(url)
+
+                if not item or not item.get("text"):
+                    log(f"[Autopilot] No text retrieved from {name}.")
+                    continue
+
+                post = add_post_to_feed(item)
+                if post:
+                    log(f"[Autopilot] SUCCESS: New post imported: '{post['title']}' (slug: {post['slug']})")
+                    new_posts.append(post)
+                else:
+                    log(f"[Autopilot] {name} is up to date (no new post).")
+            except Exception as e:
+                log(f"[Autopilot] Note for {name}: {e}")
+
+        if new_posts:
+            log(f"\n[Autopilot] {len(new_posts)} new post(s) imported. Rebuilding static pages & sitemaps...")
+            run_build_static_pages()
+            if push_live:
+                git_publish(f"Autopilot synced {len(new_posts)} new post(s)")
+            log(f"[Autopilot] All {len(new_posts)} new post(s) are now LIVE on https://santoshsikarwar.in/!")
+        else:
+            log("\n[Autopilot] All accounts are already up to date. No new posts to publish.")
+
+        if not loop:
+            break
+
+        next_time = datetime.now().timestamp() + (interval_minutes * 60)
+        next_str = datetime.fromtimestamp(next_time).strftime('%H:%M:%S')
+        log(f"\n[Autopilot] Sleeping for {interval_minutes} minutes. Next check at {next_str}...")
+        log("[Autopilot] (Keep this running while you are out. Press Ctrl+C to stop.)")
+        try:
+            time.sleep(interval_minutes * 60)
+        except KeyboardInterrupt:
+            log("\n[Autopilot] Stopped by user.")
+            break
 
 
 def main():
     parser = argparse.ArgumentParser(description="Import social media posts to santoshsikarwar.in")
     parser.add_argument("--url", help="Twitter (X) or Facebook post URL")
+    parser.add_argument("--autopilot", action="store_true", help="Automatically check all monitored accounts for new posts")
+    parser.add_argument("--loop", action="store_true", help="Run continuously in background loop (autopilot mode)")
+    parser.add_argument("--interval", type=int, default=120, help="Check interval in minutes (default: 120)")
     parser.add_argument("--no-push", action="store_true", help="Do not git push after building")
     args = parser.parse_args()
 
+    if args.autopilot or args.loop:
+        run_autopilot(loop=args.loop, interval_minutes=args.interval, push_live=not args.no_push)
+        return
+
     url = args.url
     if not url:
-        print("=" * 60)
+        print("========================================================")
         print("  Santosh Sikarwar Website - Social Media Importer (AI-Powered)")
-        print("=" * 60)
-        url = input("\nPaste Twitter (X) or Facebook post URL: ").strip()
+        print("========================================================")
+        print("Modes:")
+        print("  1. Paste a specific post URL to import immediately.")
+        print("  2. Leave blank and press Enter to run Autopilot on all accounts.")
+        url = input("\nPaste post URL (or press Enter for Autopilot): ").strip()
 
     if url:
         process_url(url, push_live=not args.no_push)
+    else:
+        run_autopilot(loop=False, push_live=not args.no_push)
 
 
 if __name__ == "__main__":
