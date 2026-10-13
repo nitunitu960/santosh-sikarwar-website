@@ -259,8 +259,11 @@ def fetch_twitter_post(url_or_id):
     post_date = date.today().isoformat()
     if created_at_raw:
         try:
-            dt = datetime.strptime(created_at_raw, "%a %b %d %H:%M:%S %z %Y")
-            post_date = dt.strftime("%Y-%m-%d")
+            if "T" in created_at_raw:
+                post_date = created_at_raw.split("T")[0]
+            else:
+                dt = datetime.strptime(created_at_raw, "%a %b %d %H:%M:%S %z %Y")
+                post_date = dt.strftime("%Y-%m-%d")
         except Exception:
             pass
 
@@ -487,8 +490,9 @@ def add_post_to_feed(item, location="आगरा, उत्तर प्रद�
         }
     }
 
-    # Prepend new post
-    feed["posts"].insert(0, new_post)
+    # Append new post and sort newer first (date descending)
+    feed["posts"].append(new_post)
+    feed["posts"].sort(key=lambda p: (p.get("date") or "", p.get("slug") or ""), reverse=True)
 
     with open(FEED_PATH, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(feed, fh, ensure_ascii=False, indent=2)
