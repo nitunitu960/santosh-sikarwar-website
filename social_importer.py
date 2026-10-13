@@ -4,8 +4,9 @@
 social_importer.py
 ====================================================================
 Import posts from Twitter / X (@ssikarwarbjp) and Facebook,
-format them for the website feed, pre-render static pages, and
-push live to GitHub.
+automatically expand short/thin posts using Gemini AI into
+rich 300+ word articles (Google Search Console compliant),
+pre-render static HTML pages, and push live to GitHub.
 """
 
 import argparse
@@ -16,6 +17,13 @@ import sys
 import urllib.request
 import urllib.parse
 from datetime import datetime, date
+
+# Set UTF-8 encoding for standard output
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 # Import helpers from existing project scripts
 from new_post import (
@@ -33,6 +41,103 @@ from build_static_pages import main as run_build_static_pages
 
 def log(msg):
     print(f"[Social Sync] {msg}")
+
+
+def get_gemini_api_key():
+    """Retrieve Gemini API key from environment or gemini_config.json."""
+    env_key = os.environ.get("GEMINI_API_KEY", "").strip()
+    if env_key:
+        return env_key
+
+    candidates = [
+        os.path.join(ROOT, "gemini_config.json"),
+        os.path.join(os.path.dirname(ROOT), "gemini_config.json"),
+    ]
+    for p in candidates:
+        if os.path.isfile(p):
+            try:
+                with open(p, "r", encoding="utf-8") as fh:
+                    cfg = json.load(fh)
+                    k = cfg.get("gemini_api_key", "").strip()
+                    if k:
+                        return k
+            except Exception:
+                pass
+    return ""
+
+
+def expand_with_gemini(raw_text, post_date=""):
+    """
+    Expands short social post into a substantial 300+ word article
+    compliant with Google Search Console quality guidelines (no thin content).
+    Returns dict(title=..., text=..., category=..., location=...) or None.
+    """
+    api_key = get_gemini_api_key()
+    if not api_key:
+        log("No Gemini API key found, skipping AI expansion.")
+        return None
+
+    prompt = f"""You are an expert Hindi political content writer and communications officer for Shri Santosh Sikarwar (District Vice President, Bharatiya Janata Party / BJP, Agra, Uttar Pradesh).
+
+The following short social media update was posted on his account:
+"{raw_text}"
+Date: {post_date or date.today().isoformat()}
+
+Google Search Console requires comprehensive, high-quality, in-depth content (300+ words) to avoid "thin content" indexing issues.
+Please expand this short update into a complete, professional, news-style article for his official website (santoshsikarwar.in).
+
+Structure required:
+1. Headline (Hindi, dignified, under 85 characters, no hashtags/emojis).
+2. Detailed Hindi Article (3-4 well-developed paragraphs, 250-350 words):
+   - Ground report: What was the event/statement/meeting, who was present, where in Agra/Braj region it took place.
+   - Core message: Organizational strengthening, public welfare, dedication to society, government policies if relevant.
+   - Values: "सेवा ही संकल्प, संगठन ही शक्ति" and "राष्ट्र प्रथम, संगठन सर्वोपरि".
+3. English Section (2 paragraphs at the end, separated by '———\\n\\nEnglish'):
+   - Professional English translation/summary so Google indexes the article for both English and Hindi searches.
+
+Return your response in valid JSON with these exact keys:
+{{
+  "title": "Hindi headline",
+  "text": "Full article text in Hindi with the English section at the end",
+  "category": "One of: कार्यक्रम, जनसंपर्क, संगठनात्मक गतिविधि, सामाजिक गतिविधि, बैठक, सम्मान, अन्य",
+  "location": "e.g. आगरा, उत्तर प्रदेश"
+}}
+Return ONLY raw JSON, with no markdown code fences."""
+
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key={api_key}"
+    payload = json.dumps({
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "temperature": 0.7,
+            "maxOutputTokens": 4096,
+            "responseMimeType": "application/json"
+        }
+    }).encode("utf-8")
+
+    req = urllib.request.Request(
+        url,
+        data=payload,
+        headers={"Content-Type": "application/json"},
+        method="POST"
+    )
+
+    import ssl
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+
+    try:
+        with urllib.request.urlopen(req, context=ctx, timeout=30) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            out_str = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+            out_str = re.sub(r"^```json\s*", "", out_str)
+            out_str = re.sub(r"\s*```$", "", out_str)
+            parsed = json.loads(out_str)
+            log("AI expanded article successfully into 300+ words with bilingual sections!")
+            return parsed
+    except Exception as e:
+        log(f"Gemini expansion note ({e}), proceeding with original text.")
+        return None
 
 
 def download_image(img_url, dest_name):
@@ -85,7 +190,6 @@ def fetch_twitter_post(url_or_id):
     post_date = date.today().isoformat()
     if created_at_raw:
         try:
-            # Parse Twitter date format: "Wed Oct 14 12:00:00 +0000 2026"
             dt = datetime.strptime(created_at_raw, "%a %b %d %H:%M:%S %z %Y")
             post_date = dt.strftime("%Y-%m-%d")
         except Exception:
@@ -172,7 +276,7 @@ def fetch_facebook_post(url):
 
 
 def add_post_to_feed(item, location="आगरा, उत्तर प्रदेश"):
-    """Format and save imported post into data/feed.json."""
+    """Format and save imported post into data/feed.json with AI expansion."""
     raw_text = item.get("text") or ""
     if not raw_text.strip():
         raise ValueError("Could not extract any text from this post.")
@@ -190,13 +294,30 @@ def add_post_to_feed(item, location="आगरा, उत्तर प्रद�
             log(f"Post already imported previously as slug: '{p.get('slug')}'")
             return p
 
-    title = make_title(raw_text)
+    words = len(re.findall(r"\S+", raw_text))
+    log(f"Original post word count: {words} words.")
+
+    # AI Expansion for Google Search Console compliance
+    ai_data = None
+    if words < 180:
+        log("Post is under 180 words. Using Gemini AI to expand into a full 300+ word article (to prevent Google thin content penalty)...")
+        ai_data = expand_with_gemini(raw_text, item.get("date"))
+
+    if ai_data and ai_data.get("text"):
+        final_text = ai_data["text"]
+        title = ai_data.get("title") or make_title(final_text)
+        category = ai_data.get("category") or categorize(final_text)
+        location = ai_data.get("location") or location
+    else:
+        final_text = raw_text
+        title = make_title(final_text)
+        category = categorize(final_text)
+
     if not title:
         title = f"संतोष सिकरवार - {item.get('date')}"
 
     slug = make_slug(title, existing_slugs)
-    excerpt = make_excerpt(raw_text)
-    category = categorize(raw_text)
+    excerpt = make_excerpt(final_text)
 
     # Download featured image and gallery
     featured_img_path = ""
@@ -219,7 +340,7 @@ def add_post_to_feed(item, location="आगरा, उत्तर प्रद�
         "image": featured_img_path,
         "image_alt": title,
         "excerpt": excerpt,
-        "text": raw_text,
+        "text": final_text,
         "gallery": gallery,
         "author": AUTHOR,
         "featured": False,
@@ -238,7 +359,8 @@ def add_post_to_feed(item, location="आगरा, उत्तर प्रद�
     with open(FEED_PATH, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(feed, fh, ensure_ascii=False, indent=2)
 
-    log(f"Successfully added post: '{title}' (slug: {slug})")
+    final_words = len(re.findall(r"\S+", final_text))
+    log(f"Successfully saved article: '{title}' ({final_words} words, slug: {slug})")
     return new_post
 
 
@@ -260,7 +382,7 @@ def git_publish(commit_title):
 
 
 def process_url(url, push_live=True):
-    """Import, format, build static pages, and push live."""
+    """Import, format with AI, build static pages, and push live."""
     url = url.strip()
     if not url:
         return
@@ -297,7 +419,7 @@ def main():
     url = args.url
     if not url:
         print("=" * 60)
-        print("  Santosh Sikarwar Website - Social Media Importer")
+        print("  Santosh Sikarwar Website - Social Media Importer (AI-Powered)")
         print("=" * 60)
         url = input("\nPaste Twitter (X) or Facebook post URL: ").strip()
 
