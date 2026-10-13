@@ -94,6 +94,7 @@ Please expand this short update into a complete, professional, news-style articl
 
 Structure required:
 1. Headline (Hindi, dignified, under 85 characters, no hashtags/emojis).
+   CRITICAL SPELLING: The leader's name is "संतोष सिकरवार" (spelled "सिकरवार" with short 'ि', NEVER "सीकरवार").
 2. Detailed Hindi Article (3-4 well-developed paragraphs, 250-350 words):
    - Ground report: What was the event/statement/meeting, who was present, where in Agra/Braj region it took place.
    - Core message: Organizational strengthening, public welfare, dedication to society, government policies if relevant.
@@ -433,6 +434,10 @@ def add_post_to_feed(item, location="आगरा, उत्तर प्रद�
         final_text = raw_text
         title = make_title(final_text)
         category = categorize(final_text)
+
+    # Enforce correct spelling of सिकरवार (short 'ि')
+    final_text = final_text.replace("सीकरवार", "सिकरवार")
+    title = title.replace("सीकरवार", "सिकरवार")
 
     if not title:
         title = f"संतोष सिकरवार - {item.get('date')}"
