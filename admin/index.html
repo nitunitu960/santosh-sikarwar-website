@@ -3,11 +3,267 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>प्रबंधन पैनल | संतोष सिकरवार</title>
-  <meta name="robots" content="noindex" />
+  <title>प्रबंधन पैनल लॉगिन | संतोष सिकरवार</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/svg+xml" href="/images/bjp-lotus.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Poppins', 'Noto Sans Devanagari', -apple-system, sans-serif;
+      background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #0d1b2a 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      padding: 20px;
+    }
+    #login-overlay {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 36px 30px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(244, 114, 22, 0.15);
+      animation: fadeIn 0.4s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .login-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .login-logo {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 14px;
+      filter: drop-shadow(0 4px 12px rgba(244, 114, 22, 0.4));
+    }
+    .login-header h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.3px;
+    }
+    .login-header p {
+      font-size: 0.86rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 4px;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 8px;
+    }
+    .input-wrapper {
+      position: relative;
+    }
+    .form-input {
+      width: 100%;
+      padding: 13px 16px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 10px;
+      font-size: 0.95rem;
+      color: #ffffff;
+      outline: none;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+    .form-input:focus {
+      border-color: #f47216;
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 0 0 3px rgba(244, 114, 22, 0.25);
+    }
+    .toggle-pass {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+      font-size: 0.85rem;
+      padding: 4px;
+    }
+    .toggle-pass:hover {
+      color: #ffffff;
+    }
+    .btn-submit {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #f47216 0%, #ff8c1a 100%);
+      border: none;
+      border-radius: 10px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(244, 114, 22, 0.35);
+      transition: all 0.25s ease;
+      margin-top: 8px;
+      font-family: inherit;
+    }
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(244, 114, 22, 0.5);
+    }
+    .btn-submit:active {
+      transform: translateY(1px);
+    }
+    .error-msg {
+      display: none;
+      background: rgba(239, 68, 68, 0.18);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      text-align: center;
+      animation: shake 0.35s ease-in-out;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    #logout-btn {
+      position: fixed;
+      top: 14px;
+      right: 18px;
+      z-index: 999999;
+      background: #ef4444;
+      color: #ffffff;
+      border: none;
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      display: none;
+      font-family: inherit;
+    }
+    #logout-btn:hover {
+      background: #dc2626;
+    }
+  </style>
 </head>
 <body>
-  <!-- Decap CMS admin dashboard -->
-  <script src="https://unpkg.com/decap-cms@^3.3.3/dist/decap-cms.js"></script>
+
+  <!-- Floating Logout Button -->
+  <button id="logout-btn" onclick="logoutAdmin()">🚪 लॉगआउट (Logout)</button>
+
+  <!-- Login Modal -->
+  <div id="login-overlay">
+    <div class="login-header">
+      <img class="login-logo" src="/images/bjp-lotus.svg" alt="भाजपा कमल" />
+      <h1>प्रबंधन पैनल लॉगिन</h1>
+      <p>संतोष सिकरवार — आधिकारिक वेबसाइट</p>
+    </div>
+
+    <div id="error-banner" class="error-msg">❌ गलत यूज़र आईडी या पासवर्ड!</div>
+
+    <form id="admin-login-form" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label for="admin-id">यूज़र आईडी (Admin ID)</label>
+        <input type="text" id="admin-id" class="form-input" placeholder="यूज़र आईडी दर्ज करें" required autocomplete="username" autofocus />
+      </div>
+
+      <div class="form-group">
+        <label for="admin-pass">पासवर्ड (Password)</label>
+        <div class="input-wrapper">
+          <input type="password" id="admin-pass" class="form-input" placeholder="पासवर्ड दर्ज करें" required autocomplete="current-password" />
+          <button type="button" class="toggle-pass" onclick="togglePassVisibility()" aria-label="Toggle password visibility">👁️</button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submit-btn">सुरक्षित लॉगिन करें →</button>
+    </form>
+  </div>
+
+  <script>
+    // SHA-256 hash of "Mahe@1207"
+    const AUTH_HASH = "a96c4379edba7404cb022c7048cb604e04f422d02120c444834ebba67c5241eb";
+    // Allowed usernames (lowercased)
+    const VALID_IDS = ["adminwebsite", "adminwebiste", "admin"];
+
+    async function sha256(str) {
+      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf))
+        .map(b => b.toString(16).padStart(2, "0"))
+        .join("");
+    }
+
+    function togglePassVisibility() {
+      const pass = document.getElementById("admin-pass");
+      pass.type = pass.type === "password" ? "text" : "password";
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const enteredId = document.getElementById("admin-id").value.trim().toLowerCase();
+      const enteredPass = document.getElementById("admin-pass").value;
+      const errBanner = document.getElementById("error-banner");
+
+      const hashed = await sha256(enteredPass);
+
+      if (VALID_IDS.includes(enteredId) && hashed === AUTH_HASH) {
+        sessionStorage.setItem("santosh_admin_auth", "true");
+        errBanner.style.display = "none";
+        grantAccess();
+      } else {
+        errBanner.style.display = "block";
+        document.getElementById("admin-pass").value = "";
+        document.getElementById("admin-pass").focus();
+      }
+    }
+
+    function grantAccess() {
+      document.getElementById("login-overlay").style.display = "none";
+      document.getElementById("logout-btn").style.display = "block";
+      document.body.style.background = "#ffffff";
+      document.body.style.alignItems = "initial";
+      document.body.style.justifyContent = "initial";
+      document.body.style.padding = "0";
+
+      // Load Decap CMS only once authorized
+      if (!window.CMS_LOADED) {
+        window.CMS_LOADED = true;
+        const script = document.createElement("script");
+        script.src = "https://unpkg.com/decap-cms@^3.3.3/dist/decap-cms.js";
+        document.body.appendChild(script);
+      }
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem("santosh_admin_auth");
+      window.location.reload();
+    }
+
+    // Auto-login if session already active
+    if (sessionStorage.getItem("santosh_admin_auth") === "true") {
+      grantAccess();
+    }
+  </script>
 </body>
 </html>
