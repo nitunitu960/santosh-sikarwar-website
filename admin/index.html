@@ -29,13 +29,22 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    body {
+    html, body {
       font-family: 'Poppins', 'Noto Sans Devanagari', -apple-system, sans-serif;
-      background-color: var(--navy-bg);
-      color: var(--text-main);
-      min-height: 100vh;
+      background-color: #0f172a !important;
+      color: var(--text-main) !important;
+      min-height: 100vh !important;
+      width: 100% !important;
       display: flex;
       flex-direction: column;
+    }
+
+    /* Completely hide any stale Decap CMS elements cached in browser */
+    #nc-root, [class*="CMS_"], [class*="nc-"], header[class*="AppHeader"] {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      overflow: hidden !important;
     }
 
     /* ==================== LOGIN VIEW ==================== */
@@ -547,6 +556,19 @@
 
   <!-- ==================== SCRIPTS ==================== -->
   <script>
+    // Clean any old Decap CMS hash (e.g. #/collections/feed)
+    if (window.location.hash && (window.location.hash.includes('collections') || window.location.hash.includes('entries'))) {
+      history.replaceState(null, null, window.location.pathname);
+    }
+    const oldNcRoot = document.getElementById('nc-root');
+    if (oldNcRoot) oldNcRoot.remove();
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(regs) {
+        for (let r of regs) r.unregister();
+      });
+    }
+
     // Password Hash (Mahe@1207)
     const AUTH_HASH = "a96c4379edba7404cb022c7048cb604e04f422d02120c444834ebba67c5241eb";
     const VALID_IDS = ["adminwebsite", "adminwebiste", "admin"];
