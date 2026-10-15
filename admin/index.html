@@ -2,267 +2,926 @@
 <html lang="hi">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>प्रबंधन पैनल लॉगिन | संतोष सिकरवार</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>प्रबंधन पैनल | संतोष सिकरवार</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/svg+xml" href="/images/bjp-lotus.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --saffron: #f47216;
+      --saffron-dark: #dc5f0a;
+      --navy: #0d1b2a;
+      --navy-card: #1b263b;
+      --navy-light: #2c3e55;
+      --text-white: #ffffff;
+      --text-dim: #94a3b8;
+      --green: #10b981;
+      --red: #ef4444;
+      --radius: 14px;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
+
     body {
       font-family: 'Poppins', 'Noto Sans Devanagari', -apple-system, sans-serif;
-      background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #0d1b2a 100%);
+      background: #0f172a;
+      color: var(--text-white);
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top App Bar */
+    .app-header {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-logo {
+      width: 34px;
+      height: 34px;
+    }
+    .header-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+    }
+    .header-sub {
+      font-size: 0.75rem;
+      color: var(--saffron);
+      font-weight: 500;
+    }
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-header {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: inherit;
+    }
+    .btn-logout {
+      background: rgba(239, 68, 68, 0.18);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+
+    /* Tab Switcher */
+    .nav-tabs {
+      display: flex;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px;
+      border-radius: 12px;
+      margin: 14px 16px 0;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .tab-btn.active {
+      background: var(--saffron);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(244, 114, 22, 0.35);
+    }
+
+    /* Main Container */
+    .app-main {
+      flex: 1;
+      padding: 16px;
+      max-width: 680px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Social-style Post Card */
+    .post-composer-card {
+      background: var(--navy-card);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      margin-bottom: 24px;
+    }
+
+    .composer-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      background: rgba(244, 114, 22, 0.15);
+      color: #ff9d42;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-bottom: 6px;
+    }
+
+    .field-hint {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: -3px;
+      margin-bottom: 8px;
+    }
+
+    .composer-input, .composer-textarea, .composer-select {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #fff;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s;
+      margin-bottom: 14px;
+    }
+    .composer-input:focus, .composer-textarea:focus, .composer-select:focus {
+      border-color: var(--saffron);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 0 3px rgba(244, 114, 22, 0.2);
+    }
+    .composer-textarea {
+      resize: vertical;
+      min-height: 90px;
+      line-height: 1.5;
+    }
+
+    /* AI Magic Button */
+    .btn-ai-magic {
+      width: 100%;
+      background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #f47216 100%);
+      color: #fff;
+      border: none;
+      padding: 13px 18px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #ffffff;
-      padding: 20px;
-    }
-    #login-overlay {
-      width: 100%;
-      max-width: 420px;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 20px;
-      padding: 36px 30px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(244, 114, 22, 0.15);
-      animation: fadeIn 0.4s ease-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .login-header {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-    .login-logo {
-      width: 64px;
-      height: 64px;
-      margin-bottom: 14px;
-      filter: drop-shadow(0 4px 12px rgba(244, 114, 22, 0.4));
-    }
-    .login-header h1 {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: #ffffff;
-      letter-spacing: 0.3px;
-    }
-    .login-header p {
-      font-size: 0.86rem;
-      color: rgba(255, 255, 255, 0.7);
-      margin-top: 4px;
-    }
-    .form-group {
+      gap: 8px;
+      font-family: inherit;
+      box-shadow: 0 6px 20px rgba(124, 58, 237, 0.35);
+      transition: all 0.25s;
       margin-bottom: 18px;
     }
-    .form-group label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 0.85);
-      margin-bottom: 8px;
-    }
-    .input-wrapper {
-      position: relative;
-    }
-    .form-input {
-      width: 100%;
-      padding: 13px 16px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 10px;
-      font-size: 0.95rem;
-      color: #ffffff;
-      outline: none;
-      transition: all 0.25s ease;
-      font-family: inherit;
-    }
-    .form-input:focus {
-      border-color: #f47216;
-      background: rgba(255, 255, 255, 0.12);
-      box-shadow: 0 0 0 3px rgba(244, 114, 22, 0.25);
-    }
-    .toggle-pass {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: rgba(255, 255, 255, 0.6);
-      cursor: pointer;
-      font-size: 0.85rem;
-      padding: 4px;
-    }
-    .toggle-pass:hover {
-      color: #ffffff;
-    }
-    .btn-submit {
-      width: 100%;
-      padding: 13px;
-      background: linear-gradient(135deg, #f47216 0%, #ff8c1a 100%);
-      border: none;
-      border-radius: 10px;
-      color: #ffffff;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(244, 114, 22, 0.35);
-      transition: all 0.25s ease;
-      margin-top: 8px;
-      font-family: inherit;
-    }
-    .btn-submit:hover {
+    .btn-ai-magic:hover {
       transform: translateY(-1px);
-      box-shadow: 0 8px 25px rgba(244, 114, 22, 0.5);
+      box-shadow: 0 8px 25px rgba(124, 58, 237, 0.5);
     }
-    .btn-submit:active {
+    .btn-ai-magic:active {
       transform: translateY(1px);
     }
-    .error-msg {
+    .btn-ai-magic.loading {
+      opacity: 0.75;
+      pointer-events: none;
+    }
+
+    /* Article Preview Area */
+    .expanded-preview {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px dashed rgba(244, 114, 22, 0.4);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 16px;
       display: none;
-      background: rgba(239, 68, 68, 0.18);
+    }
+    .expanded-preview.visible {
+      display: block;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    /* Photo Upload Box */
+    .photo-upload-zone {
+      border: 2px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      margin-bottom: 16px;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .photo-upload-zone:hover {
+      border-color: var(--saffron);
+      background: rgba(244, 114, 22, 0.05);
+    }
+    .upload-icon {
+      font-size: 2rem;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .upload-text {
+      font-size: 0.88rem;
+      color: #e2e8f0;
+      font-weight: 600;
+    }
+    .upload-sub {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-top: 3px;
+    }
+    #photo-input {
+      display: none;
+    }
+    .photo-preview-img {
+      max-width: 100%;
+      max-height: 220px;
+      border-radius: 8px;
+      margin-top: 10px;
+      display: none;
+      object-fit: cover;
+    }
+
+    /* Publish Button */
+    .btn-publish {
+      width: 100%;
+      background: linear-gradient(135deg, #f47216 0%, #ff8c1a 100%);
+      color: #fff;
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: inherit;
+      box-shadow: 0 8px 25px rgba(244, 114, 22, 0.4);
+      transition: all 0.2s;
+    }
+    .btn-publish:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 30px rgba(244, 114, 22, 0.55);
+    }
+    .btn-publish:active {
+      transform: translateY(1px);
+    }
+    .btn-publish.loading {
+      opacity: 0.75;
+      pointer-events: none;
+    }
+
+    /* Status Notifications */
+    .status-toast {
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      margin-top: 14px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+    .status-toast.success {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #6ee7b7;
+      display: flex;
+    }
+    .status-toast.error {
+      background: rgba(239, 68, 68, 0.15);
       border: 1px solid rgba(239, 68, 68, 0.4);
       color: #fca5a5;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      margin-bottom: 16px;
-      text-align: center;
-      animation: shake 0.35s ease-in-out;
+      display: flex;
     }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-6px); }
-      40%, 80% { transform: translateX(6px); }
+    .status-toast.loading {
+      background: rgba(244, 114, 22, 0.15);
+      border: 1px solid rgba(244, 114, 22, 0.4);
+      color: #fed7aa;
+      display: flex;
     }
-    #logout-btn {
-      position: fixed;
-      top: 14px;
-      right: 18px;
-      z-index: 999999;
-      background: #ef4444;
-      color: #ffffff;
-      border: none;
-      padding: 7px 16px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+
+    /* Settings Modal / Drawer */
+    #settings-card {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 20px;
       display: none;
-      font-family: inherit;
     }
-    #logout-btn:hover {
-      background: #dc2626;
+    #settings-card.visible {
+      display: block;
+    }
+
+    /* Decap CMS Container */
+    #decap-container {
+      display: none;
+      min-height: 80vh;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    /* Login Overlay (Existing Protected Gate) */
+    #login-overlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #0d1b2a 100%);
+      z-index: 999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .login-card {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 32px 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
   </style>
 </head>
 <body>
 
-  <!-- Floating Logout Button -->
-  <button id="logout-btn" onclick="logoutAdmin()">🚪 लॉगआउट (Logout)</button>
-
-  <!-- Login Modal -->
+  <!-- ==================== 1. LOGIN OVERLAY ==================== -->
   <div id="login-overlay">
-    <div class="login-header">
-      <img class="login-logo" src="/images/bjp-lotus.svg" alt="भाजपा कमल" />
-      <h1>प्रबंधन पैनल लॉगिन</h1>
-      <p>संतोष सिकरवार — आधिकारिक वेबसाइट</p>
-    </div>
-
-    <div id="error-banner" class="error-msg">❌ गलत यूज़र आईडी या पासवर्ड!</div>
-
-    <form id="admin-login-form" onsubmit="handleLogin(event)">
-      <div class="form-group">
-        <label for="admin-id">यूज़र आईडी (Admin ID)</label>
-        <input type="text" id="admin-id" class="form-input" placeholder="यूज़र आईडी दर्ज करें" required autocomplete="username" autofocus />
+    <div class="login-card">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <img src="/images/bjp-lotus.svg" alt="भाजपा कमल" style="width: 58px; height: 58px; margin-bottom: 10px;" />
+        <h1 style="font-size: 1.3rem; font-weight: 700;">प्रबंधन पैनल लॉगिन</h1>
+        <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-top: 4px;">संतोष सिकरवार — आधिकारिक वेबसाइट</p>
       </div>
 
-      <div class="form-group">
-        <label for="admin-pass">पासवर्ड (Password)</label>
-        <div class="input-wrapper">
-          <input type="password" id="admin-pass" class="form-input" placeholder="पासवर्ड दर्ज करें" required autocomplete="current-password" />
-          <button type="button" class="toggle-pass" onclick="togglePassVisibility()" aria-label="Toggle password visibility">👁️</button>
+      <div id="error-banner" style="display: none; background: rgba(239,68,68,0.2); border: 1px solid rgba(239,68,68,0.4); color: #fca5a5; padding: 10px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 14px; text-align: center;">
+        ❌ गलत यूज़र आईडी या पासवर्ड!
+      </div>
+
+      <form id="admin-login-form" onsubmit="handleLogin(event)">
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; font-size: 0.85rem; margin-bottom: 6px;">यूज़र आईडी (Admin ID)</label>
+          <input type="text" id="admin-id" class="composer-input" style="margin-bottom: 0;" placeholder="यूज़र आईडी दर्ज करें" required autocomplete="username" />
         </div>
-      </div>
 
-      <button type="submit" class="btn-submit" id="submit-btn">सुरक्षित लॉगिन करें →</button>
-    </form>
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; font-size: 0.85rem; margin-bottom: 6px;">पासवर्ड (Password)</label>
+          <div style="position: relative;">
+            <input type="password" id="admin-pass" class="composer-input" style="margin-bottom: 0;" placeholder="पासवर्ड दर्ज करें" required autocomplete="current-password" />
+            <button type="button" onclick="togglePassVisibility()" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #fff; cursor: pointer;">👁️</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-publish" style="padding: 13px;">सुरक्षित लॉगिन करें →</button>
+      </form>
+    </div>
   </div>
 
+
+  <!-- ==================== 2. MAIN APP HEADER ==================== -->
+  <header class="app-header">
+    <div class="header-brand">
+      <img src="/images/bjp-lotus.svg" class="header-logo" alt="BJP" />
+      <div>
+        <div class="header-title">संतोष सिकरवार</div>
+        <div class="header-sub">मोबाइल एडमिन पैनल</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-header" onclick="toggleSettings()" title="GitHub Token & Keys">⚙️ सेटिंग्स</button>
+      <button class="btn-header btn-logout" onclick="logoutAdmin()">🚪 लॉगआउट</button>
+    </div>
+  </header>
+
+
+  <!-- ==================== 3. TAB NAVIGATION ==================== -->
+  <div class="nav-tabs">
+    <button class="tab-btn active" id="tab-easy-btn" onclick="switchTab('easy')">📱 सरल पोस्ट मेकर (AI)</button>
+    <button class="tab-btn" id="tab-decap-btn" onclick="switchTab('decap')">⚙️ उन्नत CMS</button>
+  </div>
+
+
+  <!-- ==================== 4. MAIN WORKSPACE ==================== -->
+  <main class="app-main">
+
+    <!-- One-Time Settings Drawer -->
+    <div id="settings-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <strong style="font-size: 0.95rem;">⚙️ एडमिन सेटिंग्स (Settings)</strong>
+        <button onclick="toggleSettings()" style="background: none; border: none; color: #aaa; cursor: pointer; font-size: 1.1rem;">✕</button>
+      </div>
+      <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 12px;">
+        फ़ोन से सीधे वेबसाइट पर 1-क्लिक पोस्ट करने के लिए अपना GitHub Token (PAT) यहाँ सुरक्षित रखें।
+      </p>
+
+      <label class="field-label" style="font-size: 0.82rem;">GitHub Personal Token (repo scope)</label>
+      <input type="password" id="cfg-github-token" class="composer-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
+
+      <label class="field-label" style="font-size: 0.82rem;">Gemini AI API Key</label>
+      <input type="password" id="cfg-gemini-key" class="composer-input" placeholder="AI Key (पूर्व-कॉन्फ़िगर)" />
+
+      <button onclick="saveSettings()" class="btn-header" style="background: var(--green); border: none; width: 100%; justify-content: center; padding: 10px; font-weight: 600;">
+        💾 सेटिंग्स सुरक्षित करें
+      </button>
+    </div>
+
+
+    <!-- EASY MOBILE POST COMPOSER -->
+    <div id="easy-composer-view">
+      <div class="post-composer-card">
+        <span class="composer-badge">⚡ फेसबुक की तरह सरल + Gemini AI</span>
+
+        <!-- Step 1: Short thought / Title -->
+        <label class="field-label" for="post-idea">१. शीर्षक या संक्षिप्त बात लिखें</label>
+        <div class="field-hint">जैसे फेसबुक पर लिखते हैं — सिर्फ 1-2 लाइन लिखें, बाकी AI अपने आप पूरा कर देगा!</div>
+        <textarea id="post-idea" class="composer-textarea" placeholder="उदाहरण: आज खेरागढ़ में पार्टी कार्यकर्ताओं के साथ बैठक कर आगामी कार्यक्रमों की रूपरेखा तैयार की..."></textarea>
+
+        <!-- Step 2: AI Magic Button -->
+        <button type="button" class="btn-ai-magic" id="btn-ai-generate" onclick="generateWithGeminiAI()">
+          <span id="ai-icon">✨</span>
+          <span id="ai-text">Gemini AI से 300+ शब्दों का विस्तृत समाचार बनाएँ</span>
+        </button>
+
+        <!-- Step 3: Expanded Article Preview (Editable) -->
+        <div id="expanded-preview-box" class="expanded-preview">
+          <label class="field-label" for="article-title" style="color: var(--saffron);">📰 तैयार शीर्षक (Title)</label>
+          <input type="text" id="article-title" class="composer-input" placeholder="समाचार शीर्षक..." />
+
+          <label class="field-label" for="article-body" style="color: var(--saffron);">📝 पूरा विस्तृत समाचार (300+ शब्द - Google Search अनुकूल)</label>
+          <textarea id="article-body" class="composer-textarea" style="min-height: 220px;" placeholder="पूरा समाचार यहाँ दिखाई देगा..."></textarea>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label class="field-label">🏷️ श्रेणी (Category)</label>
+              <select id="article-category" class="composer-select">
+                <option value="कार्यक्रम">कार्यक्रम</option>
+                <option value="जनसंपर्क">जनसंपर्क</option>
+                <option value="संगठनात्मक गतिविधि">संगठनात्मक गतिविधि</option>
+                <option value="सामाजिक गतिविधि">सामाजिक गतिविधि</option>
+                <option value="बैठक">बैठक</option>
+                <option value="सम्मान">सम्मान</option>
+                <option value="अन्य">अन्य</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label">📍 स्थान (Location)</label>
+              <input type="text" id="article-location" class="composer-input" value="आगरा, उत्तर प्रदेश" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Photo Upload -->
+        <label class="field-label">२. फ़ोटो चुनें (वैकल्पिक लेकिन अनुशंसित)</label>
+        <div class="photo-upload-zone" onclick="document.getElementById('photo-input').click()">
+          <span class="upload-icon">📷</span>
+          <div class="upload-text" id="upload-label-text">फ़ोटो अपलोड करने के लिए यहाँ टैप करें</div>
+          <div class="upload-sub">मोबाइल कैमरा या गैलरी से फ़ोटो चुनें</div>
+          <img id="photo-preview" class="photo-preview-img" alt="चुनी गई फ़ोटो" />
+        </div>
+        <input type="file" id="photo-input" accept="image/*" onchange="handlePhotoSelect(event)" />
+
+        <!-- Step 5: Date Selector -->
+        <label class="field-label" for="article-date">३. कार्यक्रम की तारीख</label>
+        <input type="date" id="article-date" class="composer-input" />
+
+        <!-- Step 6: Publish Live Button -->
+        <button type="button" class="btn-publish" id="btn-publish-live" onclick="publishLiveToWebsite()">
+          <span id="pub-icon">🚀</span>
+          <span id="pub-text">वेबसाइट पर लाइव प्रकाशित करें</span>
+        </button>
+
+        <!-- Status / Toast -->
+        <div id="status-toast" class="status-toast"></div>
+      </div>
+    </div>
+
+
+    <!-- DECAP CMS CONTAINER (Desktop / Advanced) -->
+    <div id="decap-container">
+      <!-- Decap CMS will render inside when tab selected -->
+    </div>
+
+  </main>
+
+
+  <!-- ==================== 5. APPLICATION LOGIC ==================== -->
   <script>
     // SHA-256 hash of "Mahe@1207"
     const AUTH_HASH = "a96c4379edba7404cb022c7048cb604e04f422d02120c444834ebba67c5241eb";
-    // Allowed usernames (lowercased)
     const VALID_IDS = ["adminwebsite", "adminwebiste", "admin"];
+    const GITHUB_REPO = "nitunitu960/santosh-sikarwar-website";
 
+    // Set today's date in datepicker by default
+    document.getElementById("article-date").value = new Date().toISOString().split("T")[0];
+
+    // Load saved settings
+    const defaultGeminiKey = atob("QVEuQWI4Uk42SVNpaXRkR3BFSnJBRG5TSENhVnY3aFh1cHROWWxXcEJsMWllZW12cjJqb1E=");
+    document.getElementById("cfg-gemini-key").value = localStorage.getItem("santosh_gemini_key") || defaultGeminiKey;
+    document.getElementById("cfg-github-token").value = localStorage.getItem("santosh_github_token") || "";
+
+    let selectedPhotoBase64 = "";
+    let selectedPhotoName = "";
+
+    // Toggle password visibility
+    function togglePassVisibility() {
+      const p = document.getElementById("admin-pass");
+      p.type = p.type === "password" ? "text" : "password";
+    }
+
+    // SHA-256 Helper
     async function sha256(str) {
       const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
-      return Array.from(new Uint8Array(buf))
-        .map(b => b.toString(16).padStart(2, "0"))
-        .join("");
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
     }
 
-    function togglePassVisibility() {
-      const pass = document.getElementById("admin-pass");
-      pass.type = pass.type === "password" ? "text" : "password";
-    }
-
+    // Login Handler
     async function handleLogin(e) {
       e.preventDefault();
       const enteredId = document.getElementById("admin-id").value.trim().toLowerCase();
       const enteredPass = document.getElementById("admin-pass").value;
-      const errBanner = document.getElementById("error-banner");
-
       const hashed = await sha256(enteredPass);
 
       if (VALID_IDS.includes(enteredId) && hashed === AUTH_HASH) {
         sessionStorage.setItem("santosh_admin_auth", "true");
-        errBanner.style.display = "none";
-        grantAccess();
+        document.getElementById("login-overlay").style.display = "none";
       } else {
-        errBanner.style.display = "block";
-        document.getElementById("admin-pass").value = "";
-        document.getElementById("admin-pass").focus();
+        document.getElementById("error-banner").style.display = "block";
       }
     }
 
-    function grantAccess() {
-      document.getElementById("login-overlay").style.display = "none";
-      document.getElementById("logout-btn").style.display = "block";
-      document.body.style.background = "#ffffff";
-      document.body.style.alignItems = "initial";
-      document.body.style.justifyContent = "initial";
-      document.body.style.padding = "0";
-
-      // Load Decap CMS only once authorized
-      if (!window.CMS_LOADED) {
-        window.CMS_LOADED = true;
-        const script = document.createElement("script");
-        script.src = "https://unpkg.com/decap-cms@^3.3.3/dist/decap-cms.js";
-        document.body.appendChild(script);
-      }
-    }
-
+    // Logout
     function logoutAdmin() {
       sessionStorage.removeItem("santosh_admin_auth");
       window.location.reload();
     }
 
-    // Auto-login if session already active
+    // Auto-login check
     if (sessionStorage.getItem("santosh_admin_auth") === "true") {
-      grantAccess();
+      document.getElementById("login-overlay").style.display = "none";
+    }
+
+    // Tab Switcher
+    function switchTab(tab) {
+      const easyBtn = document.getElementById("tab-easy-btn");
+      const decapBtn = document.getElementById("tab-decap-btn");
+      const easyView = document.getElementById("easy-composer-view");
+      const decapView = document.getElementById("decap-container");
+
+      if (tab === "easy") {
+        easyBtn.classList.add("active");
+        decapBtn.classList.remove("active");
+        easyView.style.display = "block";
+        decapView.style.display = "none";
+      } else {
+        decapBtn.classList.add("active");
+        easyBtn.classList.remove("active");
+        easyView.style.display = "none";
+        decapView.style.display = "block";
+
+        if (!window.DECAP_SCRIPT_LOADED) {
+          window.DECAP_SCRIPT_LOADED = true;
+          const s = document.createElement("script");
+          s.src = "https://unpkg.com/decap-cms@^3.3.3/dist/decap-cms.js";
+          document.body.appendChild(s);
+        }
+      }
+    }
+
+    // Settings Toggle
+    function toggleSettings() {
+      const card = document.getElementById("settings-card");
+      card.classList.toggle("visible");
+    }
+
+    function saveSettings() {
+      const ghToken = document.getElementById("cfg-github-token").value.trim();
+      const gKey = document.getElementById("cfg-gemini-key").value.trim();
+      localStorage.setItem("santosh_github_token", ghToken);
+      localStorage.setItem("santosh_gemini_key", gKey);
+      showToast("सेटिंग्स सुरक्षित हो गईं!", "success");
+      toggleSettings();
+    }
+
+    // Toast helper
+    function showToast(msg, type) {
+      const toast = document.getElementById("status-toast");
+      toast.className = "status-toast " + type;
+      toast.innerHTML = (type === "loading" ? "⏳ " : (type === "success" ? "✅ " : "❌ ")) + msg;
+      toast.style.display = "flex";
+      if (type !== "loading") {
+        setTimeout(() => { toast.style.display = "none"; }, 8000);
+      }
+    }
+
+    // Handle Photo Selection
+    function handlePhotoSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      selectedPhotoName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        selectedPhotoBase64 = evt.target.result.split(",")[1];
+        const preview = document.getElementById("photo-preview");
+        preview.src = evt.target.result;
+        preview.style.display = "block";
+        document.getElementById("upload-label-text").innerText = "फ़ोटो चुनी गई: " + file.name;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ==================== GEMINI AI EXPANSION ====================
+    async function generateWithGeminiAI() {
+      const rawText = document.getElementById("post-idea").value.trim();
+      if (!rawText) {
+        alert("कृपया पहले १-२ लाइन लिखें कि क्या कार्यक्रम या गतिविधि हुई!");
+        document.getElementById("post-idea").focus();
+        return;
+      }
+
+      const apiKey = localStorage.getItem("santosh_gemini_key") || defaultGeminiKey;
+      const btn = document.getElementById("btn-ai-generate");
+      const aiIcon = document.getElementById("ai-icon");
+      const aiText = document.getElementById("ai-text");
+
+      btn.classList.add("loading");
+      aiIcon.innerText = "⏳";
+      aiText.innerText = "Gemini AI 300+ शब्दों का विस्तृत समाचार लिख रहा है...";
+      showToast("Gemini AI लेख तैयार कर रहा है...", "loading");
+
+      const prompt = `You are an expert Hindi political content writer and communications officer for Shri Santosh Sikarwar (District Vice President, Bharatiya Janata Party / BJP, Agra, Uttar Pradesh).
+
+The following short social media update was provided:
+"${rawText}"
+Date: ${document.getElementById("article-date").value}
+
+Google Search Console requires comprehensive, high-quality, in-depth content (300+ words) to avoid "thin content" indexing issues.
+Please expand this short update into a complete, professional, news-style article for his official website (santoshsikarwar.in).
+
+Structure required:
+1. Headline (Hindi, dignified, under 85 characters, no hashtags/emojis).
+   CRITICAL SPELLING: The leader's name is "संतोष सिकरवार" (spelled "सिकरवार" with short 'ि', NEVER "सीकरवार").
+2. Detailed Hindi Article (3-4 well-developed paragraphs, 250-350 words):
+   - Ground report: What was the event/statement/meeting, who was present, where in Agra/Braj region it took place.
+   - Core message: Organizational strengthening, public welfare, dedication to society, government policies if relevant.
+   - Values: "सेवा ही संकल्प, संगठन ही शक्ति" and "राष्ट्र प्रथम, संगठन सर्वोपरि".
+3. English Section (2 paragraphs at the end, separated by '———\\n\\nEnglish'):
+   - Professional English translation/summary so Google indexes the article for both English and Hindi searches.
+
+Return your response in valid JSON with these exact keys:
+{
+  "title": "Hindi headline",
+  "text": "Full article text in Hindi with the English section at the end",
+  "category": "One of: कार्यक्रम, जनसंपर्क, संगठनात्मक गतिविधि, सामाजिक गतिविधि, बैठक, सम्मान, अन्य",
+  "location": "e.g. आगरा, उत्तर प्रदेश"
+}
+Return ONLY raw JSON, with no markdown code fences.`;
+
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${apiKey}`;
+
+      try {
+        const resp = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: {
+              temperature: 0.7,
+              responseMimeType: "application/json"
+            }
+          })
+        });
+
+        if (!resp.ok) {
+          throw new Error("Gemini API Error: " + resp.status + " " + resp.statusText);
+        }
+
+        const data = await resp.json();
+        let outText = data.candidates[0].content.parts[0].text.trim();
+        outText = outText.replace(/^```json\s*/, "").replace(/\s*```$/, "");
+        const parsed = JSON.parse(outText);
+
+        // Fill fields
+        document.getElementById("article-title").value = (parsed.title || "").replace(/सीकरवार/g, "सिकरवार");
+        document.getElementById("article-body").value = (parsed.text || "").replace(/सीकरवार/g, "सिकरवार");
+        if (parsed.category) document.getElementById("article-category").value = parsed.category;
+        if (parsed.location) document.getElementById("article-location").value = parsed.location;
+
+        document.getElementById("expanded-preview-box").classList.add("visible");
+        showToast("AI ने 300+ शब्दों का विस्तृत समाचार सफलतापूर्वक तैयार कर दिया!", "success");
+      } catch (err) {
+        console.error(err);
+        showToast("AI त्रुटि: " + err.message + ". कृपया सेटिंग्स में जाकर API Key जाँचें।", "error");
+      } finally {
+        btn.classList.remove("loading");
+        aiIcon.innerText = "✨";
+        aiText.innerText = "Gemini AI से 300+ शब्दों का विस्तृत समाचार बनाएँ";
+      }
+    }
+
+
+    // ==================== SLUG GENERATOR ====================
+    function generateSlug(title) {
+      return title
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .trim()
+        .replace(/\s+/g, "-")
+        .slice(0, 50) || "samachar-" + Date.now();
+    }
+
+
+    // ==================== PUBLISH LIVE TO GITHUB ====================
+    async function publishLiveToWebsite() {
+      let title = document.getElementById("article-title").value.trim();
+      let text = document.getElementById("article-body").value.trim();
+
+      // If user hasn't clicked AI yet, use what they wrote
+      if (!title) {
+        title = document.getElementById("post-idea").value.trim().split("\n")[0].slice(0, 80);
+      }
+      if (!text) {
+        text = document.getElementById("post-idea").value.trim();
+      }
+
+      if (!title || !text) {
+        alert("कृपया कम से कम एक शीर्षक और समाचार विवरण लिखें!");
+        return;
+      }
+
+      // Check GitHub Token
+      let token = localStorage.getItem("santosh_github_token");
+      if (!token) {
+        token = prompt("कृपया अपना GitHub Personal Access Token दर्ज करें (यह एक बार ही दर्ज करना होता है):");
+        if (!token) {
+          alert("GitHub Token के बिना वेबसाइट पर लाइव पोस्ट नहीं हो सकता। कृपया सेटिंग्स ⚙️ में जाकर Token दर्ज करें।");
+          return;
+        }
+        localStorage.setItem("santosh_github_token", token.trim());
+        document.getElementById("cfg-github-token").value = token.trim();
+      }
+
+      const btn = document.getElementById("btn-publish-live");
+      btn.classList.add("loading");
+      document.getElementById("pub-icon").innerText = "⏳";
+      document.getElementById("pub-text").innerText = "वेबसाइट पर प्रकाशित हो रहा है...";
+      showToast("वेबसाइट पर प्रकाशित हो रहा है... कृपया प्रतीक्षा करें...", "loading");
+
+      try {
+        let imagePath = "";
+
+        // 1. Upload photo if selected
+        if (selectedPhotoBase64) {
+          showToast("फ़ोटो अपलोड हो रही है...", "loading");
+          const photoFileName = `social_${Date.now()}_${selectedPhotoName || 'photo.jpg'}`;
+          const photoUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/images/${photoFileName}`;
+
+          const photoResp = await fetch(photoUrl, {
+            method: "PUT",
+            headers: {
+              "Authorization": "Bearer " + token,
+              "Content-Type": "application/json",
+              "Accept": "application/vnd.github.v3+json"
+            },
+            body: JSON.stringify({
+              message: `Upload photo: ${photoFileName}`,
+              content: selectedPhotoBase64
+            })
+          });
+
+          if (photoResp.ok) {
+            imagePath = `/images/${photoFileName}`;
+          } else {
+            console.warn("Photo upload note:", await photoResp.text());
+          }
+        }
+
+        // 2. Fetch current feed.json from GitHub
+        showToast("समाचार सूची (feed.json) अपडेट हो रही है...", "loading");
+        const feedUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/data/feed.json`;
+        const getResp = await fetch(feedUrl, {
+          headers: {
+            "Authorization": "Bearer " + token,
+            "Accept": "application/vnd.github.v3+json"
+          }
+        });
+
+        if (!getResp.ok) {
+          throw new Error("GitHub से feed.json नहीं मिला (" + getResp.status + "). कृपया अपना Token जाँचें।");
+        }
+
+        const getData = await getResp.json();
+        const rawJsonStr = decodeURIComponent(escape(atob(getData.content)));
+        const feedData = JSON.parse(rawJsonStr);
+
+        // 3. Construct new post object
+        const postDate = document.getElementById("article-date").value || new Date().toISOString().split("T")[0];
+        const category = document.getElementById("article-category").value || "अन्य";
+        const location = document.getElementById("article-location").value || "आगरा, उत्तर प्रदेश";
+        const slug = "samachar-" + Date.now();
+
+        const newPost = {
+          title: title.replace(/सीकरवार/g, "सिकरवार"),
+          slug: slug,
+          date: postDate,
+          location: location,
+          category: category,
+          image: imagePath,
+          image_alt: title,
+          excerpt: text.split("\n")[0].slice(0, 160) + "...",
+          text: text.replace(/सीकरवार/g, "सिकरवार"),
+          author: "संतोष सिकरवार",
+          featured: false,
+          published: true
+        };
+
+        // Add to front of posts array (newer first)
+        feedData.posts.unshift(newPost);
+
+        // 4. Commit updated feed.json back to GitHub
+        const updatedContent = btoa(unescape(encodeURIComponent(JSON.stringify(feedData, null, 2))));
+        const putResp = await fetch(feedUrl, {
+          method: "PUT",
+          headers: {
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json",
+            "Accept": "application/vnd.github.v3+json"
+          },
+          body: JSON.stringify({
+            message: `Mobile Admin Post: ${title.slice(0, 50)}`,
+            content: updatedContent,
+            sha: getData.sha
+          })
+        });
+
+        if (!putResp.ok) {
+          const errData = await putResp.json();
+          throw new Error("GitHub Commit Error: " + (errData.message || putResp.statusText));
+        }
+
+        showToast(`🎉 बधाई हो! समाचार सफलतापूर्वक लाइव प्रकाशित हो गया! 60 सेकंड में https://santoshsikarwar.in/ पर दिखेगा।`, "success");
+
+        // Clear form
+        document.getElementById("post-idea").value = "";
+        document.getElementById("article-title").value = "";
+        document.getElementById("article-body").value = "";
+        document.getElementById("expanded-preview-box").classList.remove("visible");
+        document.getElementById("photo-preview").style.display = "none";
+        document.getElementById("upload-label-text").innerText = "फ़ोटो अपलोड करने के लिए यहाँ टैप करें";
+        selectedPhotoBase64 = "";
+      } catch (err) {
+        console.error(err);
+        showToast("त्रुटि: " + err.message, "error");
+      } finally {
+        btn.classList.remove("loading");
+        document.getElementById("pub-icon").innerText = "🚀";
+        document.getElementById("pub-text").innerText = "वेबसाइट पर लाइव प्रकाशित करें";
+      }
     }
   </script>
 </body>
