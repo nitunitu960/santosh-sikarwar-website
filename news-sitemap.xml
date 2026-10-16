@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/maphiya-para-prahara-aura-garibon-ka-utthana-bjp-sarakara/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-16</news:publication_date>
+      <news:title>माफिया पर प्रहार और गरीबों का उत्थान भाजपा सरकार की प्राथमिकता</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/rahula-gandhi-ki-bayanabaji-unaki-rajanitika-baukhalahata/</loc>
     <news:news>
       <news:publication>
@@ -37,28 +48,6 @@
       </news:publication>
       <news:publication_date>2026-10-14</news:publication_date>
       <news:title>बदलते कश्मीर और तिरंगे के गौरव पर भाजपा नेता संतोष सिकरवार के विचार</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/kheragarh-men-shikshaka-sanvada-karyakram-sanpanna-shiksha/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-13</news:publication_date>
-      <news:title>खेरागढ़ में शिक्षक संवाद कार्यक्रम संपन्न, शिक्षा व्यवस्था पर हुई चर्चा</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/kashi-ka-aitihasika-kayakalpa-pradhanmantri-modi-ke-vijana/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-13</news:publication_date>
-      <news:title>काशी का ऐतिहासिक कायाकल्प प्रधानमंत्री मोदी के विजन का परिणाम</news:title>
     </news:news>
   </url>
 </urlset>
