@@ -353,6 +353,32 @@ def pre_render_homepage_feed(eligible):
         print("  index.html: Pre-rendered top 6 news articles into feed-grid")
 
 
+def pre_render_samachar_archive(eligible):
+    archive_path = os.path.join(ROOT, "samachar", "index.html")
+    if not os.path.isfile(archive_path):
+        return
+    with open(archive_path, "r", encoding="utf-8") as fh:
+        content = fh.read()
+
+    # Pre-render all articles into static cards for Googlebot
+    all_cards = "\n".join(render_card(post, idx) for idx, post in eligible)
+    archive_body = (
+        '<h1 class="section-title" style="text-align:left">समाचार एवं गतिविधियाँ</h1>\n'
+        '        <div id="news-results" class="feed-grid">\n'
+        + all_cards +
+        '\n        </div>'
+    )
+    pattern = re.compile(
+        r'(<div id="samachar-content">)(.*?)(</div>\s*</div>\s*</main>)',
+        flags=re.DOTALL
+    )
+    if pattern.search(content):
+        new_content = pattern.sub(r'\1\n        ' + archive_body + r'\n      \3', content)
+        with open(archive_path, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(new_content)
+        print(f"  samachar/index.html: Pre-rendered all {len(eligible)} news articles into static archive")
+
+
 def main():
     feed = load_json(FEED_PATH)
     if not feed:
@@ -369,6 +395,7 @@ def main():
         print(f"  samachar/{post['slug']}/index.html created")
 
     pre_render_homepage_feed(eligible)
+    pre_render_samachar_archive(eligible)
 
     # Now regenerate sitemaps
     print("\nRegenerating sitemaps with clean static URLs...")
