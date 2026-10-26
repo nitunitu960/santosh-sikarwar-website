@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/mishana-shakti-abhiyana-se-uttar-pradesh-men-nari-suraksha/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-26</news:publication_date>
+      <news:title>मिशन शक्ति अभियान से उत्तर प्रदेश में नारी सुरक्षा और सशक्तिकरण को नई दिशा</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/janaseva-aura-rashtranirmana-ke-lie-samarpita-hai-bharatiya/</loc>
     <news:news>
       <news:publication>
