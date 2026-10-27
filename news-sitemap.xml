@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/sangathan-aura-janaseva-ke-prati-hamari-pratibaddhata-adiga/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-27</news:publication_date>
+      <news:title>संगठन और जनसेवा के प्रति हमारी प्रतिबद्धता अडिग है: संतोष सिकरवार</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/mishana-shakti-abhiyana-se-uttar-pradesh-men-nari-suraksha/</loc>
     <news:news>
       <news:publication>
@@ -92,39 +103,6 @@
       </news:publication>
       <news:publication_date>2026-10-25</news:publication_date>
       <news:title>भारतीय वायुसेना का शौर्य और पराक्रम राष्ट्र की अजेय ताकत का प्रतीक</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/uttar-pradesh-men-saibara-suraksha-tantra-ko-majabuta-kara/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-24</news:publication_date>
-      <news:title>उत्तर प्रदेश में साइबर सुरक्षा तंत्र को मजबूत कर रही भाजपा सरकार</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/pradhanmantri-narendra-modi-ke-aitihasika-svagata-ke-lie/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-24</news:publication_date>
-      <news:title>प्रधानमंत्री नरेंद्र मोदी के ऐतिहासिक स्वागत के लिए तैयार काशी</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/kangresa-ki-rashtra-virodhi-nitiyon-aura-bayanon-ka-sacha/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-24</news:publication_date>
-      <news:title>कांग्रेस की राष्ट्र विरोधी नीतियों और बयानों का सच</news:title>
     </news:news>
   </url>
 </urlset>
