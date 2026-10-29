@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/rashtra-virodhi-manasikata-aura-vaicharika-shadyantron-ka/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-29</news:publication_date>
+      <news:title>राष्ट्र विरोधी मानसिकता और वैचारिक षड्यंत्रों का डटकर मुकाबला करेगी भाजपा</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/pradesh-ke-lakhon-yuvaon-ko-mila-raha-hai-ghara-ke-pasa/</loc>
     <news:news>
       <news:publication>
@@ -81,50 +92,6 @@
       </news:publication>
       <news:publication_date>2026-10-27</news:publication_date>
       <news:title>भाजपा अल्पसंख्यक मोर्चा के नए प्रदेश पदाधिकारियों की घोषणा</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/mishana-shakti-abhiyana-se-uttar-pradesh-men-nari-suraksha/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-26</news:publication_date>
-      <news:title>मिशन शक्ति अभियान से उत्तर प्रदेश में नारी सुरक्षा और सशक्तिकरण को नई दिशा</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/maphiyaon-aura-arajakatavadiyon-ko-pahachanana-jaruri/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-26</news:publication_date>
-      <news:title>माफियाओं और अराजकतावादियों को पहचानना जरूरी: संतोष सिकरवार</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/janaseva-aura-rashtranirmana-ke-lie-samarpita-hai-bharatiya/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-26</news:publication_date>
-      <news:title>जनसेवा और राष्ट्रनिर्माण के लिए समर्पित है भारतीय जनता पार्टी</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/bharatiya-janata-party-uttar-pradesh-ke-sthayi-amantrita/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-26</news:publication_date>
-      <news:title>भारतीय जनता पार्टी, उत्तर प्रदेश के स्थायी आमंत्रित सदस्यों की घोषणा निम्नवत है</news:title>
     </news:news>
   </url>
 </urlset>
