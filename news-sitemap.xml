@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/sangathan-hi-sarvopari-hai-santosh-sikarwar/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-29</news:publication_date>
+      <news:title>संगठन ही सर्वोपरि है: संतोष सिकरवार</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/rashtra-virodhi-manasikata-aura-vaicharika-shadyantron-ka/</loc>
     <news:news>
       <news:publication>
