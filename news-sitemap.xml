@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/sabaramati-se-kashi-rela-seva-ka-shubharanbha-uttar-pradesh/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-30</news:publication_date>
+      <news:title>साबरमती से काशी रेल सेवा का शुभारंभ: उत्तर प्रदेश के विकास को नई गति</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/sangathan-hi-sarvopari-hai-santosh-sikarwar/</loc>
     <news:news>
       <news:publication>
@@ -81,39 +92,6 @@
       </news:publication>
       <news:publication_date>2026-10-28</news:publication_date>
       <news:title>अवसरवादी राजनीति पर तीखा प्रहार, सिद्धांतों से समझौता नहीं</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/sangathan-aura-janaseva-ke-prati-hamari-pratibaddhata-adiga/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-27</news:publication_date>
-      <news:title>संगठन और जनसेवा के प्रति हमारी प्रतिबद्धता अडिग है: संतोष सिकरवार</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/meratha-khanda-shikshaka-nirvachana-men-bjp-pratyashi-ki/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-27</news:publication_date>
-      <news:title>मेरठ खंड शिक्षक निर्वाचन में भाजपा प्रत्याशी की विजय पर बधाई</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/bjp-alpasankhyaka-morcha-ke-nae-pradesh-padadhikariyon-ki/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-27</news:publication_date>
-      <news:title>भाजपा अल्पसंख्यक मोर्चा के नए प्रदेश पदाधिकारियों की घोषणा</news:title>
     </news:news>
   </url>
 </urlset>
