@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/saradara-vallabha-bhai-patela-ki-jayanti-para-kaushala/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-10-31</news:publication_date>
+      <news:title>सरदार वल्लभ भाई पटेल की जयंती पर कौशल प्रशिक्षण योजना का शुभारंभ</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/sabaramati-se-kashi-rela-seva-ka-shubharanbha-uttar-pradesh/</loc>
     <news:news>
       <news:publication>
@@ -59,50 +70,6 @@
       </news:publication>
       <news:publication_date>2026-10-29</news:publication_date>
       <news:title>प्रदेश कार्यसमिति बैठक: संगठन और कार्यकर्ताओं को समर्पित भाजपा</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/pradesh-ke-lakhon-yuvaon-ko-mila-raha-hai-ghara-ke-pasa/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-28</news:publication_date>
-      <news:title>प्रदेश के लाखों युवाओं को मिल रहा है घर के पास रोजगार</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/chunava-pranali-aura-janavishvasa-para-santosh-sikarwar-ka/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-28</news:publication_date>
-      <news:title>चुनाव प्रणाली और जनविश्वास पर संतोष सिकरवार का स्पष्ट संदेश</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/bjp-sarakara-men-hara-varga-ko-mila-sammana-aura-arthika/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-28</news:publication_date>
-      <news:title>भाजपा सरकार में हर वर्ग को मिला सम्मान और आर्थिक समृद्धि</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/avasaravadi-rajaniti-para-tikha-prahara-siddhanton-se/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-28</news:publication_date>
-      <news:title>अवसरवादी राजनीति पर तीखा प्रहार, सिद्धांतों से समझौता नहीं</news:title>
     </news:news>
   </url>
 </urlset>
