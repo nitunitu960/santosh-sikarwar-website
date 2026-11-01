@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/lauha-purusha-saradara-patela-ki-drishti-ne-ga-akhanda/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-01</news:publication_date>
+      <news:title>लौह पुरुष सरदार पटेल की दृष्टि ने गढ़ा अखंड भारत का स्वरूप: संतोष सिकरवार</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/vande-bharata-slipara-trena-ke-sanchalana-para-santosh/</loc>
     <news:news>
       <news:publication>
@@ -81,39 +92,6 @@
       </news:publication>
       <news:publication_date>2026-10-30</news:publication_date>
       <news:title>अमरावती में 30 अक्टूबर 1990 के बलिदानियों को श्रद्धांजलि</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/sangathan-hi-sarvopari-hai-santosh-sikarwar/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-29</news:publication_date>
-      <news:title>संगठन ही सर्वोपरि है: संतोष सिकरवार</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/rashtra-virodhi-manasikata-aura-vaicharika-shadyantron-ka/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-29</news:publication_date>
-      <news:title>राष्ट्र विरोधी मानसिकता और वैचारिक षड्यंत्रों का डटकर मुकाबला करेगी भाजपा</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/pradesh-karyasamiti-baithak-sangathan-aura-karyakartaon-ko/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-29</news:publication_date>
-      <news:title>प्रदेश कार्यसमिति बैठक: संगठन और कार्यकर्ताओं को समर्पित भाजपा</news:title>
     </news:news>
   </url>
 </urlset>
