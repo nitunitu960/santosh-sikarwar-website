@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/machhuaron-ki-ajivika-aura-samriddhi-men-ho-raha/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-02</news:publication_date>
+      <news:title>मछुआरों की आजीविका और समृद्धि में हो रहा अभूतपूर्व बदलाव</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/rashtriya-ekata-divasa-para-chhattisagadha-mahila-tukadi-ka/</loc>
     <news:news>
       <news:publication>
@@ -136,28 +147,6 @@
       </news:publication>
       <news:publication_date>2026-10-31</news:publication_date>
       <news:title>अखिलेश यादव पर सनातन आस्था के अपमान का गंभीर आरोप</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/sabaramati-se-kashi-rela-seva-ka-shubharanbha-uttar-pradesh/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-30</news:publication_date>
-      <news:title>साबरमती से काशी रेल सेवा का शुभारंभ: उत्तर प्रदेश के विकास को नई गति</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/amaravati-men-30-aktubara-1990-ke-balidaniyon-ko/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-10-30</news:publication_date>
-      <news:title>अमरावती में 30 अक्टूबर 1990 के बलिदानियों को श्रद्धांजलि</news:title>
     </news:news>
   </url>
 </urlset>
