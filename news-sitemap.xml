@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/nae-bharata-ka-startaapa-haba-bana-raha-hai-uttar-pradesh/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-05</news:publication_date>
+      <news:title>नए भारत का स्टार्टअप हब बन रहा है उत्तर प्रदेश!</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/uttar-pradesh-men-mahila-suraksha-ke-lie-majabuta-tantra/</loc>
     <news:news>
       <news:publication>
@@ -48,17 +59,6 @@
       </news:publication>
       <news:publication_date>2026-11-03</news:publication_date>
       <news:title>केंद्रीय मंत्री जेपी नड्डा के नेतृत्व में लोकतंत्र बचाओ पदयात्रा संपन्न</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/machhuaron-ki-ajivika-aura-samriddhi-men-ho-raha/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-02</news:publication_date>
-      <news:title>मछुआरों की आजीविका और समृद्धि में हो रहा अभूतपूर्व बदलाव</news:title>
     </news:news>
   </url>
 </urlset>
