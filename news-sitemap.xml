@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/rashtravirodha-aura-parivaravada-ki-rajaniti-ka-hoga-puri/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-06</news:publication_date>
+      <news:title>राष्ट्रविरोध और परिवारवाद की राजनीति का होगा पूरी तरह सफाया</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/rashtriya-adhyaksha-shri-nitinnabin-uttar-pradesh-saha/</loc>
     <news:news>
       <news:publication>
@@ -70,28 +81,6 @@
       </news:publication>
       <news:publication_date>2026-11-04</news:publication_date>
       <news:title>नया भारत प्रधानमंत्री मोदी के नेतृत्व में निरंतर प्रगति पथ पर अग्रसर</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/lakhanau-men-lokatantra-bachao-arajakata-hatao-abhiyana-ke/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-03</news:publication_date>
-      <news:title>लखनऊ में लोकतंत्र बचाओ अराजकता हटाओ अभियान के तहत विशाल पदयात्रा</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/kendriya-mantri-jepi-nadda-ke-netritva-men-lokatantra/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-03</news:publication_date>
-      <news:title>केंद्रीय मंत्री जेपी नड्डा के नेतृत्व में लोकतंत्र बचाओ पदयात्रा संपन्न</news:title>
     </news:news>
   </url>
 </urlset>
