@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/samachar-1794304117729/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-10</news:publication_date>
+      <news:title>गोवर्धन पूजा पर प्रकृति संरक्षण और गौसेवा का संदेश</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/samachar-1794154848242/</loc>
     <news:news>
       <news:publication>
@@ -15,17 +26,6 @@
       </news:publication>
       <news:publication_date>2026-11-08</news:publication_date>
       <news:title>दीपावली के पावन पर्व पर संतोष सिकरवार ने दी प्रदेशवासियों को बधाई</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/rashtravirodha-aura-parivaravada-ki-rajaniti-ka-hoga-puri/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-06</news:publication_date>
-      <news:title>राष्ट्रविरोध और परिवारवाद की राजनीति का होगा पूरी तरह सफाया</news:title>
     </news:news>
   </url>
 </urlset>
