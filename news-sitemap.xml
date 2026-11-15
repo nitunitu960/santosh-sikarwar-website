@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/kannauja-men-janajatiya-gaurava-divasa-para-ghumantu/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-15</news:publication_date>
+      <news:title>कन्नौज में जनजातीय गौरव दिवस पर घुमन्तू गौरव समागम का भव्य आयोजन</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/urja-suraksha-aura-vikasa-ke-patha-para-agrasara-uttar/</loc>
     <news:news>
       <news:publication>
