@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/yun-hi-nahin-kangresa-ka-baja-baja-rahe-rahula-gandhi/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-16</news:publication_date>
+      <news:title>यूं ही नहीं कांग्रेस का बाजा बजा रहे राहुल गांधी, बहुत पुरानी है प्रैक्टिस</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/rashtriya-mahamantri-sangathan-shri-blsanthosh-rashtriya/</loc>
     <news:news>
       <news:publication>
