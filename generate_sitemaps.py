@@ -223,9 +223,22 @@ def build_image_sitemap(eligible, settings):
     for p in (ns.get("photos") or []):
         src = p.get("src") if isinstance(p, dict) else p
         rel = norm_image(src)
-        if rel and image_exists(rel):
+        if rel and image_exists(rel) and rel not in [x[0] for x in home_imgs]:
             alt = (p.get("alt") if isinstance(p, dict) else None) or "Santosh Sikarwar with the Indian national flag"
             home_imgs.append((rel, alt))
+
+    # Gallery photos (homepage), managed via data/gallery.json
+    gal = load_json(os.path.join(ROOT, "data", "gallery.json")) or {}
+    for p in (gal.get("photos") or []):
+        src = p.get("src") if isinstance(p, dict) else p
+        rel = norm_image(src)
+        if rel and image_exists(rel) and rel not in [x[0] for x in home_imgs]:
+            caption = (p.get("caption") if isinstance(p, dict) else None)
+            if caption:
+                title = f"Santosh Sikarwar (संतोष सिकरवार) - {caption}"
+            else:
+                title = "Santosh Sikarwar (संतोष सिकरवार) - BJP Agra"
+            home_imgs.append((rel, title))
     if home_imgs:
         lines.append("  <!-- Homepage images -->")
         lines.append("  <url>")

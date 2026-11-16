@@ -445,20 +445,16 @@ async function renderGallery() {
   const data = await loadJSON("data/gallery.json");
   const photos = data && data.photos ? data.photos : null;
 
-  if (!photos) {
+  if (photos && photos.length) {
+    grid.innerHTML = photos.map((item) => `
+      <figure class="gallery-item" data-src="${imgSrc(item.src)}" data-caption="${item.caption || ""}">
+        <img src="${imgSrc(item.src)}" ${withFallback(item.caption ? "संतोष सिकरवार - " + item.caption : "संतोष सिकरवार - कार्यक्रम फ़ोटो")} loading="lazy" />
+        ${item.caption ? `<figcaption>${item.caption}</figcaption>` : ""}
+      </figure>`).join("");
+  } else if (!grid.querySelector(".gallery-item")) {
     grid.innerHTML = '<p class="empty-note">गैलरी देखने के लिए वेबसाइट को ऑनलाइन (लाइव) देखें।</p>';
     return;
   }
-  if (!photos.length) {
-    grid.innerHTML = '<p class="empty-note">अभी कोई फ़ोटो नहीं है।</p>';
-    return;
-  }
-
-  grid.innerHTML = photos.map((item) => `
-    <figure class="gallery-item" data-src="${imgSrc(item.src)}" data-caption="${item.caption || ""}">
-      <img src="${imgSrc(item.src)}" ${withFallback(item.caption ? "संतोष सिकरवार - " + item.caption : "संतोष सिकरवार - कार्यक्रम फ़ोटो")} loading="lazy" />
-      ${item.caption ? `<figcaption>${item.caption}</figcaption>` : ""}
-    </figure>`).join("");
 
   staggerReveal(Array.prototype.slice.call(grid.querySelectorAll(".gallery-item")));
 
