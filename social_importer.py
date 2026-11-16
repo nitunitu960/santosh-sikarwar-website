@@ -272,16 +272,21 @@ def fetch_twitter_post(url_or_id):
         except Exception:
             pass
 
-    # Extract photos
+    # Extract photos (including video thumbnail/poster)
     photos = []
     if "photos" in data and isinstance(data["photos"], list):
         for p in data["photos"]:
-            if "url" in p:
+            if "url" in p and p["url"] not in photos:
                 photos.append(p["url"])
-    elif "mediaDetails" in data and isinstance(data["mediaDetails"], list):
+    if "mediaDetails" in data and isinstance(data["mediaDetails"], list):
         for m in data["mediaDetails"]:
-            if m.get("type") == "photo" and "media_url_https" in m:
-                photos.append(m["media_url_https"])
+            u = m.get("media_url_https")
+            if u and u not in photos:
+                photos.append(u)
+    if not photos and "video" in data and isinstance(data["video"], dict):
+        poster = data["video"].get("poster")
+        if poster and poster not in photos:
+            photos.append(poster)
 
     user_screen_name = data.get("user", {}).get("screen_name") or "twitter"
     canonical_url = f"https://x.com/{user_screen_name}/status/{tweet_id}"
