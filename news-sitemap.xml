@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/uttar-pradesh-men-kanuna-ke-raja-ka-pratika-bana-buladojara/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-17</news:publication_date>
+      <news:title>उत्तर प्रदेश में कानून के राज का प्रतीक बना बुलडोजर</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/agra-men-svasthya-suvidhaon-aura-medikala-inphrastrakchara/</loc>
     <news:news>
       <news:publication>
