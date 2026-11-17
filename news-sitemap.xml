@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/agra-men-svasthya-suvidhaon-aura-medikala-inphrastrakchara/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-17</news:publication_date>
+      <news:title>आगरा में स्वास्थ्य सुविधाओं और मेडिकल इंफ्रास्ट्रक्चर का विस्तार</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/yun-hi-nahin-kangresa-ka-baja-baja-rahe-rahula-gandhi/</loc>
     <news:news>
       <news:publication>
@@ -81,72 +92,6 @@
       </news:publication>
       <news:publication_date>2026-11-15</news:publication_date>
       <news:title>कन्नौज में जनजातीय गौरव दिवस पर घुमन्तू गौरव समागम का भव्य आयोजन</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/urja-suraksha-aura-vikasa-ke-patha-para-agrasara-uttar/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-14</news:publication_date>
-      <news:title>ऊर्जा सुरक्षा और विकास के पथ पर अग्रसर उत्तर प्रदेश</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/tipuflix-ke-tisare-episoda-men-dekhie-kaise-sapa-kala-men/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-14</news:publication_date>
-      <news:title>TIPUFLIX के तीसरे एपिसोड में देखिए: कैसे सपा काल में उत्तर प्रदेश को रेप और अत्याचार की</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/sushasana-aura-vikasa-ko-samarpita-hai-bharatiya-janata/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-14</news:publication_date>
-      <news:title>सुशासन और विकास को समर्पित है भारतीय जनता पार्टी की सरकार</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/sangathan-ko-majabuta-karane-ke-lie-bjp-pratibaddha/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-14</news:publication_date>
-      <news:title>संगठन को मजबूत करने के लिए भाजपा प्रतिबद्ध</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/sahi-matadana-aura-janahita-yojanaon-se-badala-raha-hai/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-14</news:publication_date>
-      <news:title>सही मतदान और जनहित योजनाओं से बदल रहा है उत्तर प्रदेश का परिदृश्य</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/gaumata-ki-seva-aura-gopalakon-ka-sammana-hamari-sanskriti/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-14</news:publication_date>
-      <news:title>गौमाता की सेवा और गोपालकों का सम्मान हमारी संस्कृति का आधार</news:title>
     </news:news>
   </url>
 </urlset>
