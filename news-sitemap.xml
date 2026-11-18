@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/annadataon-ke-jivana-men-khushahali-la-rahi-dabala-injana/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-18</news:publication_date>
+      <news:title>अन्नदाताओं के जीवन में खुशहाली ला रही डबल इंजन सरकार: संतोष सिकरवार</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/uttar-pradesh-men-kanuna-ke-raja-ka-pratika-bana-buladojara/</loc>
     <news:news>
       <news:publication>
@@ -103,39 +114,6 @@
       </news:publication>
       <news:publication_date>2026-11-16</news:publication_date>
       <news:title>भारतीय जनता पार्टी के राष्ट्रीय अध्यक्ष का आगरा में भव्य स्वागत</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/samajavadi-party-ka-garibon-shoshiton-vanchiton-aura/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-15</news:publication_date>
-      <news:title>समाजवादी पार्टी का गरीबों, शोषितों, वंचितों और घुमन्तू समाज के दर्द से सरोकार नहीं</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/pradesh-ke-sabhi-jilon-men-bachchon-ko-mila-raha-nihshulka/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-15</news:publication_date>
-      <news:title>प्रदेश के सभी जिलों में बच्चों को मिल रहा निःशुल्क पीसीवी टीकाकरण</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/kannauja-men-janajatiya-gaurava-divasa-para-ghumantu/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-15</news:publication_date>
-      <news:title>कन्नौज में जनजातीय गौरव दिवस पर घुमन्तू गौरव समागम का भव्य आयोजन</news:title>
     </news:news>
   </url>
 </urlset>
