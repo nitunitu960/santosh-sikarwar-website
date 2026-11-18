@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/pradesh-ke-pratyeka-bachche-ko-behatara-shiksha-aura/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-18</news:publication_date>
+      <news:title>प्रदेश के प्रत्येक बच्चे को बेहतर शिक्षा और उज्ज्वल भविष्य के अवसर उपलब्ध कराने के लिए</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/annadataon-ke-jivana-men-khushahali-la-rahi-dabala-injana/</loc>
     <news:news>
       <news:publication>
