@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/gorakhapura-men-vaniki-aura-audyoniki-vishvavidyalaya-ka/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-19</news:publication_date>
+      <news:title>गोरखपुर में वानिकी और औद्योनिकी विश्वविद्यालय का भूमि पूजन</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/sangathan-aura-janaseva-ke-prati-atuta-nishtha-se-hi/</loc>
     <news:news>
       <news:publication>
@@ -103,50 +114,6 @@
       </news:publication>
       <news:publication_date>2026-11-17</news:publication_date>
       <news:title>आगरा में स्वास्थ्य सुविधाओं और मेडिकल इंफ्रास्ट्रक्चर का विस्तार</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/yun-hi-nahin-kangresa-ka-baja-baja-rahe-rahula-gandhi/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-16</news:publication_date>
-      <news:title>यूं ही नहीं कांग्रेस का बाजा बजा रहे राहुल गांधी, बहुत पुरानी है प्रैक्टिस</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/rashtriya-mahamantri-sangathan-shri-blsanthosh-rashtriya/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-16</news:publication_date>
-      <news:title>राष्ट्रीय महामंत्री (संगठन) श्री @blsanthosh, राष्ट्रीय महामंत्री व प्रदेश प्रभारी श्री</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/chhatha-mahaparva-ki-bhavyata-aura-bhaktibhava-men-sarabora/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-16</news:publication_date>
-      <news:title>छठ महापर्व की भव्यता और भक्तिभाव में सराबोर दिखा उत्तर प्रदेश</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/bharatiya-janata-party-ke-rashtriya-adhyaksha-ka-agra-men/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-16</news:publication_date>
-      <news:title>भारतीय जनता पार्टी के राष्ट्रीय अध्यक्ष का आगरा में भव्य स्वागत</news:title>
     </news:news>
   </url>
 </urlset>
