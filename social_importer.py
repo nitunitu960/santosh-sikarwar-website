@@ -519,14 +519,17 @@ def git_publish(commit_title):
     log("Committing changes and pushing to GitHub...")
     import subprocess
     try:
+        # Ensure user identity is configured
+        subprocess.run(["git", "config", "user.name", "nitunitu960"], cwd=ROOT, check=False)
+        subprocess.run(["git", "config", "user.email", "nitins3051@gmail.com"], cwd=ROOT, check=False)
         subprocess.run(["git", "add", "-A"], cwd=ROOT, check=True)
         subprocess.run(
             ["git", "commit", "-m", f"Import social post: {commit_title}"],
             cwd=ROOT,
             check=True
         )
-        # Pull any background remote commits (e.g. from GitHub Actions)
-        subprocess.run(["git", "pull", "--no-rebase", "-X", "ours", "origin", "main"], cwd=ROOT, check=False)
+        # Pull any background remote commits
+        subprocess.run(["git", "pull", "--rebase", "origin", "main"], cwd=ROOT, check=False)
         subprocess.run(["git", "push", "origin", "main"], cwd=ROOT, check=True)
         log("Published live to GitHub successfully!")
     except subprocess.CalledProcessError as e:
