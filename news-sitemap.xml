@@ -7,6 +7,61 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/bjp-sarakara-kisanon-ke-kalyana-aura-suraksha-ke-lie-puri/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-21</news:publication_date>
+      <news:title>भाजपा सरकार किसानों के कल्याण और सुरक्षा के लिए पूरी तरह समर्पित है</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://santoshsikarwar.in/samachar/urja-ke-kshetra-men-atmanirbhara-bana-raha-uttar-pradesh/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-20</news:publication_date>
+      <news:title>ऊर्जा के क्षेत्र में आत्मनिर्भर बन रहा उत्तर प्रदेश: संतोष सिकरवार</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://santoshsikarwar.in/samachar/bjp-shasana-men-mahilaen-bana-rahi-hain-atmanirbhara-aura/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-20</news:publication_date>
+      <news:title>भाजपा शासन में महिलाएं बन रही हैं आत्मनिर्भर और सशक्त</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://santoshsikarwar.in/samachar/uttar-pradesh-ke-sarvangina-vikasa-ke-lie-bjp-sarakara/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-19</news:publication_date>
+      <news:title>उत्तर प्रदेश के सर्वांगीण विकास के लिए भाजपा सरकार संकल्पित</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://santoshsikarwar.in/samachar/mukhyamantri-yogi-adityanath-ke-margadarshana-men-ho-raha/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-19</news:publication_date>
+      <news:title>मुख्यमंत्री योगी आदित्यनाथ के मार्गदर्शन में हो रहा प्रदेश का सर्वांगीण विकास</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/gorakhapura-men-vaniki-aura-audyoniki-vishvavidyalaya-ka/</loc>
     <news:news>
       <news:publication>
@@ -15,105 +70,6 @@
       </news:publication>
       <news:publication_date>2026-11-19</news:publication_date>
       <news:title>गोरखपुर में वानिकी और औद्योनिकी विश्वविद्यालय का भूमि पूजन</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/sangathan-aura-janaseva-ke-prati-atuta-nishtha-se-hi/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-18</news:publication_date>
-      <news:title>संगठन और जनसेवा के प्रति अटूट निष्ठा से ही मजबूत होती है पार्टी</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/pradesh-ke-pratyeka-bachche-ko-behatara-shiksha-aura/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-18</news:publication_date>
-      <news:title>प्रदेश के प्रत्येक बच्चे को बेहतर शिक्षा और उज्ज्वल भविष्य के अवसर उपलब्ध कराने के लिए</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/pradesh-adhyaksha-shri-mppchaudhary-ne-basti-sadara-vidhana/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-18</news:publication_date>
-      <news:title>प्रदेश अध्यक्ष श्री @mppchaudhary ने बस्ती सदर विधान सभा क्षेत्र के पूर्व पदाधिकारियों के</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/annadataon-ke-jivana-men-khushahali-la-rahi-dabala-injana/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-18</news:publication_date>
-      <news:title>अन्नदाताओं के जीवन में खुशहाली ला रही डबल इंजन सरकार: संतोष सिकरवार</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/uttar-pradesh-men-kanuna-ke-raja-ka-pratika-bana-buladojara/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-17</news:publication_date>
-      <news:title>उत्तर प्रदेश में कानून के राज का प्रतीक बना बुलडोजर</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/uttar-pradesh-men-eksapresave-ke-vistara-se-kanektiviti-ko/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-17</news:publication_date>
-      <news:title>उत्तर प्रदेश में एक्सप्रेसवे के विस्तार से कनेक्टिविटी को मिल रही नई गति</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/samajavadi-party-ka-nama-sunate-hi-janata-ko-2017-ke-pahale/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-17</news:publication_date>
-      <news:title>समाजवादी पार्टी का नाम सुनते ही जनता को 2017 के पहले वाला यूपी याद आने लगता है: प्रदेश</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/kabhi-satta-ke-sanrakshana-men-dabangai-to-kabhi-netaon-ki/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-17</news:publication_date>
-      <news:title>कभी सत्ता के संरक्षण में दबंगई, तो कभी नेताओं की खुलेआम धमकी</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/agra-men-svasthya-suvidhaon-aura-medikala-inphrastrakchara/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-17</news:publication_date>
-      <news:title>आगरा में स्वास्थ्य सुविधाओं और मेडिकल इंफ्रास्ट्रक्चर का विस्तार</news:title>
     </news:news>
   </url>
 </urlset>
