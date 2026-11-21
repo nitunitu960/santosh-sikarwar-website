@@ -1758,3 +1758,57 @@ body.cursor-on .cursor-ring, body.cursor-on .cursor-dot { opacity: 1; }
 @media (hover: hover) and (pointer: fine) { .ns-figure:hover .ns-view { opacity: 1; transform: none; } }
 @media (hover: none) { .ns-figure .ns-view { opacity: 1; transform: none; } }
 .ns-figure .ns-view:focus-visible { opacity: 1; transform: none; outline: 2px solid var(--saffron-deep); outline-offset: 2px; }
+
+/* FAQ Section for SEO & UX */
+.faq-container {
+  max-width: 800px;
+  margin: 32px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.faq-item {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px 22px;
+  transition: all 0.25s ease;
+}
+.faq-item[open] {
+  border-color: var(--saffron);
+  box-shadow: 0 4px 16px rgba(244, 114, 22, 0.08);
+}
+.faq-item summary {
+  cursor: pointer;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.faq-item summary::after {
+  content: "+";
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--saffron);
+  transition: transform 0.2s ease;
+}
+.faq-item[open] summary::after {
+  content: "−";
+}
+.faq-content {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.faq-content a {
+  color: var(--saffron-deep);
+  font-weight: 600;
+}

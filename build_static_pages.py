@@ -175,25 +175,70 @@ def generate_article_page(post, idx, all_eligible):
         </div>
       </section>"""
 
-    # Schema JSON-LD
+    # SEO Keywords & Location
+    cat = post.get("category") or "संगठनात्मक गतिविधि"
+    loc = post.get("location") or "आगरा, उत्तर प्रदेश"
+    keywords_list = [
+        "Santosh Sikarwar",
+        "संतोष सिकरवार",
+        "BJP Agra",
+        "भाजपा आगरा",
+        "जिला उपाध्यक्ष",
+        cat,
+        loc,
+        "उत्तर प्रदेश भाजपा",
+        "Braj Region Politics",
+        "Fatehpur Sikri"
+    ]
+    keywords_esc = html.escape(", ".join(keywords_list))
+
+    # Schema JSON-LD with NewsArticle & BreadcrumbList
     schema_ld = {
         "@context": "https://schema.org",
-        "@type": "NewsArticle",
-        "headline": title,
-        "description": desc,
-        "image": [img_abs],
-        "datePublished": post.get("date") or date.today().isoformat(),
-        "dateModified": post.get("updated_at") or post.get("date") or date.today().isoformat(),
-        "articleSection": post.get("category") or "समाचार",
-        "inLanguage": "hi-IN",
-        "author": {"@type": "Person", "name": post.get("author") or "संतोष सिकरवार"},
-        "publisher": {
-            "@type": "Organization",
-            "name": "Santosh Sikarwar",
-            "logo": {"@type": "ImageObject", "url": BASE + "images/santosh-sikarwar.jpg"}
-        },
-        "about": {"@type": "Person", "@id": BASE + "#person", "name": "Santosh Sikarwar"},
-        "mainEntityOfPage": {"@type": "WebPage", "@id": canonical_url}
+        "@graph": [
+            {
+                "@type": "NewsArticle",
+                "headline": title,
+                "description": desc,
+                "image": [img_abs],
+                "datePublished": post.get("date") or date.today().isoformat(),
+                "dateModified": post.get("updated_at") or post.get("date") or date.today().isoformat(),
+                "articleSection": cat,
+                "inLanguage": "hi-IN",
+                "keywords": keywords_list,
+                "author": {"@type": "Person", "name": post.get("author") or "संतोष सिकरवार", "url": BASE},
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "Santosh Sikarwar",
+                    "logo": {"@type": "ImageObject", "url": BASE + "images/santosh-sikarwar.jpg"}
+                },
+                "about": {"@type": "Person", "@id": BASE + "#person", "name": "Santosh Sikarwar"},
+                "mainEntityOfPage": {"@type": "WebPage", "@id": canonical_url}
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "मुख्य पृष्ठ",
+                        "item": BASE
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "समाचार",
+                        "item": BASE + "samachar/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": title,
+                        "item": canonical_url
+                    }
+                ]
+            }
+        ]
     }
     schema_json = json.dumps(schema_ld, ensure_ascii=False, indent=2)
 
@@ -204,8 +249,9 @@ def generate_article_page(post, idx, all_eligible):
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Pre-rendered SEO for Googlebot & Users -->
-  <title>{title_esc} | Santosh Sikarwar</title>
+  <title>{title_esc} | संतोष सिकरवार (Santosh Sikarwar) - भाजपा आगरा</title>
   <meta name="description" content="{desc_esc}" />
+  <meta name="keywords" content="{keywords_esc}" />
   <meta name="robots" content="index, follow, max-image-preview:large" id="meta-robots" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="theme-color" content="#f47216" />
