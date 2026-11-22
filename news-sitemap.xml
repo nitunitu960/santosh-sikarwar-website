@@ -149,4 +149,26 @@
       <news:title>भाजपा सरकार किसानों के कल्याण और सुरक्षा के लिए पूरी तरह समर्पित है</news:title>
     </news:news>
   </url>
+  <url>
+    <loc>https://santoshsikarwar.in/samachar/urja-ke-kshetra-men-atmanirbhara-bana-raha-uttar-pradesh/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-20</news:publication_date>
+      <news:title>ऊर्जा के क्षेत्र में आत्मनिर्भर बन रहा उत्तर प्रदेश: संतोष सिकरवार</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://santoshsikarwar.in/samachar/bjp-shasana-men-mahilaen-bana-rahi-hain-atmanirbhara-aura/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-20</news:publication_date>
+      <news:title>भाजपा शासन में महिलाएं बन रही हैं आत्मनिर्भर और सशक्त</news:title>
+    </news:news>
+  </url>
 </urlset>
