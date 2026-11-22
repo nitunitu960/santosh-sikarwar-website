@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/paranparika-udyamon-se-uttar-pradesh-ka-samagra-vikasa/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-22</news:publication_date>
+      <news:title>पारंपरिक उद्यमों से उत्तर प्रदेश का समग्र विकास: संतोष सिकरवार</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/uttar-pradesh-men-sinchai-suvidhaon-ke-vistara-ko-mili/</loc>
     <news:news>
       <news:publication>
