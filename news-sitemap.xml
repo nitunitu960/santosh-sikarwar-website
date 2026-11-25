@@ -7,6 +7,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://santoshsikarwar.in/samachar/dijitala-inphrastrakchara-se-uttar-pradesh-bana-raha-hai/</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Santosh Sikarwar</news:name>
+        <news:language>hi</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-25</news:publication_date>
+      <news:title>डिजिटल इंफ्रास्ट्रक्चर से उत्तर प्रदेश बन रहा है तकनीक का केंद्र</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://santoshsikarwar.in/samachar/sapa-aura-kangresa-ke-gathabandhana-para-bjp-ne-uthae/</loc>
     <news:news>
       <news:publication>
@@ -81,149 +92,6 @@
       </news:publication>
       <news:publication_date>2026-11-23</news:publication_date>
       <news:title>भारत-नेपाल संबंधों और अयोध्या यात्रा को समर्पित सरयू-कमला एक्सप्रेस ट्रेन सेवा</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/shri-ramalala-ka-bhavya-dhama-karodon-ramabhakton-ki-atuta/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-22</news:publication_date>
-      <news:title>श्री रामलला का भव्य धाम करोड़ों रामभक्तों की अटूट आस्था का प्रतीक</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/pradesh-adhyaksha-shri-mppchaudhary-va-bjp-jvaininga-samiti/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-22</news:publication_date>
-      <news:title>प्रदेश अध्यक्ष श्री @mppchaudhary व भाजपा ज्वाइनिंग समिति के अध्यक्ष श्री धर्मपाल सिंह की</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/paranparika-udyamon-se-uttar-pradesh-ka-samagra-vikasa/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-22</news:publication_date>
-      <news:title>पारंपरिक उद्यमों से उत्तर प्रदेश का समग्र विकास: संतोष सिकरवार</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/kairana-men-sapa-sarakara-dvara-sanrakshita-gundon-ne-hindu/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-22</news:publication_date>
-      <news:title>कैराना में सपा सरकार द्वारा संरक्षित गुंडों ने हिंदू परिवारों पर ऐसा कहर ढाया कि 346</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/dharmika-paryatana-ke-vaishvika-manachitra-para-uttar/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-22</news:publication_date>
-      <news:title>धार्मिक पर्यटन के वैश्विक मानचित्र पर उत्तर प्रदेश की नई पहचान</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/bisi-sakhiyon-ke-madhyama-se-gramina-arthavyavastha-ko-mila/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-22</news:publication_date>
-      <news:title>बीसी सखियों के माध्यम से ग्रामीण अर्थव्यवस्था को मिल रही नई मजबूती</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/uttar-pradesh-men-sinchai-suvidhaon-ke-vistara-ko-mili/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-21</news:publication_date>
-      <news:title>उत्तर प्रदेश में सिंचाई सुविधाओं के विस्तार को मिली अभूतपूर्व गति</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/usa-kale-daura-ki-parachhai-ko-pradesh-aja-bhi-nahin-bhula/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-21</news:publication_date>
-      <news:title>उस काले दौर की परछाई को प्रदेश आज भी नहीं भूला</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/pradhanmantri-shri-narendramodi-raksha-mantri-shri/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-21</news:publication_date>
-      <news:title>प्रधानमंत्री श्री @narendramodi, रक्षा मंत्री श्री @rajnathsingh, मुख्यमंत्री श्री</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/pradhanmantri-shri-narendramodi-ka-vijana-hai-ki-bharata-ka/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-21</news:publication_date>
-      <news:title>प्रधानमंत्री श्री @narendramodi का विजन है कि भारत का युवा केवल नौकरी पाने वाला नहीं,</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/pradhanmantri-narendra-modi-ke-lakhanau-kaushala-dikshanta/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-21</news:publication_date>
-      <news:title>प्रधानमंत्री नरेंद्र मोदी के लखनऊ कौशल दीक्षांत समारोह पर संतोष सिकरवार की प्रतिक्रिया</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/pradhanmantri-modi-ke-netritva-men-50-karoda-loga-garibi-se/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-21</news:publication_date>
-      <news:title>प्रधानमंत्री मोदी के नेतृत्व में 50 करोड़ लोग गरीबी से बाहर आए</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://santoshsikarwar.in/samachar/bjp-sarakara-kisanon-ke-kalyana-aura-suraksha-ke-lie-puri/</loc>
-    <news:news>
-      <news:publication>
-        <news:name>Santosh Sikarwar</news:name>
-        <news:language>hi</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-21</news:publication_date>
-      <news:title>भाजपा सरकार किसानों के कल्याण और सुरक्षा के लिए पूरी तरह समर्पित है</news:title>
     </news:news>
   </url>
 </urlset>
